@@ -1,5 +1,5 @@
 Flask==0.9
-Flask-Alembic==0.1
+-e git+https://github.com/tobiasandtobias/flask-alembic.git#egg=Package
 Flask-SQLAlchemy==0.16
 Flask-Script==0.5.3
 Ghost.py==0.1b2
