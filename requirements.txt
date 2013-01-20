@@ -1,11 +1,15 @@
 Flask==0.9
+Flask-Alembic==0.1
 Flask-SQLAlchemy==0.16
 Flask-Script==0.5.3
 Ghost.py==0.1b2
 Jinja2==2.6
+Mako==0.7.3
+MarkupSafe==0.15
 Pygments==1.6rc1
 SQLAlchemy==0.8.0b2
 Werkzeug==0.8.3
+alembic==0.4.2
 bpython==0.12
 cssselect==0.7.1
 gunicorn==0.17.0

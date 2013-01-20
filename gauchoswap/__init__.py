@@ -1,11 +1,16 @@
 import os
 
 from flask import Flask, render_template, g, session
+from flask.ext.sqlalchemy import SQLAlchemy
+
 from views import frontend
 
 
-app = Flask(__name__)
+app = Flask('gauchospace')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.debug = os.environ.get('DEBUG')
+
+db = SQLAlchemy(app)
 
 
 @app.errorhandler(404)
