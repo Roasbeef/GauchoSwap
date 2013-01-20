@@ -1,5 +1,15 @@
 Flask==0.9
+Flask-SQLAlchemy==0.16
+Flask-Script==0.5.3
+Ghost.py==0.1b2
 Jinja2==2.6
+Pygments==1.6rc1
+SQLAlchemy==0.8.0b2
 Werkzeug==0.8.3
-wsgiref==0.1.2
+bpython==0.12
+cssselect==0.7.1
 gunicorn==0.17.0
+lxml==3.1beta1
+psycopg2==2.4.6
+pyquery==1.2.4
+wsgiref==0.1.2
