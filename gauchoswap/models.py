@@ -5,14 +5,16 @@ class Class(object):
     """ Base db model to be inherited """
     name = db.Column(db.String)
     department = db.Column(db.String)
-    days = db.Column(db.Date)
-    time = db.Column(db.DateTime)
-    max_spots = db.Column(db.Integer)
-    space = db.Column(db.Integer)
+    location = db.Column(db.String)
+    days = db.Column(db.String)
+    time = db.Column(db.String)
+    max_spots = db.Column(db.String)
+    space = db.Column(db.String)
 
-    def __init__(self, name, department, days, time, max_spots, space):
+    def __init__(self, name, department, location, days, time, max_spots, space):
         self.name = name
         self.department = department
+        self.location = location
         self.days = days
         self.time = time
         self.max_spots = max_spots
