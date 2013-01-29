@@ -1,0 +1,20 @@
+body {
+    background-image: url('linedpaper.png');
+    font-family: 'Open Sans Condensed', sans-serif;
+}
+
+.title {
+    margin: 0 auto;
+    text-align: center;
+    width: 50%;
+    padding-top: 20%;
+}
+
+.title h1 {
+    font-size: 90px;
+    text-shadow: 1px 2px 12px;
+}
+
+.connect {
+    margin-top: 6%;
+}
