@@ -24,8 +24,10 @@ oauth = OAuth()
 def not_found(error):
     return render_template('404.html'), 404
 '''
-from gauchoswap.views import frontend
+from gauchoswap.views import frontend, account
+
 app.register_blueprint(frontend.mod)
+app.register_blueprint(account.mod)
 
 
 if __name__ == '__main__':
