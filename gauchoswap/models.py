@@ -56,19 +56,21 @@ class Lab(Class, db.Model):
 
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    year = db.Column(db.String)
     name = db.Column(db.String)
-    major = db.Column(db.String)
     umail_address = db.Column(db.String)
-    #classes
-    #labs
-    #section
+    facebook_id = db.Column(db.Integer)
+    fb_auth_token = db.Column(db.Integer)
+    fb_profile_link = db.Column(db.Integer)
+    fb_picture_link = db.Column(db.Integer)
 
-    def __init__(self, year, name, major, umail_address):
-        self.year = year
+    def __init__(self, name, umail_address, facebook_id, fb_auth_token, fb_profile_link,
+                 fb_picture_link):
         self.name = name
-        self.major = major
         self.umail_address = umail_address
+        self.facebook_id = facebook_id
+        self.fb_auth_token = fb_auth_token
+        self.fb_profile_link = fb_profile_link
+        self.fb_picture_link = fb_picture_link
 
     def __repr__(self):
         return '<Student %r>' % self.name
