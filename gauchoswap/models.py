@@ -58,10 +58,10 @@ class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     umail_address = db.Column(db.String)
-    facebook_id = db.Column(db.Integer)
-    fb_auth_token = db.Column(db.Integer)
-    fb_profile_link = db.Column(db.Integer)
-    fb_picture_link = db.Column(db.Integer)
+    facebook_id = db.Column(db.String)
+    fb_auth_token = db.Column(db.String)
+    fb_profile_link = db.Column(db.String)
+    fb_picture_link = db.Column(db.String)
 
     def __init__(self, name, umail_address, facebook_id, fb_auth_token, fb_profile_link,
                  fb_picture_link):
