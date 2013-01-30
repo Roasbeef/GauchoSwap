@@ -21,15 +21,15 @@ facebook = oauth.remote_app('facebook',
 @mod.route('/logout')
 def logout():
     session.pop('oauth_token')
-    flash('You have been logged out!')
+    session.pop('fb_id')
+
+    flash('You have been logged out!', category='success')
     return redirect(url_for('frontend.index'))
 
 
 @mod.route('/fb_auth')
 def fb_auth():
-    return facebook.authorize(callback=url_for('account.login_or_register',
-                              next=request.args.get('next') or request.referrer or None,
-                              _external=True))
+    return facebook.authorize(callback=url_for('account.login_or_register', _external=True))
 
 
 @mod.route('/login/authorized')
@@ -40,22 +40,26 @@ def login_or_register(resp):
                                              request.args['error_description']))
         return redirect(url_for('frontend.index'))
 
+    session['oauth_token'] = (resp['access_token'], '')
+
     fb_account = facebook.get('/me')
     fb_id = fb_account.data['id']
     user_account = Student.query.filter_by(facebook_id=fb_id).first()
+    message = 'Log in successful!'
 
     if user_account is None:
         s = Student(name=fb_account.data['name'], umail_address='',
-                    facebook_id=fb_account.data['id'], fb_auth_token=fb_account.data['access_token'],
+                    facebook_id=fb_account.data['id'], fb_auth_token=resp['access_token'],
                     fb_profile_link='', fb_picture_link='')
         db.session.add(s)
-        db.session.commit(s)
+        db.session.commit()
         user_account = s
-        flash('You have registered, congrats!')
+        message = 'You have been registered congrats!'
 
-    session['oauth_token'] = (resp['access_token'], '')
+    flash(message, category='success')
+    session['fb_id'] = fb_account.data['id']
     g.user = user_account
-    return redirect(url_for('account.index'))
+    return redirect(url_for('frontend.index'))
 
 
 @facebook.tokengetter

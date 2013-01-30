@@ -6,8 +6,6 @@ from flask import redirect, url_for, session, request, Blueprint, render_templat
 mod = Blueprint('frontend', __name__)
 
 
-
-
 @mod.route('/')
 def index():
     return render_template('index.html')
