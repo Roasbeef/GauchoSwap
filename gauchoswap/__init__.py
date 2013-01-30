@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template
+from flask import Flask, render_template, session, g
 from flask_oauth import OAuth
 from flask.ext.sqlalchemy import SQLAlchemy
 
@@ -18,12 +18,26 @@ app.secret_key = SECRET_KEY
 db = SQLAlchemy(app)
 oauth = OAuth()
 
+from gauchoswap.models import Student
 
-'''
+
 @app.errorhandler(404)
 def not_found(error):
-    return render_template('404.html'), 404
-'''
+    return 'Ooops', 404
+
+
+@app.errorhandler(500)
+def internal_error(error):
+    db.session.rollback()
+    return 'My bad', 500
+
+
+@app.before_request
+def load_user():
+    if session.get('fb_id') is not None:
+        user = Student.query.filter_by(facebook_id=session.get('fb_id')).first()
+        g.user = user
+
 from gauchoswap.views import frontend, account
 
 app.register_blueprint(frontend.mod)
