@@ -1,4 +1,20 @@
 body {
+    font-family: 'Open Sans Condensed', sans-serif;
+}
+
+.flat-nav {
+    padding-left: 9px !important;
+    background: white !important;
+}
+
+.flash {
+    margin: 0 auto;
+    text-align: center;
+    width: 50%;
+    font-size: 21px;
+    position: absolute;
+    left: 23%;
+    top: 20%;
 }
 
 .title {
@@ -9,14 +25,14 @@ body {
 }
 
 .title h1 {
-    font-size: 90px;
-    font-family: 'Open Sans Condensed', sans-serif;
-}
-
-h3 {
+    font-size: 69px;
     font-family: 'Open Sans Condensed', sans-serif;
 }
 
 .connect {
     margin-top: 6%;
+}
+
+.greeting {
+    padding-top: 20px;
 }
