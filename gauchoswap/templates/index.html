@@ -10,12 +10,12 @@
                   <h1>GauchoSwap</h1>
                   {% if session.get('oauth_token') is none %}
                   <div class="connect">
-                      <a href="{{ url_for('account.login') }}">
+                      <a href="{{ url_for('account.fb_auth') }}">
                           <img src="{{ url_for('static', filename='X-Large_278x44_glowy.png') }}"></img>
                       </a>
                   </div>
                   {% else %}
-                  <h3> Wazzup you logged in to GauchoSwap </h3>
+                  <h3> Wazzup {{ g.user.name }}, you logged in to GauchoSwap </h3>
                   {% endif %}
 
           </div>
