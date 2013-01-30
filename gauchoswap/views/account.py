@@ -26,7 +26,7 @@ def logout():
 
 
 @mod.route('/fb_auth')
-def login():
+def fb_auth():
     return facebook.authorize(callback=url_for('account.login_or_register',
                               next=request.args.get('next') or request.referrer or None,
                               _external=True))
