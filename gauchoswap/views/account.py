@@ -1,6 +1,6 @@
-from flask import Flask, redirect, url_for, session, request, Blueprint
-
+from flask import Flask, redirect, url_for, session, request, Blueprint, render_template
 from gauchoswap import db, oauth, FACEBOOK_APP_ID, FACEBOOK_APP_SECRET
+from gauchoswap.models import Student
 
 
 mod = Blueprint('account', __name__)
@@ -16,6 +16,7 @@ facebook = oauth.remote_app('facebook',
                             request_token_params={'scope': 'email'}
                             )
 
+
 @mod.route('/logout')
 def logout():
     return render_template('index.html')
@@ -23,7 +24,7 @@ def logout():
 
 @mod.route('/login')
 def login():
-    return facebook.authorize(callback=url_for('frontend.facebook_authorized',
+    return facebook.authorize(callback=url_for('account.facebook_authorized',
                               next=request.args.get('next') or request.referrer or None,
                               _external=True))
 
