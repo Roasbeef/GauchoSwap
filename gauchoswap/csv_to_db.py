@@ -1,141 +1,103 @@
 from gauchoswap import db
-from gauchoswap.models import Class, Lecuture, Section, Lab
+from gauchoswap.models import Lecture, Section, Lab
+from course_abrev import course_abrv_to_department
 
 import csv
 import datetime
+import os
 
 
 def scrape_csv():
 
-    course_abrv_to_department = {
-        "ANTH": "Anthropology",
-        "ART CS": "Art (Creative Studies)",
-        "ARTHI": "Art History",
-        "ARTST": "Art Studio",
-        "AS AM": "Asian American Studies",
-        "ASTRO": "Astronomy",
-        "BIOL CS": "Biology (Creative Studies)",
-        "BMSE": "Biomolecular Science and Engineering",
-        "BL ST": "Black Studies",
-        "CH E": "Chemical Engineering",
-        "CHEM": "Chemistry and Biochemistry",
-        "CH ST": "Chicano Studies",
-        "CHIN": "Chinese",
-        "CLASS": "Classics",
-        "COMM": "Communication",
-        "C LIT": "Comparative Literature",
-        "CMPSC": "Computer Science",
-        "CNCSP": "Counseling, Clinical, School Psychology",
-        "DANCE": "Dance",
-        "EARTH": "Earth Science",
-        "EACS": "East Asian Cultural Studies",
-        "EEMB": "Ecology, Evolution & Marine Biology",
-        "ECON": "Economics",
-        "ED": "Education",
-        "ECE": "Electrical Computer Engineering",
-        "ENGR": "Engineering Sciences",
-        "ENGL": "English",
-        "ESM": "Environmental Science & Management",
-        "ENV S": "Environmental Studies",
-        "ESS": "Exercise & Sport Studies",
-        "ES": "Exercise Sport",
-        "FEMST": "Feminist Studies",
-        "FLMST": "Film Studies",
-        "FR": "French",
-        "GEN S CS": "General Studies (Creative Studies)",
-        "GEOG": "Geography",
-        "GER": "German",
-        "GPS": "Global Peace and Security",
-        "GLOBL": "Global Studies",
-        "GREEK": "Greek",
-        "HEB": "Hebrew",
-        "HIST": "History",
-        "INT": "Interdisciplinary",
-        "ITAL": "Italian",
-        "JAPAN": "Japanese",
-        "KOR": "Korean",
-        "LATIN": "Latin",
-        "LAIS": "Latin American and Iberian Studies",
-        "LING": "Linguistics",
-        "LIT CS": "Literature (Creative Studies)",
-        "MARSC": "Marine Science",
-        "MATRL": "Materials",
-        "MATH": "Mathematics",
-        "ME": "Mechanical Engineering",
-        "MAT": "Media Arts and Technology",
-        "ME ST": "Medieval Studies",
-        "MES": "Middle East Studies",
-        "MS": "Military Science",
-        "MCDB": "Molecular, Cellular & Develop. Biology",
-        "MUS": "Music",
-        "MUS A": "Music Performance Laboratories",
-        "PHIL": "Philosophy",
-        "PHYS": "Physics",
-        "POL S": "Political Science",
-        "PORT": "Portuguese",
-        "PSY": "Psychology",
-        "RG ST": "Religious Studies",
-        "RENST": "Renaissance Studies",
-        "SLAV": "Slavic",
-        "SOC": "Sociology",
-        "SPAN": "Spanish",
-        "SHS": "Speech & Hearing Sciences",
-        "PSTAT": "Statistics & Applied Probability",
-        "TMP": "Technology Management",
-        "THTR": "Theater",
-        "WRIT": "Writing",
-    }
-
-    with open('Spring_13_Schedule.csv', 'rb') as f:
+    schedule_file = os.path.join(os.path.dirname(__file__), 'Spring_13_Schedule.csv')
+    with open(schedule_file, 'rb') as f:
         course_rows = csv.reader(f)
         columns = course_rows.next()
         col_name_to_index = {col: index for index, col in enumerate(columns)}
 
-        is_section = lambda section_code: not section_code.endswith('0')
+        is_section = lambda section_code: not section_code.endswith('00')
         is_lab = lambda name: name.endswith('L')
-        is_lecture = lambda section_code: section_code.endswith('0')
+        is_lecture = lambda section_code: section_code.endswith('00')
+        current_lecture = None
         for course in course_rows:
             init_dict = {}
-            init_dict['name'] = course[col_name_to_index['Course']]
-            init_dict['department'] = course_abrv_to_department[init_dict['name'].split()[:-1]]
-            init_dict['location'] = course[col_name_to_index['Room1']]
-            init_dict['days'] = course[col_name_to_index['Days_1']]
+            init_dict['name'] = ' '.join(course[col_name_to_index['Course']].strip().split())
+            init_dict['title'] = course[col_name_to_index['TITLE']]
+            init_dict['department'] = course_abrv_to_department[' '.join(init_dict['name'].split()[:-1])]
+            init_dict['location'] = course[col_name_to_index['Room_1']].strip()
+            init_dict['days'] = course[col_name_to_index['Days_1']].strip()
             start_time = course[col_name_to_index['Begin_1']]
             end_time = course[col_name_to_index['End_1']]
-            init_dict['time'] = military_to_standard(start_time, end_time)
-            init_dict['max_spots'] = course[col_name_to_index['MAX']]
-            init_dict['space'] = course[col_name_to_index['Seats']]
-            init_dict['teacher'] = course[col_name_to_index['INSTR_1']]
+            init_dict['time'] = ' - '.join(military_to_standard(start_time, end_time))
+            init_dict['max_spots'] = course[col_name_to_index['MAX']].strip()
+            init_dict['space'] = course[col_name_to_index['Seats']].strip()
+            init_dict['teacher'] = course[col_name_to_index['INSTR_1']].strip()
 
             section_code = course[col_name_to_index['Section']]
-            if is_lecture(section_code):
-                create_lecture(init_dict)
+            if is_lab(init_dict['name']):
+                print 'adding: %s' % init_dict['name'] + ' lab'
+                create_lab(**init_dict)
+            elif is_lecture(section_code):
+                print 'adding: %s' % init_dict['name'] + ' lecture'
+                current_lecture = create_lecture(**init_dict)
             elif is_section(section_code):
-                create_section(init_dict)
-            elif is_lab(name):
-                create_lab(init_dict)
+                print 'adding: %s' % init_dict['name'] + ' section'
+                create_section(current_lecture, **init_dict)
+
+        print 'commiting errtang'
+        db.session.commit()
 
 
 def military_to_standard(start, end):
-    converted_start = ''
-    converted_end = ''
+    def format_time_string(time, am=True, noon=False):
+        time_period = 'AM' if am else 'PM'
+        hour_indicies = (0, 1) if len(time) == 3 else (0, 2)
+        minute_indicies = (1, 3) if len(time) == 3 else (2, 4)
+        time_obj = datetime.time(hour=int(time.__getslice__(*hour_indicies)), minute=int(time.__getslice__(*minute_indicies)))
 
-    if len(start) > 3:
-        converted_start = datetime.time(hours=int(start[0:2]), minute=int(start[2:4]))
-    if len(end) > 3:
-        converted_end = datetime.time(hours=int(end[0:2]), minute=int(end[2:4]))
+        return time_obj.isoformat()[:-3] + time_period
+
+    def convert_time(time):
+        if int(time) < 1200:
+            converted_time = format_time_string(time)
+        elif int(time) in range(1200, 1260):
+            converted_time = format_time_string(time, am=False, noon=True)
+        else:
+            time = str(int(time) - 1200)
+            converted_time = format_time_string(time, am=False)
+
+        return converted_time
+
+    converted_start = convert_time(start) if len(start.strip()) else ''
+    converted_end = convert_time(end) if len(end.strip()) else ''
+
+    return converted_start, converted_end
 
 
 def create_lecture(**kwargs):
-    pass
+    professor = kwargs['teacher']
+    del kwargs['teacher']
+    l = Lecture(professor, **kwargs)
+    db.session.add(l)
+    return l
 
 
-def create_section(**kwargs):
-    pass
+def create_section(lecture, **kwargs):
+    ta = kwargs['teacher']
+    del kwargs['teacher']
+    s = Section(ta, lecture, **kwargs)
+    db.session.add(s)
 
 
 def create_lab(**kwargs):
-    pass
+    instructor = kwargs['teacher']
+    del kwargs['teacher']
+    l = Lab(instructor, **kwargs)
+    db.session.add(l)
 
 if __name__ == '__main__':
-    scrape_csv()
+    try:
+        scrape_csv()
+    except:
+        db.session.rollback()
+        raise
