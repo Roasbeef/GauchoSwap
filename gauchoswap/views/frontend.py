@@ -9,3 +9,7 @@ mod = Blueprint('frontend', __name__)
 @mod.route('/')
 def index():
     return render_template('index.html')
+
+@mod.route('/swapblock/')
+def swap_block():
+    return render_template('swapblock.html')
