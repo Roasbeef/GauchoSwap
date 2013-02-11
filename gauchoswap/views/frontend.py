@@ -10,6 +10,6 @@ mod = Blueprint('frontend', __name__)
 def index():
     return render_template('index.html')
 
-@mod.route('/swapblock/')
-def swap_block():
+@mod.route('/<username>/SwapBlock')
+def swap_block(username):
     return render_template('swapblock.html')

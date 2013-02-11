@@ -2,11 +2,19 @@
 
 {% block title %}SwapBlock{% endblock %}
 {% block body %}
- <div class="row-fluid">
-    <div class="span12">
-	<div class="title">
-   <h1> {{ g.user.name }}'s SwapBlock </h1>
-	</div>
-	</div>
-	</div>
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="title">
+                <h1> {{ g.user.name }}'s SwapBlock </h1>
+	    </div>
+        <label class="custom-select">
+            <select>
+                <option>Sushi</option>
+                <option>Blue cheese with crackers</option>
+                <option>Steak</option>
+                <option>Other</option>
+            </select>
+        </label>
+        </div>
+    </div>
 {% endblock %}

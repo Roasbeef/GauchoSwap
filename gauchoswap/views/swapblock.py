@@ -5,7 +5,7 @@ from gauchoswap.models import Student
 
 mod = Blueprint('swapblock', __name__, url_prefix='/swapblock')
 
-@mod.route('/swapblock/')
+@mod.route('/')
 def get():
    user = Student.query.filter_by(facebook_id=session['fb_id']).first()
    username = user.name
