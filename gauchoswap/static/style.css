@@ -51,8 +51,8 @@ label.custom-select {
         font: inherit;
         outline:none; /* remove focus ring from Webkit */
         line-height: 1.2;
-        background: #000;
-        color:white;
+        background: #999;
+        color:blue;
         border:0;
     }
 
@@ -70,7 +70,7 @@ label.custom-select {
         line-height: 30px;
         padding: 0 7px;
         background: #000;
-        color: white;
+        color: yellow;
     }
     
     .no-pointer-events .custom-select:after {

@@ -1,7 +1,7 @@
 from flask import redirect, url_for, session, request, Blueprint, render_template
 
 #from gauchoswap import db
-
+from gauchoswap.models import Lecture
 
 mod = Blueprint('frontend', __name__)
 
@@ -10,6 +10,12 @@ mod = Blueprint('frontend', __name__)
 def index():
     return render_template('index.html')
 
-@mod.route('/<username>/SwapBlock')
+@mod.route('/SwapBlock/<username>/')
 def swap_block(username):
-    return render_template('swapblock.html')
+    lectures = Lecture.query.all()
+    departments = []
+    for lecture in lectures:
+        if lecture.department not in departments:
+            departments.append(lecture.department)
+ 
+    return render_template('swapblock.html', departments=departments)
