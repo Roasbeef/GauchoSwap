@@ -4,6 +4,7 @@ from gauchoswap import db
 class Class(object):
     """ Base db model to be inherited """
     name = db.Column(db.String)
+    title = db.Column(db.String)
     department = db.Column(db.String)
     location = db.Column(db.String)
     days = db.Column(db.String)
@@ -11,8 +12,9 @@ class Class(object):
     max_spots = db.Column(db.String)
     space = db.Column(db.String)
 
-    def __init__(self, name, department, location, days, time, max_spots, space):
+    def __init__(self, name, title, department, location, days, time, max_spots, space):
         self.name = name
+        self.title = title
         self.department = department
         self.location = location
         self.days = days
@@ -31,7 +33,7 @@ class Lecture(Class, db.Model):
 
     def __init__(self, professor, *args, **kwargs):
         self.professor = professor
-        Class.__init__(*args, **kwargs)
+        Class.__init__(self, *args, **kwargs)
 
 
 class Section(Class, db.Model):
@@ -42,7 +44,7 @@ class Section(Class, db.Model):
     def __init__(self, ta, lecture, *args, **kwargs):
         self.ta = ta
         self.lecture = lecture
-        Class.__init__(*args, **kwargs)
+        Class.__init__(self, *args, **kwargs)
 
 
 class Lab(Class, db.Model):
@@ -51,7 +53,7 @@ class Lab(Class, db.Model):
 
     def __init__(self, instructor, *args, **kwargs):
         self.instructor = instructor
-        Class.__init__(*args, **kwargs)
+        Class.__init__(self, *args, **kwargs)
 
 
 class Student(db.Model):
