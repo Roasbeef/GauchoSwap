@@ -18,4 +18,4 @@ def swap_block(username):
         if lecture.department not in departments:
             departments.append(lecture.department)
  
-    return render_template('swapblock.html', departments=departments)
+    return render_template('swapblock.html', username=username, departments=departments)
