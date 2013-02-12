@@ -12,15 +12,15 @@
         <form action="{{ url_for('swapblock.selectClass') }}" method=post class="add-entry custom">
         <label class="custom-select">
             
-            <select name="departmentList" onchange="getDepartment()">
+            <select name="departmentList">
 
                	    {% for department in departments %} 
-                        <option value={{ department }}>{{ department }}</option>
+                        <option value="{{ department }}">{{ department }}</option>
                     {% endfor %}    
             </select>
             
         </label>
-                 <input class="success button" type=submit value=Select it!>
+                 <input class="success button" type=submit value=Select>
         </form>
         </div>
     </div>

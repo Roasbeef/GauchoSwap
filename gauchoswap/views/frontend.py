@@ -12,10 +12,5 @@ def index():
 
 @mod.route('/SwapBlock/<username>/')
 def swap_block(username):
-    lectures = Lecture.query.all()
-    departments = []
-    for lecture in lectures:
-        if lecture.department not in departments:
-            departments.append(lecture.department)
- 
-    return render_template('swapblock.html', username=username, departments=departments)
+    return render_template('swapblock.html', username=username) 
+)
