@@ -4,7 +4,6 @@ from flask import Flask, render_template, session, g
 from flask_oauth import OAuth
 from flask.ext.sqlalchemy import SQLAlchemy
 
-
 SECRET_KEY = '2432fkdsajflads9'
 DEBUG = True
 FACEBOOK_APP_ID = '542774122412862'
@@ -30,7 +29,6 @@ def not_found(error):
 def internal_error(error):
     db.session.rollback()
     return 'My bad', 500
-
 
 @app.before_request
 def load_user():
