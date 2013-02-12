@@ -37,9 +37,34 @@ body {
     padding-top: 20px;
 }
 
+#swapblocktitle {
+    font-size: 40px;
+    font-family: 'Open Sans Condensed', sans-serif;
+    position: relative;
+    left: 100px;
+    top: 100px;
+}
+
+/*select button*/
+form .add-entry_custom {
+    position: relative;
+    left: 150px;
+    top: 130px;
+    background-color: blue;
+}
+
+input .success_button {
+    position: relative;
+    left: 150px;
+    top: 130px;
+    background-color: red;
+}
+
 /*dropdown menu*/
 label.custom-select {
     position: relative;
+    left: 100px;
+    top: 130px;
     display: inline-block;
 
 }
@@ -52,7 +77,7 @@ label.custom-select {
         outline:none; /* remove focus ring from Webkit */
         line-height: 1.2;
         background: #999;
-        color:blue;
+        color:black;
         border:0;
     }
 
@@ -70,7 +95,7 @@ label.custom-select {
         line-height: 30px;
         padding: 0 7px;
         background: #000;
-        color: yellow;
+        color: blue;
     }
     
     .no-pointer-events .custom-select:after {

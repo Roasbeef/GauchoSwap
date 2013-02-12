@@ -4,12 +4,12 @@
 {% block body %}
     <div class="row-fluid">
         <div class="span12">
-            <div class="title">
+            <div id="swapblocktitle">
 		
                 <h1> {{ username }}'s SwapBlock </h1>
 		
 	    </div>
-        <form action="{{ url_for('swapblock.selectClass') }}" method=post class="add-entry custom">
+        <form action="{{ url_for('swapblock.selectClass') }}" method=post class="add-entry_custom">
         <label class="custom-select">
             
             <select name="departmentList">
@@ -20,7 +20,7 @@
             </select>
             
         </label>
-                 <input class="success button" type=submit value=Select>
+                 <input class="success_button" type=submit value=Select>
         </form>
         </div>
     </div>
