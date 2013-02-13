@@ -29,7 +29,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="#">Offers</a></li>
                             <li><a href="#">SwapBlock</a></li>
-                            <li><a href="#">Profile</a></li>
+                            <li><a href="{{ url_for('user.get') }}">Profile</a></li>
                             <li class="divider"></li>
                             <li><a href="{{ url_for('account.logout') }}">Log Out</a></li>
                         </ul>

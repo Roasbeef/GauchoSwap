@@ -9,3 +9,7 @@ mod = Blueprint('frontend', __name__)
 @mod.route('/')
 def index():
     return render_template('index.html')
+
+@mod.route('/<username>')
+def user_profile(un):
+    return render_template('user.html', username=un) 
