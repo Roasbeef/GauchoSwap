@@ -1,22 +1,22 @@
 {% extends "base.html" %}
-
-{% block title %}Welcome{% endblock %}
+{% block title %}Profile{% endblock %}
 {% block body %}
-  <div class="row-fluid">
-      <div class="span12">
-          <div class="title">
-                  <h1>YO</h1>
-                  {% if session.get('fb_id') is none %}
-                  <div class="connect">
-                      <a href="{{ url_for('account.fb_auth') }}">
-                          <img src="{{ url_for('static', filename='X-Large_278x44_glowy.png') }}"></img>
-                      </a>
-                  </div>
-                  {% else %}
-                  <h3 class="greeting">Hey {{ g.user.name }}, this is your Profile </h3>
-                  {% endif %}
-
-          </div>
-      </div>
+<div class="row-fluid">
+  <div class="span4">
+    <ul class="unstyled">
+      <li><h1>{{ username }}</h1></li>
+      <li><img src="{{ prof_pic }}" class="img-polaroid"/></li>
+      <li><a href="{{ prof_link }}">Facebook Profile</a></li>
+    </ul>
   </div>
+  <div class="span8">
+    <ul> class="nav nav-tabs">
+      <li class="active">
+	<a href="#">Inbox</a>
+      </li>
+      <li><a href="#">Swapblock</a></li>
+      <li><a href="#">WishList</a></li>
+    </ul>
+  </div>
+</div>
 {% endblock %}
