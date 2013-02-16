@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block body %}
+<div class="row-fluid">
+  <div class="span4">
+    <ul class="unstyled">
+      <li><h1>{{ username }}</h1></li>
+      <li><img src="{{ prof_pic }}" class="img-polaroid"/></li>
+      <li><a href="{{ prof_link }}">Facebook Profile</a></li>
+    </ul>
+  </div>
+  <div class="span8">
+    <ul> class="nav nav-tabs">
+      <li class="active">
+	<a href="#">Inbox</a>
+      </li>
+      <li><a href="#">Swapblock</a></li>
+      <li><a href="#">WishList</a></li>
+    </ul>
+  </div>
+</div>
+{% endblock %}
