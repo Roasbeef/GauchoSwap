@@ -1,7 +1,6 @@
-from flask import (redirect, url_for, session, request, Blueprint, render_template,
-                   flash, g)
+from flask import (redirect, url_for, session, request, Blueprint, flash, g)
 from gauchoswap import db, oauth, FACEBOOK_APP_ID, FACEBOOK_APP_SECRET
-from gauchoswap.models import Student
+from gauchoswap.models import Student, SwapBlock
 
 
 mod = Blueprint('account', __name__)
@@ -51,6 +50,7 @@ def login_or_register(resp):
         s = Student(name=fb_account.data['name'], umail_address='',
                     facebook_id=fb_account.data['id'], fb_auth_token=resp['access_token'],
                     fb_profile_link='', fb_picture_link='')
+        s.swapblock = SwapBlock(s)
         db.session.add(s)
         db.session.commit()
         user_account = s
