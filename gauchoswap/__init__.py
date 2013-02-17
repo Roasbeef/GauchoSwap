@@ -36,13 +36,12 @@ def load_user():
         user = Student.query.filter_by(facebook_id=session.get('fb_id')).first()
         g.user = user
 
-from gauchoswap.views import frontend, account, swapblock, user, wishlist
+from gauchoswap.views import frontend, account, swapblock, user
 
 app.register_blueprint(frontend.mod)
 app.register_blueprint(account.mod)
 app.register_blueprint(swapblock.mod)
 app.register_blueprint(user.mod)
-app.register_blueprint(wishlist.mod)
 
 
 if __name__ == '__main__':
