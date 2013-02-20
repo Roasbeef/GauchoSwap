@@ -4,6 +4,8 @@ from flask import Flask, render_template, session, g
 from flask_oauth import OAuth
 from flask.ext.sqlalchemy import SQLAlchemy
 
+from gauchoswap.helpers import request_wants_json
+
 SECRET_KEY = '2432fkdsajflads9'
 DEBUG = True
 FACEBOOK_APP_ID = '542774122412862'
