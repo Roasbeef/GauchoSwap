@@ -56,14 +56,54 @@ class Lab(Class, db.Model):
         Class.__init__(self, *args, **kwargs)
 
 
+requested_offers = db.Table('requested_offers',
+                            db.Column('student_id', db.Integer, db.ForeignKey('student.id')),
+                            db.Column('offerer_id', db.Integer, db.ForeignKey('offer.id'))
+                            )
+
+recieved_offers = db.Table('recieved_offers',
+                           db.Column('student_id', db.Integer, db.ForeignKey('student.id')),
+                           db.Column('offeree_id', db.Integer, db.ForeignKey('offer.id'))
+                           )
+
+
 class Offer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    status = db.Column(db.Enum('accepted', 'pending', 'declined'))
-    offerer = db.relationship('Student')
-    offeree = db.relationship('Student')
-    offer_type = db.Column(db.Enum('section', 'lab', 'lecture', 'free for all', name='offer_type'))
-    offerer_class = db.relationship()
-    offeree_class = db.relationship()  # use HSTORE here?
+    status = db.Column(db.Enum('accepted', 'pending', 'declined', name='status'))
+
+    offerer_id = db.Column(db.Integer, db.ForeignKey('student.id'))
+    offeree_id = db.Column(db.Integer, db.ForeignKey('student.id'))
+
+    offer_type = db.Column(db.Enum('section', 'lab', 'lecture', name='offer_type'))
+    offerer_class_id = db.Column(db.String)
+    offeree_class_id = db.Column(db.String)
+
+
+class Student(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    umail_address = db.Column(db.String)
+    facebook_id = db.Column(db.String)
+    fb_auth_token = db.Column(db.String)
+    fb_profile_link = db.Column(db.String)
+    fb_picture_link = db.Column(db.String)
+    swapblock = db.relationship('SwapBlock', backref=db.backref('student', uselist=False))
+    requested_offers = db.relationship('Offer', secondary=requested_offers,
+                                       backref=db.backref('offerer', uselist=False))
+    recieved_offers = db.relationship('Offer', secondary=recieved_offers,
+                                      backref=db.backref('offeree', uselist=False))
+
+    def __init__(self, name, umail_address, facebook_id, fb_auth_token, fb_profile_link,
+                 fb_picture_link):
+        self.name = name
+        self.umail_address = umail_address
+        self.facebook_id = facebook_id
+        self.fb_auth_token = fb_auth_token
+        self.fb_profile_link = fb_profile_link
+        self.fb_picture_link = fb_picture_link
+
+    def __repr__(self):
+        return '<Student %r>' % self.name
 
 
 owned_sections = db.Table('owned_sections',
@@ -76,7 +116,7 @@ owned_lectures = db.Table('owned_lectures',
                           db.Column('lecture_id', db.Integer, db.ForeignKey('lecture.id'))
                           )
 
-owned_labs = db.Table('owned_sections',
+owned_labs = db.Table('owned_labs',
                       db.Column('swapblock_id', db.Integer, db.ForeignKey('swapblock.id')),
                       db.Column('lab_id', db.Integer, db.ForeignKey('lab.id'))
                       )
@@ -91,14 +131,15 @@ wanted_lectures = db.Table('wanted_lectures',
                            db.Column('lecture_id', db.Integer, db.ForeignKey('lecture.id'))
                            )
 
-wanted_labs = db.Table('wanted_sections',
+wanted_labs = db.Table('wanted_labs',
                        db.Column('swapblock_id', db.Integer, db.ForeignKey('swapblock.id')),
                        db.Column('lab_id', db.Integer, db.ForeignKey('lab.id'))
                        )
 
 
-class SwapBlock(db.Model):
+class Swapblock(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    student_id = db.Column(db.Integer, db.ForeignKey('student.id'))
     owned_sections = db.relationship('Section', secondary=owned_sections,
                                      backref=db.backref('students_who_have', lazy='dynamic'))
 
@@ -122,27 +163,3 @@ class SwapBlock(db.Model):
 
     def __repr__(self):
         return "<%s's SwapBlock>" % self.student.name
-
-
-class Student(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    umail_address = db.Column(db.String)
-    facebook_id = db.Column(db.String)
-    fb_auth_token = db.Column(db.String)
-    fb_profile_link = db.Column(db.String)
-    fb_picture_link = db.Column(db.String)
-    swapblock_id = db.Column(db.Integer, db.ForeignKey('swapblock.id'))
-    swapblock = db.relationship('SwapBlock', backref=db.backref('student', uselist=False))
-
-    def __init__(self, name, umail_address, facebook_id, fb_auth_token, fb_profile_link,
-                 fb_picture_link):
-        self.name = name
-        self.umail_address = umail_address
-        self.facebook_id = facebook_id
-        self.fb_auth_token = fb_auth_token
-        self.fb_profile_link = fb_profile_link
-        self.fb_picture_link = fb_picture_link
-
-    def __repr__(self):
-        return '<Student %r>' % self.name

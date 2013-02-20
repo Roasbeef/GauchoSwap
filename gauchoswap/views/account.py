@@ -1,6 +1,6 @@
 from flask import (redirect, url_for, session, request, Blueprint, flash, g)
 from gauchoswap import db, oauth, FACEBOOK_APP_ID, FACEBOOK_APP_SECRET
-from gauchoswap.models import Student, SwapBlock
+from gauchoswap.models import Student, Swapblock
 
 
 mod = Blueprint('account', __name__)
@@ -47,18 +47,17 @@ def login_or_register(resp):
     message = 'Log in successful!'
 
     if user_account is None:
-        s = Student(name=fb_account.data['name'], umail_address='',
+        new_student = Student(name=fb_account.data['name'], umail_address='',
                     facebook_id=fb_account.data['id'], fb_auth_token=resp['access_token'],
                     fb_profile_link='', fb_picture_link='')
-        s.swapblock = SwapBlock(s)
-        db.session.add(s)
+        new_student.swapblock = Swapblock(new_student)
+        db.session.add(new_student)
         db.session.commit()
-        user_account = s
         message = 'You have been registered congrats!'
 
     flash(message, category='success')
     session['fb_id'] = fb_account.data['id']
-    g.user = user_account
+    g.user = new_student
     return redirect(url_for('frontend.index'))
 
 
