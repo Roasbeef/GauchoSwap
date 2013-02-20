@@ -58,12 +58,12 @@ class Lab(Class, db.Model):
 
 requested_offers = db.Table('requested_offers',
                             db.Column('student_id', db.Integer, db.ForeignKey('student.id')),
-                            db.Column('offerer_id', db.Integer, db.ForeignKey('offer.id'))
+                            db.Column('offerer_id', db.Integer, db.ForeignKey('offer.offerer_id'))
                             )
 
 recieved_offers = db.Table('recieved_offers',
                            db.Column('student_id', db.Integer, db.ForeignKey('student.id')),
-                           db.Column('offeree_id', db.Integer, db.ForeignKey('offer.id'))
+                           db.Column('offeree_id', db.Integer, db.ForeignKey('offer.offeree_id'))
                            )
 
 
