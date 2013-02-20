@@ -50,8 +50,9 @@ def login_or_register(resp):
         new_student = Student(name=fb_account.data['name'], umail_address='',
                     facebook_id=fb_account.data['id'], fb_auth_token=resp['access_token'],
                     fb_profile_link='', fb_picture_link='')
-        new_student.swapblock = Swapblock(new_student)
+        block = Swapblock(new_student)
         db.session.add(new_student)
+        db.session.add(block)
         db.session.commit()
         message = 'You have been registered congrats!'
 
