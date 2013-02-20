@@ -4,30 +4,82 @@
 {% block body %}
     <div class="row-fluid">
         <div class="span12">
-            <div id="swapblocktitle">
+            <div class="title">
 		
                 <h1> {{ username }}'s SwapBlock </h1>
 		
 	    </div>
-        <form action="{{ url_for('swapblock.selectClass') }}" method=post class="add-entry_custom">
-        <label class="custom-select">
             
-            <select name="departmentList">
+        
+	       <label class="custom-select">
+            
+                <select id="departmentList">
 
-               	    {% for department in departments %} 
-                        <option value="{{ department }}">{{ department }}</option>
+               	    {% for abrv, department in departments %} 
+                        <option value="{{ department }}">{{ abrv }}: {{ department }}</option>
+                       
                     {% endfor %}    
-            </select>
+                </select>
             
-        </label>
-                 <input class="success_button" type=submit value=Select>
-        </form>
-        </div>
+                </label>
+              
+
+       
+                	     
+             
+                  </div>
+
+            <div>
+                <select id="lectureList"> </select>
+            </div>
+
     </div>
+
 {% endblock %}
 
-<script type=text/javascript> {% block js %} 
-{% endblock %} </script>
+{% block js %}
+ 
+$(function(){
+  $("#departmentList").change(function(){
+    var department = $('#departmentList').val();
+    
+    $.ajax({
+            url: '{{ url_for('swapblock.getClasses') }}', 
+            dateType: 'json',
+            data: {department : department},
+            success: function( resp ) {
+            console.log( resp.length );
+                $("#lectureList").empty();
+                for(var i = 0; i < resp.length; i++)
+                {
+                    var sList = document.getElementById("lectureList");
+     
+                    var option = document.createElement("option");
+                    option.text = resp.response[i];
+                    option.value = resp.response[i];
+                    try 
+                    {
+                        sList.add(option, null); //Standard 
+                    }
+                    catch(error) 
+                    {
+                        sList.add(option); // IE only
+                    }
+           
+
+                }
+            },
+    error: function( req, status, err ) {
+        console.log( 'something went wrong', status, err );
+    }
+    });
+
+});
+});
+
+{% endblock %}
+
+
 
 
 
