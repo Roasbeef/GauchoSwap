@@ -1,6 +1,6 @@
 from flask import Blueprint, abort, jsonify
 from gauchoswap import api
-from gauchoswap.helpers import request_Wants_json
+from gauchoswap.helpers import request_wants_json
 
 mod = Blueprint('offer', __name__, url_prefix='/offer')
 
@@ -13,7 +13,7 @@ def get_all_offers():
 	return jsonify(offers)
 
 @mod.route('/<int:offer_id>/', methods=['GET'])
-def get_offer_by_id(offer_id_:)
+def get_offer_by_id(offer_id_):
 	wants_json = request_wants_json()
 	try:
 		offer = api.get_offer_by_id(offer_id, json=wants_json)

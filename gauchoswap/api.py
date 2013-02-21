@@ -32,7 +32,7 @@ def get_all_sections(json=False):
     return (section.to_json() for section in all_sections) if json else (section for section in all_sections)
 
 @get_or_404
-def get_section_by_department(department, json=False):
+def get_sections_by_department(department, json=False):
     department_sections = Section.query.filter_by(department=department).all()
     return (section.to_json() for section in department_sections) if json else (section for section in department_sections)
 
