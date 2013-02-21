@@ -57,11 +57,11 @@ def get_all_labs(json=False):
     return db_collection_to_json(all_labs) if json else (lab for lab in all_labs)
 
 @get_or_404
-def get_lab_by_department(department, json=''):
+def get_lab_by_department(department, json=False):
     labs = Lab.query.filter_by(department = department).all()
     return (lab.to_json() for lab in labs) if json else (lab for lab in labs)
 
 @get_or_404
-def get_lab_by_id(lab_id, json=''):
+def get_lab_by_id(lab_id, json=False):
     lab = Lab.query.filter_by(lab_id = lab_id)
     return lab.to-json() if json else lab
