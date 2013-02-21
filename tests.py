@@ -1,20 +1,47 @@
-import os
+from gauchoswap.models import Lab, Swapblock, Section, Offer, Lecture
+from gauchoswap import api, db
+from flask.ext.testing import TestCase
+
 import gauchoswap
 import unittest
-import tempfile
+import string
+import random
 
 
-class GauchoSwapApiTestCase(unittest.TestCase):
+class GauchoSwapApiTestCase(TestCase):
+
+    SQLALCHEMY_DATABASE_URI = "sqlite://"
+    TESTING = True
+
+    def create_app(self):
+        app = gauchoswap.app
+        app.config['TESTING'] = True
+        return app
 
     def setUp(self):
-        self.db_fd, gauchoswap.app.config['DATABASE'] = tempfile.mkstemp()
-        gauchoswap.app.config['TESTING'] = True
-        self.app = gauchoswap.app.test_client()
-        gauchoswap.db.create_all()
+        db.create_all()
 
     def tearDown(self):
-        os.close(self.db_fd)
-        os.unlink(gauchoswap.app.config['DATABASE'])
+        db.session.remove()
+        db.drop_all()
+
+    def create_test_lectures(self):
+        ''' used for general counts/exists tests '''
+        random_string = lambda x: ''.join(random.choice(string.lowercase) for i in range(9))
+        random_test_lectures = [Lecture(*random_string('')) for i in range(10)]
+
+        db.session.add_all(random_test_lectures)
+        db.session.commit()
+
+    def test_get_all_lectures(self):
+        #empty db should be nothing
+        lectures = api.get_all_lectures()
+        self.assertFalse(list(lectures))
+
+        #now there should be 10 classes
+        self.create_test_lectures()
+        lectures = api.get_all_lectures()
+        self.assertEqual(len(list(lectures)), 10)
 
 if __name__ == '__main__':
     unittest.main()
