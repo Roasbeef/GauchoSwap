@@ -54,11 +54,12 @@ def login_or_register(resp):
         db.session.add(new_student)
         db.session.add(block)
         db.session.commit()
+        user_account = new_student
         message = 'You have been registered congrats!'
 
     flash(message, category='success')
     session['fb_id'] = fb_account.data['id']
-    g.user = new_student
+    g.user = user_account
     return redirect(url_for('frontend.index'))
 
 
