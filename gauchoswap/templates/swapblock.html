@@ -9,29 +9,22 @@
                 <h1> {{ username }}'s SwapBlock </h1>
 		
 	    </div>
-            
-        
-	       <label class="custom-select">
-            
+            <div class="dep-list">
+
                 <select id="departmentList">
 
                	    {% for abrv, department in departments %} 
-                        <option value="{{ department }}">{{ abrv }}: {{ department }}</option>
-                       
+                        <option value="{{ department }}">{{ abrv }}: {{ department }}</option>                       
                     {% endfor %}    
+
                 </select>
-            
-                </label>
-              
 
-       
-                	     
-             
-                  </div>
+            </div>        	     
+        </div>
 
-            <div>
-                <select id="lectureList"> </select>
-            </div>
+        <div class="lect-list">
+            <select id="lectureList"> </select>
+        </div>
 
     </div>
 
