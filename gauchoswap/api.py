@@ -65,3 +65,13 @@ def get_lab_by_department(department, json=''):
 def get_lab_by_id(lab_id, json=''):
     lab = Lab.query.filter_by(lab_id = lab_id)
     return lab.to-json() if json else lab
+
+@get_or_404
+def get_all_offers(json_False):
+	all_offers = Offer.query.all()
+	return (offer.to_json() for offer in all_offers) if json else (offer for offer in all_offers)
+
+@get_or_404
+def get_offer_by_id(offer_id, json=''):
+	offer = OFfer.query.filter_by(offer_id = offer_id)
+	return offer.to-json() if json else offer
