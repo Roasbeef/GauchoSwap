@@ -25,6 +25,11 @@ class Class(object):
     def __repr__(self):
         return '<%s %r>' % (self.__class__.__name__, self.name)
 
+    def to_json(self):
+        return {'name': self.name, 'title': self.title, 'department': self.department,
+                'location': self.location, 'days': self.days, 'time': self.time,
+                'max_spots': self.max_spots, 'space': self.space}
+
 
 class Lecture(Class, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -34,6 +39,10 @@ class Lecture(Class, db.Model):
     def __init__(self, professor, *args, **kwargs):
         self.professor = professor
         Class.__init__(self, *args, **kwargs)
+
+    def to_json(self):
+        base_class_json = super(Class, self).to_json()
+        base_class_json.extend({'professor': self.professor})
 
 
 class Section(Class, db.Model):
@@ -46,6 +55,10 @@ class Section(Class, db.Model):
         self.lecture = lecture
         Class.__init__(self, *args, **kwargs)
 
+    def to_json(self):
+        base_class_json = super(Class, self).to_json()
+        base_class_json.extend({'ta': self.ta}, {'lecture': self.lecture.title})
+
 
 class Lab(Class, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -54,6 +67,10 @@ class Lab(Class, db.Model):
     def __init__(self, instructor, *args, **kwargs):
         self.instructor = instructor
         Class.__init__(self, *args, **kwargs)
+
+    def to_json(self):
+        base_class_json = super(Class, self).to_json()
+        base_class_json.extend({'instructor': self.instructor})
 
 
 requested_offers = db.Table('requested_offers',
@@ -77,6 +94,24 @@ class Offer(db.Model):
     offer_type = db.Column(db.Enum('section', 'lab', 'lecture', name='offer_type'))
     offerer_class_id = db.Column(db.String)
     offeree_class_id = db.Column(db.String)
+
+    def __init__(self, offerer_id, offeree_id, offer_type, offerer_class_id, offeree_class_id):
+        self.offerer_id = offerer_id
+        self.offeree_id = offeree_id
+        self.offer_type = offer_type
+        self.offerer_class_id = offerer_class_id
+        self.offeree_class_id = offeree_class_id
+        self.status = 'pending'
+
+    def to_json(self):
+        class_map = {'section': Section, 'lab': Lab, 'lecture': Lecture}
+
+        offerer_class = class_map[self.offer_type].query.filter_by(id=self.offerer_class_id).first()
+        offeree_class = class_map[self.offer_type].query.filter_by(id=self.offeree_class_id).first()
+
+        return {'offerer': self.offerer.name, 'offeree': self.offeree.name, 'type': self.offer_type,
+                'offerer class': offerer_class.name, 'offeree class': offeree_class.name,
+                'offer status': self.status}
 
 
 class Student(db.Model):
@@ -104,6 +139,9 @@ class Student(db.Model):
 
     def __repr__(self):
         return '<Student %r>' % self.name
+
+    def to_json(self):
+        return {'name': self.name}
 
 
 owned_sections = db.Table('owned_sections',
@@ -163,3 +201,13 @@ class Swapblock(db.Model):
 
     def __repr__(self):
         return "<%s's SwapBlock>" % self.student.name
+
+    def to_json(self):
+        return {'student': self.student.name,
+                'owned_sections': [section.to_json() for section in self.owned_sections],
+                'owned_labs': [lab.to_json() for lab in self.owned_labs],
+                'owned_lectures': [lecture.to_json() for lecture in self.owned_lectures],
+                'wanted_sections': [section.to_json() for section in self.wanted_sections],
+                'wanted_labs': [lab.to_json() for lab in self.wanted_labs],
+                'wanted_lectures': [lecture.to_json() for lecture in self.wanted_lectures],
+                }
