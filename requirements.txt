@@ -1,8 +1,9 @@
 Flask==0.9
--e git+https://github.com/tobiasandtobias/flask-alembic.git#egg=Package
+Flask-Alembic==0.1
 Flask-OAuth==0.12
 Flask-SQLAlchemy==0.16
 Flask-Script==0.5.3
+Flask-Testing==0.4
 Ghost.py==0.1b2
 Jinja2==2.6
 Mako==0.7.3
@@ -18,6 +19,9 @@ httplib2==0.7.7
 lxml==3.1beta1
 oauth2==1.5.211
 psycopg2==2.4.6
+py==1.4.12
 pyquery==1.2.4
+pytest==2.3.4
 selenium==2.29.0
+twill==0.9
 wsgiref==0.1.2
