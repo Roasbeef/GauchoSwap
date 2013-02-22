@@ -1,15 +1,16 @@
 from flask import redirect, url_for, session, request, Blueprint, render_template
 
-#from gauchoswap import db
-#from gauchoswap.models import Lecture
+from gauchoswap import api
+
+from gauchoswap.models import Offer
 
 mod = Blueprint('frontend', __name__)
 
 
 @mod.route('/')
 def index():
-    return render_template('index.html')
-
+    offers = Offer.query.all()
+    return render_template('index.html', offers=offers)
 
 @mod.route('/SwapBlock/<username>/')
 def swap_block(username):

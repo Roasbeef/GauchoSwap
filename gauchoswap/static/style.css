@@ -34,7 +34,10 @@ body {
 }
 
 .greeting {
-    padding-top: 20px;
+    padding-top: 4%;
+    margin: 0 auto;
+    text-align: center;
+    width: 50%;
 }
 
 #swapblocktitle {

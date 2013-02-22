@@ -103,6 +103,15 @@ class Offer(db.Model):
         self.offeree_class_id = offeree_class_id
         self.status = 'pending'
 
+    def describe(self):
+        class_map = {'section': Section, 'lab': Lab, 'lecture': Lecture}
+
+        offerer_class = class_map[self.offer_type].query.filter_by(id=self.offerer_class_id).first()
+        offeree_class = class_map[self.offer_type].query.filter_by(id=self.offeree_class_id).first()
+
+        return '%s wants to swap %s for %s with %s' % (self.offerer.name, offerer_class.title,
+                                                       offeree_class.title, self.offeree.name)
+
     def to_json(self):
         class_map = {'section': Section, 'lab': Lab, 'lecture': Lecture}
 
