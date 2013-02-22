@@ -75,12 +75,12 @@ class Lab(Class, db.Model):
 
 requested_offers = db.Table('requested_offers',
                             db.Column('student_id', db.Integer, db.ForeignKey('student.id')),
-                            db.Column('offerer_id', db.Integer, db.ForeignKey('offer.offerer_id'))
+                            db.Column('req_offerer_id', db.Integer, db.ForeignKey('offer.offerer_id'))
                             )
 
 recieved_offers = db.Table('recieved_offers',
                            db.Column('student_id', db.Integer, db.ForeignKey('student.id')),
-                           db.Column('offeree_id', db.Integer, db.ForeignKey('offer.offeree_id'))
+                           db.Column('rec_offeree_id', db.Integer, db.ForeignKey('offer.offeree_id'))
                            )
 
 
@@ -88,8 +88,8 @@ class Offer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.Enum('accepted', 'pending', 'declined', name='status'))
 
-    offerer_id = db.Column(db.Integer, db.ForeignKey('student.id'))
-    offeree_id = db.Column(db.Integer, db.ForeignKey('student.id'))
+    offerer_id = db.Column(db.Integer, db.ForeignKey('student.id'), unique=True)
+    offeree_id = db.Column(db.Integer, db.ForeignKey('student.id'), unique=True)
 
     offer_type = db.Column(db.Enum('section', 'lab', 'lecture', name='offer_type'))
     offerer_class_id = db.Column(db.String)

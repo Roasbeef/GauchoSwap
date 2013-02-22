@@ -1,40 +1,56 @@
 from flask import (redirect, url_for, session, request, Blueprint, render_template,
-                   flash, g, jsonify)
-from gauchoswap import db, oauth, FACEBOOK_APP_ID, FACEBOOK_APP_SECRET, app
-from gauchoswap.models import Student, Lecture
-from gauchoswap.course_abrev import course_abrv_to_department
-import os
+                   flash, g, jsonify, abort)
+from gauchoswap import db, api
 
-mod = Blueprint('swapblock', __name__, url_prefix='/SwapBlock')
+from helpers import request_wants_json
+from decorators import login_required
 
-@mod.route('/')
-def get():
-    user = Student.query.filter_by(facebook_id=session['fb_id']).first()
-    username = user.name   
-    return redirect(url_for('frontend.swap_block', username=username))
-
-@mod.route('/add')
-def getClasses(department=None,):
-    department = request.args.get('department')
-    lectures = Lecture.query.filter_by(department=department).all()
-    lectureNames = []
-    for name in lectures:
-        lectureNames.append(name.name)
-
-    lectureLen = len(lectureNames)
-    return jsonify(response=lectureNames, length=lectureLen)
-
-@app.context_processor
-def department_processor():
-    departments = []
-    def getClasses(department):
-        lecture = Lecture.query.filter_by(department=department).all()
-        return lecture
-    for abrv, department in course_abrv_to_department.iteritems():
-	temp = (abrv, department)
-        departments.append(temp)
-    departments.sort() 
-    return dict(departments=departments, getClasses=getClasses)
+mod = Blueprint('swapblock', __name__, url_prefix='/Swapblock')
 
 
-     
+@mod.route('/', methods=['GET'])
+def all_swapblocks():
+    wants_json = request_wants_json()
+    blocks = api.get_all_swapblocks(json=wants_json)
+    return jsonify({'swapblocks': blocks})
+
+
+@mod.route('/<int:student_id>', methods=['GET'])
+def student_swapblock(student_id):
+    wants_json = request_wants_json()
+    try:
+        swapblock = api.get_student_swapblock(student_id, json=wants_json)
+    except api.DbNotFoundError:
+        abort(404)
+    return jsonify({'swapblock': swapblock})
+
+
+@mod.route('/add', methods=['POST'])
+@login_required
+def add_to_swapblock():
+    params = request.form
+    params['student_id'] = g.user.id
+
+    try:
+        api.add_class_to_swapblock(**params)
+    except api.DbNotFoundError:
+        abort(404)
+
+    resp = jsonify(message='success!')
+    resp.status_code = 201
+    return resp
+
+
+@mod.route('/drop', methods=['DELETE'])
+def delete_from_swapblock():
+    params = request.form
+    params['student_id'] = g.user.id
+
+    try:
+        api.delete_class_from_swapblock(**params)
+    except api.DbNotFoundError:
+        abort(404)
+
+    resp = jsonify(message='success!')
+    resp.status_code = 201
+    return resp
