@@ -57,7 +57,7 @@ def get_lecture_sections(lecture_id, json=False):
 
 @get_or_404
 def get_department_lectures(department, json=False):
-    lectures = Lecture.query.filter_by(department=department)
+    lectures = Lecture.query.filter_by(department=department).first()
     return db_collection_to_json(lectures) if json else (lecture for lecture in lectures)
 
 
@@ -75,7 +75,7 @@ def get_lab_by_department(department, json=False):
 
 @get_or_404
 def get_lab_by_id(lab_id, json=False):
-    lab = Lab.query.filter_by(lab_id=lab_id)
+    lab = Lab.query.filter_by(lab_id=lab_id).first()
     return lab.to_json() if json else lab
 
 
@@ -87,7 +87,7 @@ def get_all_offers(json=False):
 
 @get_or_404
 def get_offer_by_id(offer_id, json=False):
-    offer = Offer.query.filter_by(offer_id=offer_id)
+    offer = Offer.query.filter_by(offer_id=offer_id).first()
     return offer.to_json() if json else offer
 
 
@@ -99,7 +99,7 @@ def get_all_swapblocks(json=False):
 
 @get_or_404
 def get_student_swapblock(student_id, json=False):
-    student = Student.query.filter_by(id=student_id)
+    student = Student.query.filter_by(id=student_id).first()
     block = student.swapblock
 
     return block.to_json() if json else block
@@ -137,8 +137,8 @@ def delete_class_from_swapblock(**params):
     class_id = params['class_id']
     have_class = params['have_class']
 
-    student = Student.query.filter_by(id=student_id)
-    course = class_dict[class_type].query.filter_by(id=class_id)
+    student = Student.query.filter_by(id=student_id).first()
+    course = class_dict[class_type].query.filter_by(id=class_id).first()
 
     if have_class and class_type == 'lecture':
         student.swapblock.owned_lectures.remove(course)
@@ -171,7 +171,7 @@ def create_offer(**params):
 
 @get_or_404
 def accept_offer(student_id, offer_id):
-    offer = Offer.query.filter_by(id=offer_id)
+    offer = Offer.query.filter_by(id=offer_id).first()
 
     if student_id != offer.offeree_id:
         raise UserDoesNotHavePermissionError("You don't own that offer")
@@ -183,7 +183,7 @@ def accept_offer(student_id, offer_id):
 
 @get_or_404
 def reject_offer(student_id, offer_id):
-    offer = Offer.query.filter_by(id=offer_id)
+    offer = Offer.query.filter_by(id=offer_id).first()
 
     if student_id != offer.offeree_id:
         raise UserDoesNotHavePermissionError("You don't own that offer")
