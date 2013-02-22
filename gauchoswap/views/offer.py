@@ -17,7 +17,7 @@ def add_or_get_offers():
             return jsonify({'offer': offers})
         elif request.method == 'POST':
             params = request.form
-            params['student_id'] = g.user.id
+            params['offerer_id'] = g.user.id
             api.create_offer(**params)
             resp = jsonify(message='success!')
             resp.status_code = 201
@@ -35,3 +35,35 @@ def get_offer_by_id(offer_id):
         return jsonify({'offer': offer})
     except api.DbNotFoundError:
         abort(404)
+
+
+@mod.route('/accept', methods=['PUT'])
+@login_required
+def accept_offer():
+    offer_id = request.form['offer_id']
+
+    try:
+        api.accept_offer(g.user.id, offer_id)
+        resp = jsonify(message='success!')
+        resp.status_code = 201
+        return resp
+    except api.UserDoesNotHavePermissionError:
+        resp = jsonify(message='You did not recieve that offer')
+        resp.status_code = 401
+        return resp
+
+
+@mod.route('/reject', methods=['PUT'])
+@login_required
+def reject_offer():
+    offer_id = request.form['offer_id']
+
+    try:
+        api.reject_offer(g.user.id, offer_id)
+        resp = jsonify(message='success!')
+        resp.status_code = 201
+        return resp
+    except api.UserDoesNotHavePermissionError:
+        resp = jsonify(message='You did not recieve that offer')
+        resp.status_code = 401
+        return resp
