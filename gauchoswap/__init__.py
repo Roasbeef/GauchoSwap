@@ -13,8 +13,8 @@ FACEBOOK_APP_ID = '542774122412862'
 FACEBOOK_APP_SECRET = '8125ade96b956dc61982de537d7a6389'
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-#app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
+#app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
 app.debug = True
 app.secret_key = SECRET_KEY
 

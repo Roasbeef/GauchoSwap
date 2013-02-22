@@ -5,7 +5,10 @@ from gauchoswap.models import Lab, Lecture, Section, Offer, Swapblock, Student
 
 def get_or_404(f):
     def wrapper(*args, **kwargs):
-        result = f(*args, **kwargs)
+        try:
+            result = f(*args, **kwargs)
+        except:
+            raise DbNotFoundError('Model requested does not exist')
         if result is None:
             raise DbNotFoundError('Model requested does not exist')
         else:
@@ -100,7 +103,7 @@ def get_all_swapblocks(json=False):
 @get_or_404
 def get_student_swapblock(student_id, json=False):
     student = Student.query.filter_by(id=student_id).first()
-    block = student.swapblock
+    block = student.swapblock.first()
 
     return block.to_json() if json else block
 
@@ -112,22 +115,22 @@ def add_class_to_swapblock(**params):
     class_id = params['class_id']
     have_class = params['have_class']
 
-    student = Student.query.filter_by(id=student_id)
-    course = class_dict[class_type].query.filter_by(id=class_id)
+    student = Student.query.filter_by(id=student_id).first()
+    course = class_dict[class_type].query.filter_by(id=class_id).first()
 
     if have_class and class_type == 'lecture':
-        student.swapblock.owned_lectures.append(course)
+        student.swapblock.first().owned_lectures.append(course)
     elif have_class and class_type == 'lab':
-        student.swapblock.owned_labs.append(course)
+        student.swapblock.first().owned_labs.append(course)
     elif have_class and class_type == 'section':
-        student.swapblock.owned_sections.append(course)
+        student.swapblock.first().owned_sections.append(course)
 
     if not have_class and class_type == 'lecture':
-        student.swapblock.wanted_lectures.append(course)
+        student.swapblock.first().wanted_lectures.append(course)
     elif not have_class and class_type == 'lab':
-        student.swapblock.wanted_labs.append(course)
+        student.swapblock.first().wanted_labs.append(course)
     elif not have_class and class_type == 'section':
-        student.swapblock.wanted_sections.append(course)
+        student.swapblock.first().wanted_sections.append(course)
 
 
 def delete_class_from_swapblock(**params):
@@ -141,18 +144,18 @@ def delete_class_from_swapblock(**params):
     course = class_dict[class_type].query.filter_by(id=class_id).first()
 
     if have_class and class_type == 'lecture':
-        student.swapblock.owned_lectures.remove(course)
+        student.swapblock.first().owned_lectures.remove(course)
     elif have_class and class_type == 'lab':
-        student.swapblock.owned_labs.remove(course)
+        student.swapblock.first().owned_labs.remove(course)
     elif have_class and class_type == 'section':
-        student.swapblock.owned_sections.remove(course)
+        student.swapblock.first().owned_sections.remove(course)
 
     if not have_class and class_type == 'lecture':
-        student.swapblock.wanted_lectures.remove(course)
+        student.swapblock.first().wanted_lectures.remove(course)
     elif not have_class and class_type == 'lab':
-        student.swapblock.wanted_labs.remove(course)
+        student.swapblock.first().wanted_labs.remove(course)
     elif not have_class and class_type == 'section':
-        student.swapblock.wanted_sections.remove(course)
+        student.swapblock.first().wanted_sections.remove(course)
 
 
 def create_offer(**params):
@@ -162,14 +165,19 @@ def create_offer(**params):
     offerer_class_id = params['offerer_class_id']
     offeree_class_id = params['offeree_class_id']
 
+    student1 = Student.query.filter_by(id=offerer_id).first()
+    student2 = Student.query.filter_by(id=offeree_id).first()
+
     offer = Offer(offerer_id=offerer_id, offeree_id=offeree_id, offer_type=offer_type,
                   offerer_class_id=offerer_class_id, offeree_class_id=offeree_class_id)
+
+    student1.requested_offers.append(offer)
+    student2.recieved_offers.append(offer)
 
     db.session.add(offer)
     db.session.commit()
 
 
-@get_or_404
 def accept_offer(student_id, offer_id):
     offer = Offer.query.filter_by(id=offer_id).first()
 
@@ -181,7 +189,6 @@ def accept_offer(student_id, offer_id):
     db.session.commit()
 
 
-@get_or_404
 def reject_offer(student_id, offer_id):
     offer = Offer.query.filter_by(id=offer_id).first()
 

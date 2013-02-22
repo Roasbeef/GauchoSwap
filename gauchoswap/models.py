@@ -122,7 +122,7 @@ class Student(db.Model):
     fb_auth_token = db.Column(db.String)
     fb_profile_link = db.Column(db.String)
     fb_picture_link = db.Column(db.String)
-    swapblock = db.relationship('Swapblock', backref=db.backref('student', uselist=False))
+    swapblock = db.relationship('Swapblock', backref=db.backref('student', uselist=False), lazy='dynamic')
     requested_offers = db.relationship('Offer', secondary=requested_offers,
                                        backref=db.backref('offerer', uselist=False))
     recieved_offers = db.relationship('Offer', secondary=recieved_offers,
