@@ -2,8 +2,8 @@ from flask import (redirect, url_for, session, request, Blueprint, render_templa
                    flash, g, jsonify, abort)
 from gauchoswap import db, api
 
-from helpers import request_wants_json
-from decorators import login_required
+from gauchoswap.helpers import request_wants_json
+from gauchoswap.decorators import login_required
 
 mod = Blueprint('swapblock', __name__, url_prefix='/Swapblock')
 

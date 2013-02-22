@@ -2,7 +2,7 @@ from flask import Blueprint, abort, jsonify, g, request
 from gauchoswap import api
 from gauchoswap.helpers import request_wants_json
 
-from decorators import login_required
+from gauchoswap.decorators import login_required
 
 mod = Blueprint('offer', __name__, url_prefix='/offer')
 

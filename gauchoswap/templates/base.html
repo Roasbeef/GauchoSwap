@@ -28,7 +28,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ g.user.name }}<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">Offers</a></li>
-                            <li><a href="{{ url_for('swapblock.get') }}">SwapBlock</a></li>
+                            <li><a href="{{ url_for('swapblock.student_swapblock', student_id=g.user.id) }}">SwapBlock</a></li>
                             <li><a href="{{ url_for('user.show_user_profile') }}">Profile</a></li>
                             <li class="divider"></li>
                             <li><a href="{{ url_for('account.logout') }}">Log Out</a></li>
