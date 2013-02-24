@@ -7,15 +7,12 @@
             <div class="title">
 		
                 <h1> {{ username }}'s SwapBlock </h1>
-		
+		<h1> (Not Done) </h1>		
 	    </div>
             <div class="dep-list">
 
                 <select id="departmentList">
 
-               	    {% for abrv, department in departments %} 
-                        <option value="{{ department }}">{{ abrv }}: {{ department }}</option>                       
-                    {% endfor %}    
 
                 </select>
 
@@ -32,43 +29,9 @@
 
 {% block js %}
  
-$(function(){
-  $("#departmentList").change(function(){
-    var department = $('#departmentList').val();
-    
-    $.ajax({
-            url: '{{ url_for('swapblock.getClasses') }}', 
-            dateType: 'json',
-            data: {department : department},
-            success: function( resp ) {
-            console.log( resp.length );
-                $("#lectureList").empty();
-                for(var i = 0; i < resp.length; i++)
-                {
-                    var sList = document.getElementById("lectureList");
-     
-                    var option = document.createElement("option");
-                    option.text = resp.response[i];
-                    option.value = resp.response[i];
-                    try 
-                    {
-                        sList.add(option, null); //Standard 
-                    }
-                    catch(error) 
-                    {
-                        sList.add(option); // IE only
-                    }
            
 
-                }
-            },
-    error: function( req, status, err ) {
-        console.log( 'something went wrong', status, err );
-    }
-    });
 
-});
-});
 
 {% endblock %}
 
