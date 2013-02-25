@@ -11,17 +11,24 @@ mod = Blueprint('swapblock', __name__, url_prefix='/Swapblock')
 @mod.route('/', methods=['GET'])
 def all_swapblocks():
     wants_json = request_wants_json()
-    blocks = api.get_all_swapblocks(json=wants_json)
+
+    try:
+        blocks = api.get_all_swapblocks(json=wants_json)
+    except api.DbNotFoundError:
+        abort(404, message='There are no swablocks')
+
     return jsonify({'swapblocks': blocks})
 
 
 @mod.route('/<int:student_id>', methods=['GET'])
 def student_swapblock(student_id):
     wants_json = request_wants_json()
+
     try:
         swapblock = api.get_student_swapblock(student_id, json=wants_json)
     except api.DbNotFoundError:
         abort(404)
+
     return jsonify({'swapblock': swapblock})
 
 
