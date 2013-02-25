@@ -13,8 +13,8 @@ FACEBOOK_APP_ID = '542774122412862'
 FACEBOOK_APP_SECRET = '8125ade96b956dc61982de537d7a6389'
 
 app = Flask(__name__)
-#app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+#app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
 app.debug = True
 app.secret_key = SECRET_KEY
 
@@ -22,6 +22,7 @@ db = SQLAlchemy(app)
 oauth = OAuth()
 
 from gauchoswap.models import Student
+
 
 @app.errorhandler(404)
 def not_found(error):
@@ -33,6 +34,7 @@ def internal_error(error):
     db.session.rollback()
     return 'My bad', 500
 
+
 @app.before_request
 def load_user():
     if session.get('fb_id') is not None:
@@ -40,7 +42,7 @@ def load_user():
         g.user = user
 
 from gauchoswap.views import (frontend, account, swapblock, user, lecture, section,
-lab, offer)
+                              lab, offer)
 
 app.register_blueprint(frontend.mod)
 app.register_blueprint(account.mod)
