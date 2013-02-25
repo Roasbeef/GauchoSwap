@@ -35,12 +35,12 @@ class GauchoSwapApiTestCase(TestCase):
 
     def test_get_all_lectures(self):
         #empty db should be nothing
-        lectures = api.get_all_lectures()
+        lectures = api.get_courses('lecture')
         self.assertFalse(list(lectures))
 
         #now there should be 10 classes
         self.create_test_lectures()
-        lectures = api.get_all_lectures()
+        lectures = api.get_courses('lecture')
         self.assertEqual(len(list(lectures)), 10)
 
     def create_test_sections(self):
@@ -56,19 +56,19 @@ class GauchoSwapApiTestCase(TestCase):
 
     def test_get_all_sections(self):
         # Empty db should have nothing
-        sections = api.get_all_sections()
+        sections = api.get_courses('section')
         self.assertFalse(list(sections))
 
         # Create 5 sections where every attribute is the same as the ID
         self.create_test_sections()
 
         # 5 Sections should have been made, get_all_sections() should get them all
-        sections = api.get_all_sections()
+        sections = api.get_courses('section')
         self.assertEqual(len(list(sections)), 5)
 
     def test_get_section_by_id(self):
         # empty db should have nothing
-        sections = api.get_all_sections()
+        sections = api.get_courses('section')
         self.assertFalse(list(sections))
 
         # Create 5 sections where every attribute is the same as the ID
@@ -77,12 +77,12 @@ class GauchoSwapApiTestCase(TestCase):
         # Try to get all Sections based on ID
         # Check will be made by comparing Section name to Section ID, which in this test are the same
         for i in range(5):
-            section = api.get_section_by_id(i + 1)
+            section = api.get_course_by_id('section', i + 1)
             self.assertEqual(section.name, str(i + 1))
 
     def test_get_section_by_department(self):
         # empty db should have nothing
-        sections = api.get_all_sections()
+        sections = api.get_courses('section')
         self.assertFalse(list(sections))
 
         # Create 5 sections where every attribute is the same as the ID
@@ -103,7 +103,7 @@ class GauchoSwapApiTestCase(TestCase):
         # Check will be made by making sure there are 2 sections in a department, and by checking the name of the department
         # to make sure they match expected values
         for i in range(5):
-            sections = api.get_sections_by_department(i + 1)
+            sections = api.get_courses('section', department=str(i+1))
             sectionList = list(sections)
             # Make sure there are 2 sections in department
             self.assertEqual(len(sectionList), 2)

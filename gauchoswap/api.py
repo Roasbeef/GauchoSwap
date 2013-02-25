@@ -28,7 +28,7 @@ CLASS_DICT = {'lecture': Lecture, 'lab': Lab, 'section': Section}
 
 @get_or_404
 def get_courses(class_type, pagination=False, page=0, json=False, department=''):
-    course_query = CLASS_DICT[class_type].query if not department else CLASS_DICT[class_type].query.filter_by(department)
+    course_query = CLASS_DICT[class_type].query if not department else CLASS_DICT[class_type].query.filter_by(department=department)
     courses = course_query.paginate(page).items if pagination else course_query.all()
 
     return [course if not json else course.to_json for course in courses]
@@ -36,7 +36,7 @@ def get_courses(class_type, pagination=False, page=0, json=False, department='')
 
 @get_or_404
 def get_course_by_id(class_type, course_id, json=False):
-    course = CLASS_DICT[class_type].query.filter_by(id=course_id).get()
+    course = CLASS_DICT[class_type].query.get(course_id)
     return course
 
 
