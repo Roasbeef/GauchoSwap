@@ -41,4 +41,4 @@ def get_all_sections():
     except api.DbNotFoundError:
         abort(404)
 
-    return jsonify({'sections', sections})
+    return jsonify({'sections': sections})
