@@ -1,4 +1,5 @@
 from gauchoswap import db
+import datetime
 
 
 class Class(object):
@@ -75,12 +76,12 @@ class Lab(Class, db.Model):
 
 requested_offers = db.Table('requested_offers',
                             db.Column('student_id', db.Integer, db.ForeignKey('student.id')),
-                            db.Column('req_offerer_id', db.Integer, db.ForeignKey('offer.offerer_id'))
+                            db.Column('offer_id', db.Integer, db.ForeignKey('offer.id'))
                             )
 
 recieved_offers = db.Table('recieved_offers',
                            db.Column('student_id', db.Integer, db.ForeignKey('student.id')),
-                           db.Column('rec_offeree_id', db.Integer, db.ForeignKey('offer.offeree_id'))
+                           db.Column('offer_id', db.Integer, db.ForeignKey('offer.id'))
                            )
 
 
@@ -88,8 +89,10 @@ class Offer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.Enum('accepted', 'pending', 'declined', name='status'))
 
-    offerer_id = db.Column(db.Integer, db.ForeignKey('student.id'), unique=True)
-    offeree_id = db.Column(db.Integer, db.ForeignKey('student.id'), unique=True)
+    created_at = db.Column(db.Date, default=datetime.datetime.now)
+
+    offerer_id = db.Column(db.Integer, db.ForeignKey('student.id'))
+    offeree_id = db.Column(db.Integer, db.ForeignKey('student.id'))
 
     offer_type = db.Column(db.Enum('section', 'lab', 'lecture', name='offer_type'))
     offerer_class_id = db.Column(db.String)
@@ -125,6 +128,7 @@ class Offer(db.Model):
 
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    created_at = db.Column(db.Date, default=datetime.datetime.now)
     name = db.Column(db.String)
     umail_address = db.Column(db.String)
     facebook_id = db.Column(db.String)
@@ -133,8 +137,10 @@ class Student(db.Model):
     fb_picture_link = db.Column(db.String)
     swapblock = db.relationship('Swapblock', backref=db.backref('student', uselist=False), lazy='dynamic')
     requested_offers = db.relationship('Offer', secondary=requested_offers,
+                                       primaryjoin="Offer.offerer_id==Student.id",
                                        backref=db.backref('offerer', uselist=False))
     recieved_offers = db.relationship('Offer', secondary=recieved_offers,
+                                      primaryjoin="Offer.offeree_id==Student.id",
                                       backref=db.backref('offeree', uselist=False))
 
     def __init__(self, name, umail_address, facebook_id, fb_auth_token, fb_profile_link,
