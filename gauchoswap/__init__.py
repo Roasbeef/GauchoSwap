@@ -3,6 +3,7 @@ import os
 from flask import Flask, render_template, session, g
 from flask_oauth import OAuth
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.cache import Cache
 
 from gauchoswap.helpers import request_wants_json
 
@@ -19,6 +20,11 @@ app.debug = True
 app.secret_key = SECRET_KEY
 
 db = SQLAlchemy(app)
+cache = Cache(app, config={'CACHE_TYPE': 'memcached',
+                           'CACHE_MEMCACHED_SERVERS': 'mc1.dev.ec2.memcachier.com:11211',
+                           'CACHE_MEMCACHED_USERNAME': 'fd8416',
+                           'CACHE_MEMCACHED_PASSWORD': '8025052c819377447dd'
+                           })
 oauth = OAuth()
 
 from gauchoswap.models import Student
