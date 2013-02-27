@@ -113,8 +113,11 @@ class Offer(db.Model):
         offerer_class = class_map[self.offer_type].query.filter_by(id=self.offerer_class_id).first()
         offeree_class = class_map[self.offer_type].query.filter_by(id=self.offeree_class_id).first()
 
-        self.description = '%s wants to swap %s for %s with %s' % (self.offerer.name, offerer_class.name,
-                                                                   offeree_class.name, self.offeree.name)
+        student1 = Student.query.get(offerer_id)
+        student2 = Student.query.get(offeree_id)
+
+        self.description = '%s wants to swap %s for %s with %s' % (student1.name, offerer_class.name,
+                                                                   offeree_class.name, student2.name)
 
     def to_json(self):
         class_map = {'section': Section, 'lab': Lab, 'lecture': Lecture}
