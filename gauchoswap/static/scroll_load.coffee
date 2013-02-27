@@ -18,7 +18,7 @@
       $new_posts.children().hide().appendTo('.offer-stream').fadeIn(speed)
 
 
-  $loading_gif = $("<img src='static/ajax-loader.gif' /> Grabbing more stuff....")
+  $loading_gif = $("<img src='static/ajax-loader.gif' /><div>Grabbing more stuff....</div>")
   $(window).on 'scroll', () ->
     
     if $(@).scrollTop() == $(document).height() - $(@).height()

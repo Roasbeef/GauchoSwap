@@ -19,7 +19,7 @@
         return $new_posts.children().hide().appendTo('.offer-stream').fadeIn(speed);
       });
     };
-    $loading_gif = $("<img src='static/ajax-loader.gif' /> Grabbing more stuff....");
+    $loading_gif = $("<img src='static/ajax-loader.gif' /><div>Grabbing more stuff....</div>");
     return $(window).on('scroll', function() {
       var scrollTimeout;
       if ($(this).scrollTop() === $(document).height() - $(this).height()) {

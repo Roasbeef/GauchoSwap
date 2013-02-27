@@ -25,7 +25,7 @@
                   <div class="span10">
                       <section class="offer-stream">
                           {% for offer in offers %}
-                              <span class="offer"> {{ offer.describe()|safe }} </span>
+                              <span class="offer"> {{ offer.description|safe }} </span>
                               {% if loop.last %}
                               <span class="page_info" data-page="{{page}}" style="display:none;"></span>
                               {% endif %}
