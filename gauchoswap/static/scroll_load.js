@@ -2,25 +2,32 @@
 (function() {
 
   (function($) {
-    var scrollLoad;
+    var $loading_gif, scrollLoad;
     scrollLoad = function() {
       var $new_posts, page_num, speed, url;
-      page_num = ($('.offer-stream >').length / 10) + 1;
+      if (!$('.page_info').length) {
+        return;
+      }
+      page_num = $('.page_info').data('page');
       console.log(page_num);
+      $('.page_info').remove();
       $new_posts = $('<div>');
-      speed = 3000;
-      url = "/?page=" + page_num;
+      speed = 2000;
+      url = "/?page=" + (page_num + 1);
       return $new_posts.load("" + url + " .offer-stream > ", function() {
+        $loading_gif.detach();
         return $new_posts.children().hide().appendTo('.offer-stream').fadeIn(speed);
       });
     };
+    $loading_gif = $("<img src='static/ajax-loader.gif' /> Grabbing more stuff....");
     return $(window).on('scroll', function() {
       var scrollTimeout;
       if ($(this).scrollTop() === $(document).height() - $(this).height()) {
         if (scrollTimeout) {
           clearTimeout(scrollTimeout);
         }
-        scrollTimeout = setTimeout(scrollLoad, 2000);
+        $loading_gif.appendTo('.offer-stream');
+        scrollTimeout = setTimeout(scrollLoad, 500);
         return console.log('starting');
       }
     });

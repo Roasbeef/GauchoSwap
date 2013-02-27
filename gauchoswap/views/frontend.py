@@ -11,4 +11,4 @@ mod = Blueprint('frontend', __name__)
 def index():
     page = int(request.args.get('page', 1))
     offers = api.get_all_offers(page=page)
-    return render_template('index.html', offers=offers)
+    return render_template('index.html', offers=offers,page=page)
