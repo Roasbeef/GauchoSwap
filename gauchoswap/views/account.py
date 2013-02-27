@@ -42,6 +42,7 @@ def login_or_register(resp):
     session['oauth_token'] = (resp['access_token'], '')
 
     fb_account = facebook.get('/me?fields=picture,link,name,id')
+    fb_picture = facebook.get('/me/picture?width=150&height=150')['data']['url']
     fb_id = fb_account.data['id']
 
     user_account = Student.query.filter_by(facebook_id=fb_id).first()
@@ -51,7 +52,7 @@ def login_or_register(resp):
         new_student = Student(name=fb_account.data['name'], umail_address='',
                               facebook_id=fb_account.data['id'], fb_auth_token=resp['access_token'],
                               fb_profile_link=fb_account.data['link'],
-                              fb_picture_link=fb_account.data['picture']['data']['url'])
+                              fb_picture_link=fb_picture)
         block = Swapblock(new_student)
         db.session.add(new_student)
         db.session.add(block)
