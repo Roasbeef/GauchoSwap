@@ -37,7 +37,8 @@ body {
     padding-top: 4%;
     margin: 0 auto;
     text-align: center;
-    width: 50%;
+    width: 13%;
+    border-bottom: 1px solid black;
 }
 
 #swapblocktitle {
@@ -48,61 +49,19 @@ body {
     top: 100px;
 }
 
-/*select button*/
-form .add-entry_custom {
-    position: relative;
-    left: 150px;
-    top: 130px;
-    background-color: blue;
+.offer-stream {
+    padding-top: 2%;
+    padding-bottom: 4%;
+    margin: 0 auto;
+    width: 50%;
+    text-align: center;
 }
 
-input .success_button {
-    position: relative;
-    left: 150px;
-    top: 130px;
-    background-color: red;
+
+.offer {
+    display: block;
+    border-bottom: 1px solid #dad7e0;
+    padding-top: 4%;
+    padding-bottom: 4%;
+    font-size: 1.1em;
 }
-
-/*dropdown menu*/
-label.custom-select {
-    position: relative;
-    left: 100px;
-    top: 130px;
-    display: inline-block;
-
-}
-
-    .custom-select select {
-        display: inline-block;
-        padding: 4px 3px 3px 5px;
-        margin: 0;
-        font: inherit;
-        outline:none; /* remove focus ring from Webkit */
-        line-height: 1.2;
-        background: #999;
-        color:black;
-        border:0;
-    }
-
-
-
-
-    /* Select arrow styling */
-    .custom-select:after {
-        content: "▼";
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        font-size: 60%;
-        line-height: 30px;
-        padding: 0 7px;
-        background: #000;
-        color: blue;
-    }
-    
-    .no-pointer-events .custom-select:after {
-        content: none;
-    }
-
-

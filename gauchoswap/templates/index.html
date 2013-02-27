@@ -15,11 +15,11 @@
               </div>
           {% else %}
               <h2 class="greeting"> Offer Stream </h2>
-              <div class="greeting">
+              <section class="offer-stream">
                   {% for offer in offers %}
-                  <p> {{ offer.describe() }} </p>
+                  <span class="offer"> {{ offer.describe()|safe }} </span>
                   {% endfor %}
-              </div>
+              </section>
           {% endif %}
       </div>
   </div>
