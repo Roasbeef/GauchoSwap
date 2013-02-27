@@ -48,8 +48,9 @@ def login_or_register(resp):
 
     if user_account is None:
         new_student = Student(name=fb_account.data['name'], umail_address='',
-                    facebook_id=fb_account.data['id'], fb_auth_token=resp['access_token'],
-                    fb_profile_link='', fb_picture_link='')
+                              facebook_id=fb_account.data['id'], fb_auth_token=resp['access_token'],
+                              fb_profile_link=fb_account.data['link'],
+                              fb_picture_link=fb_account.data['picture'])
         block = Swapblock(new_student)
         db.session.add(new_student)
         db.session.add(block)
