@@ -9,14 +9,5 @@ mod = Blueprint('frontend', __name__)
 
 @mod.route('/')
 def index():
-    offers = Offer.query.all()
+    offers = api.get_all_offers()
     return render_template('index.html', offers=offers)
-
-@mod.route('/SwapBlock/<username>/')
-def swap_block(username):
-    return render_template('swapblock.html', username=username)
-
-
-@mod.route('/user/<username>')
-def user_profile(username):
-    return render_template('user.html')

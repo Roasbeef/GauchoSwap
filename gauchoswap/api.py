@@ -7,10 +7,10 @@ def get_or_404(f):
     def wrapper(*args, **kwargs):
         try:
             result = f(*args, **kwargs)
-        except:
-            raise DbNotFoundError('Model requested does not exist')
+        except Exception as e:
+            raise DbNotFoundError('Model requested does not exist: %s' % e)
         if result is None:
-            raise DbNotFoundError('Model requested does not exist')
+            raise DbNotFoundError('Model requested does not exist:')
         else:
             return result
     return wrapper
@@ -27,7 +27,7 @@ CLASS_DICT = {'lecture': Lecture, 'lab': Lab, 'section': Section}
 
 
 @get_or_404
-def get_courses(class_type, pagination=False, page=0, json=False, department=''):
+def get_courses(class_type, pagination=False, page=1, json=False, department=''):
     course_query = CLASS_DICT[class_type].query if not department else CLASS_DICT[class_type].query.filter_by(department=department)
     courses = course_query.paginate(page).items if pagination else course_query.all()
 
@@ -47,8 +47,8 @@ def get_lecture_sections(lecture_id, json=False):
 
 
 @get_or_404
-def get_all_offers(json=False):
-    all_offers = Offer.query.all()
+def get_all_offers(json=False, page=1):
+    all_offers = Offer.query.paginate(page=page, per_page=10).items
     return [offer.to_json if json else offer for offer in all_offers]
 
 
