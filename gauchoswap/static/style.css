@@ -65,3 +65,19 @@ body {
     padding-bottom: 4%;
     font-size: 1.1em;
 }
+
+.user-info {
+    margin-left: 72%;
+    margin-top: 0%;
+}
+
+.user-info span {
+    text-align: center;
+    display: block;
+    padding: 7px;
+}
+
+.user_pic {
+    padding: 7px;
+    border: 1px solid;
+}
