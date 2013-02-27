@@ -20,11 +20,8 @@ app.debug = True
 app.secret_key = SECRET_KEY
 
 db = SQLAlchemy(app)
-cache = Cache(app, config={'CACHE_TYPE': 'memcached',
-                           'CACHE_MEMCACHED_SERVERS': 'mc1.dev.ec2.memcachier.com:11211',
-                           'CACHE_MEMCACHED_USERNAME': 'fd8416',
-                           'CACHE_MEMCACHED_PASSWORD': '8025052c3819477447dd'
-                           })
+cache = Cache()
+cache.init_app(app, config={'CACHE_TYPE': 'simple'})
 oauth = OAuth()
 
 from gauchoswap.models import Student

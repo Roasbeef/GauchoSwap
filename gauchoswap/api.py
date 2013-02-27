@@ -1,4 +1,4 @@
-from gauchoswap import db
+from gauchoswap import db, cache
 
 from gauchoswap.models import Lab, Lecture, Section, Offer, Swapblock, Student
 

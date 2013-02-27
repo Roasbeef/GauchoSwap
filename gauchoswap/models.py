@@ -1,4 +1,4 @@
-from gauchoswap import db
+from gauchoswap import db, cache
 import datetime
 
 
@@ -106,7 +106,7 @@ class Offer(db.Model):
         self.offeree_class_id = offeree_class_id
         self.status = 'pending'
 
-    @cache.memoize(timeout=18000)
+    #@cache.memoize(timeout=18000)
     def describe(self):
         class_map = {'section': Section, 'lab': Lab, 'lecture': Lecture}
 
