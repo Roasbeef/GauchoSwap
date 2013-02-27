@@ -23,6 +23,7 @@ psycopg2==2.4.6
 py==1.4.12
 pyquery==1.2.4
 pytest==2.3.4
+python-memcached==1.48
 selenium==2.29.0
 twill==0.9
 wsgiref==0.1.2
