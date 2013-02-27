@@ -9,5 +9,6 @@ mod = Blueprint('frontend', __name__)
 
 @mod.route('/')
 def index():
-    offers = api.get_all_offers()
+    page = int(request.args.get('page', 1))
+    offers = api.get_all_offers(page=page)
     return render_template('index.html', offers=offers)
