@@ -12,3 +12,7 @@ def index():
     page = int(request.args.get('page', 1))
     offers = api.get_all_offers(page=page)
     return render_template('index.html', offers=offers, page=page)
+
+@mod.route('/SwapBlock')
+def show_block():
+    return render_template('swapblock.html')
