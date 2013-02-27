@@ -23,7 +23,7 @@ db = SQLAlchemy(app)
 cache = Cache(app, config={'CACHE_TYPE': 'memcached',
                            'CACHE_MEMCACHED_SERVERS': 'mc1.dev.ec2.memcachier.com:11211',
                            'CACHE_MEMCACHED_USERNAME': 'fd8416',
-                           'CACHE_MEMCACHED_PASSWORD': '8025052c819377447dd'
+                           'CACHE_MEMCACHED_PASSWORD': '8025052c3819477447dd'
                            })
 oauth = OAuth()
 
