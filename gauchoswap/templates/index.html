@@ -15,11 +15,20 @@
               </div>
           {% else %}
               <h2 class="greeting"> Offer Stream </h2>
-              <section class="offer-stream">
-                  {% for offer in offers %}
-                  <span class="offer"> {{ offer.describe()|safe }} </span>
-                  {% endfor %}
-              </section>
+              <div class="row-fluid">
+                  <div class="span2"> 
+                      <section class="user-info">
+                          <img src="{{g.user.fb_picture_link}}"></img>
+                      </section>
+                  </div>
+                  <div class="span10">
+                      <section class="offer-stream">
+                          {% for offer in offers %}
+                              <span class="offer"> {{ offer.describe()|safe }} </span>
+                          {% endfor %}
+                      </section>
+                  </div>
+              </div>
           {% endif %}
       </div>
   </div>

@@ -1,4 +1,4 @@
-from flask import redirect, url_for, session, request, Blueprint, render_template
+from flask import redirect, url_for, session, request, Blueprint, render_template, g
 
 from gauchoswap import api
 
