@@ -11,13 +11,12 @@ def show_user_profile():
     un = user.name
     prof_link = user.fb_profile_link
     prof_pic = user.fb_picture_link
-    return render_template('user.html', username=un)
+    departments = [(abrv, department) for abrv, department in course_abrev.course_abrv_to_department.iteritems()]
+    departments.sort()
+    return render_template('user.html', username=un, departments=departments)
 
 @mod.route('/SwapBlock')
 def show_block():
-    departments = []
-    for abrv, department in course_abrev.course_abrv_to_department.iteritems():
-        temp = (abrv, department)
-        departments.append(temp)
+    departments = [(abrv, department) for abrv, department in course_abrev.course_abrv_to_department.iteritems()]
     departments.sort()
     return render_template('swapblock.html', departments=departments)
