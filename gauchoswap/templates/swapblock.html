@@ -19,29 +19,17 @@
                     
                         <div class="classSelect">
                             <div id="selectClassButtons" class="btn-group" data-toggle="buttons-radio">
-                                <button type="button" class="btn btn-primary">Lecture</button>
-                                <button type="button" class="btn btn-primary">Lab</button>
-                                <button type="button" class="btn btn-primary">Section</button>
+                                <button type="button" class="btn btn-primary class_button">Lecture</button>
+                                <button type="button" class="btn btn-primary class_button">Lab</button>
+                                <button type="button" class="btn btn-primary class_button">Section</button>
                             </div>
                         
-                            <div id="departmentSelect" class="bfh-selectbox">
-                                <input type="hidden" name="selectbox3" value="">
-                                <a class="bfh-selectbox-toggle" role="button" data-toggle="bfh-selectbox" href="#">
-                                    <span class="bfh-selectbox-option input-medium" data-option="12">-- Select --</span>
-                                    <b class="caret"></b>
-                                </a>
-                                <div class="bfh-selectbox-options">
-                                    <input type="text" class="bfh-selectbox-filter">
-                                    <ul role="options">
-                                        {% for abrv, department in departments %} 
-                                            <li><a class="choose" tabindex="-1" href="#" data-option="1" onclick="asdf();">{{ abrv }}: {{ department }}</a></li>
-                                        {% endfor %}
-                                    </ul>
-                                
-                                </div>
-                            </div>
+                            <select id="departmentList">
+                                {% for abrv, department in departments %} 
+                                    <option value="{{ department }}">{{ abrv }}: {{ department }}</option>
+                                {% endfor %}
+                            </select>     
                         </div>
-
                     </div>
                     <div class="modal-footer">
                         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -53,21 +41,21 @@
         
     </div>
 
-
-
 {% endblock %}
 
-{% block js %}
- 
 
-function asdf() {
-    alert("ASDF");
-}
-
-
-
+{% block script %}
+    <script type=text/javascript>  
+       
+            $("#departmentList").on( "change", function( event ) {
+                alert($("#departmentList").val());
+            });
+        
+            $(".class_button").on( "click", function( event ) {
+                alert($(this).text());
+            }); 
+    </script>
 {% endblock %}
-
 
 
 

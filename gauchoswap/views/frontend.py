@@ -12,13 +12,3 @@ def index():
     page = int(request.args.get('page', 1))
     offers = api.get_all_offers(page=page)
     return render_template('index.html', offers=offers, page=page)
-
-@mod.route('/SwapBlock')
-def show_block():
-    departments = []
-    for abrv, department in course_abrev.course_abrv_to_department.iteritems():
-        temp = (abrv, department)
-        departments.append(temp)
-
-    departments.sort()
-    return render_template('swapblock.html', departments=departments)
