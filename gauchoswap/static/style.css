@@ -81,3 +81,34 @@ body {
     padding: 7px;
     border: 1px solid;
 }
+
+#myModalBody {
+    height: 900px;
+	
+}
+
+#classButton{
+    position: relative;
+    padding-top: 1%;
+    left: 50%;
+    width: 50%;
+}
+
+
+.classSelect{
+    margin: 0 auto;
+    width: 50%;
+
+}
+
+
+#departmentSelect{
+    position: absolute;
+    text-align:center;
+    top: 15%;
+}
+
+#selectClassButtons {
+    position: absolute;
+    text-align:center;
+}

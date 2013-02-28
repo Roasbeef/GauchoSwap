@@ -1,6 +1,6 @@
 from flask import redirect, url_for, session, request, Blueprint, render_template, g
 
-from gauchoswap import api, cache
+from gauchoswap import api, cache, course_abrev
 
 from gauchoswap.models import Offer
 
@@ -15,4 +15,10 @@ def index():
 
 @mod.route('/SwapBlock')
 def show_block():
-    return render_template('swapblock.html')
+    departments = []
+    for abrv, department in course_abrev.course_abrv_to_department.iteritems():
+        temp = (abrv, department)
+        departments.append(temp)
+
+    departments.sort()
+    return render_template('swapblock.html', departments=departments)
