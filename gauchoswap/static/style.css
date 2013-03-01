@@ -101,18 +101,17 @@ body {
 
 }
 
-
-#departmentList{
-    position: absolute;
-    text-align:center;
-    top: 15%;
-}
-
-#choose-class-title {
+.choose-class-title {
     text-align: center !important;
 }
 
-#selectClassButtons {
-    position: absolute;
-    text-align:center;
+#department-list{
+    margin-left: 28.4%;
+    margin-top: 7%;
+}
+
+#class-type-toggle-buttons {
+    padding: 9px;
+    margin-top: 5%;
+    margin-left: 29%;
 }
