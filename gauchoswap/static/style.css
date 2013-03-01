@@ -108,6 +108,10 @@ body {
     top: 15%;
 }
 
+#choose-class-title {
+    text-align: center !important;
+}
+
 #selectClassButtons {
     position: absolute;
     text-align:center;
