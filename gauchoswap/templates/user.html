@@ -4,9 +4,8 @@
 <div class="row-fluid" style="margin-top:50px">
   <div class="span2">
     <ul class="unstyled" style="margin-left:50px; margin-top:45px">
-      <li style="margin-bottom:50px"><h1>{{ g.user.name }}</h1></li>
-      <li style="margin-bottom:50px"><img src="{{g.user.fb_picture_link }}" height="75%" width="75%"><--Picture</li>
-      <li style="margin-bottom:50px"><a href="{{ g.user.fb_profile_link }}">Facebook Profile</a></li>
+      <li style="margin-bottom:25px"><h1>{{ g.user.name }}</h1></li>
+      <li style="margin-bottom:25px"><a href="{{ g.user.fb_profile_link }}"><img src="{{g.user.fb_picture_link }}" height = "60%" width = "60%"></a></li>
     </ul>
   </div>
   <div class="span10">
@@ -21,3 +20,4 @@
   </div>
 </div>
 {% endblock %}
+
