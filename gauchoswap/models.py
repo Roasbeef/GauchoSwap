@@ -59,7 +59,8 @@ class Section(Class, db.Model):
 
     def to_json(self):
         base_class_json = super(Section, self).to_json()
-        base_class_json.update({'ta': self.ta}, {'lecture': self.lecture.title})
+        base_class_json.update({'ta': self.ta , 'lecture': self.lecture.title})
+        return base_class_json
 
 
 class Lab(Class, db.Model):
@@ -73,6 +74,7 @@ class Lab(Class, db.Model):
     def to_json(self):
         base_class_json = super(Lab, self).to_json()
         base_class_json.update({'instructor': self.instructor})
+        return base_class_json
 
 
 requested_offers = db.Table('requested_offers',

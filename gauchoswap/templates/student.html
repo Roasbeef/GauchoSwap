@@ -61,10 +61,12 @@
             </div>
             
             <select id="department-list">
+                <option value="None"> -- Department -- </option>
                 {% for abrv, department in departments %} 
                     <option value="{{ department }}">{{ abrv }}: {{ department }}</option>
                 {% endfor %}
             </select>     
+            <select id="class-list"> </select>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>

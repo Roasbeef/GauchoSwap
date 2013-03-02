@@ -9,12 +9,41 @@
 
   (function($) {
     return $('#department-list').on('change', function(e) {
-      var department;
+      var class_type, class_type_index, department;
       department = $('#department-list').val();
-      return $.getJSON($SCRIPT_ROOT + '/lecture/' + department + '/', function(data) {
-        alert("ASDFA");
-        return console.log(data);
-      });
+      class_type = $('.class_button.active').val();
+      class_type_index = class_type + 's';
+      if (class_type === 'lecture' || class_type === 'section' || class_type === 'lab') {
+        return $.getJSON($SCRIPT_ROOT + '/' + class_type + '/' + department + '/', function(data) {
+          var cl, class_list, option, _i, _len, _ref, _results;
+          $('#class-list').empty();
+          _ref = data[class_type_index];
+          _results = [];
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            cl = _ref[_i];
+            class_list = document.getElementById('class-list');
+            option = document.createElement('option');
+            option.text = cl.name + ' ' + cl.title;
+            option.value = cl.name;
+            try {
+              _results.push(class_list.add(option, null));
+            } catch (error) {
+              _results.push(class_list.add(option));
+            }
+          }
+          return _results;
+        });
+      } else {
+        alert("Choose Class Type First");
+        return document.getElementById('department-list').selectedIndex = 0;
+      }
+    });
+  })(jQuery);
+
+  (function($) {
+    return $('.class_button').on('click', function(e) {
+      document.getElementById('department-list').selectedIndex = 0;
+      return $('#class-list').empty();
     });
   })(jQuery);
 
