@@ -3,8 +3,7 @@
 
   (function($) {
     return $('nav-tabs li').on('click', function(e) {
-      $(this).siblings().removeClass('active');
-      return $(this).addClass('active');
+      return $(this).tab('show');
     });
   })(jQuery);
 

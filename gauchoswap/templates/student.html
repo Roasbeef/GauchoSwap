@@ -10,6 +10,14 @@
             {% else %}
                 <h2 class="profile-title"> {{ student.name }}'s SwapBlock </h2>
             {% endif %}
+            <ul class="nav nav-tabs have-want-toggle">
+                <li class="active swapblock-tab"><a href="#owned" data-toggle="tab">Owned</a></li>
+                <li class="swapblock-tab"><a href="#wanted" data-toggle="tab">Wanted</a></li>
+            </ul>
+            <div class="tab-content swapblock-body">
+                  <div class="tab-pane active" id="owned">You got dis</div>
+                  <div class="tab-pane" id="wanted">You want dis</div>
+            </div>
             <a href="#myModal" role="button" class="btn" data-toggle="modal">Add Class</a>
         </section>
     </div>

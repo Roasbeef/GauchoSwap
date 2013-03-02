@@ -123,3 +123,17 @@ body {
 .profile-title {
     text-align: center;
 }
+
+.swapblock-tab {
+    width: 50%;
+    text-align: center;
+}
+
+.have-want-toggle {
+    margin-top: 5%;
+}
+
+.swapblock-body {
+    margin: 0 auto;
+    text-align: center;
+}
