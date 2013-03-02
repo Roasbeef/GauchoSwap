@@ -13,4 +13,4 @@ def user_profile(student_id):
     departments = [(abrv, department) for abrv, department in course_abrev.course_abrv_to_department.iteritems()]
     departments.sort()
 
-    return render_template('user.html', student=student, departments=departments)
+    return render_template('student.html', student=student, departments=departments)
