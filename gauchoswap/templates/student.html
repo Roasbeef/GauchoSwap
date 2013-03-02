@@ -1,9 +1,17 @@
 {% extends "base.html" %}
 {% block title %}Profile{% endblock %}
 {% block body %}
+{% set own_profile = (g.user.id == student.id) %}
 <div class="row-fluid" style="margin-top:50px">
     <div class="span12">
-        <a href="#myModal" role="button" class="btn" data-toggle="modal">Add Class</a>
+        <section class="profile-container">
+            {% if own_profile %}
+                <h2 class="profile-title"> Your SwapBlock </h2>
+            {% else %}
+                <h2 class="profile-title"> {{ student.name }}'s SwapBlock </h2>
+            {% endif %}
+            <a href="#myModal" role="button" class="btn" data-toggle="modal">Add Class</a>
+        </section>
     </div>
     <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-header">
@@ -32,14 +40,5 @@
 {% endblock %}
 
 {% block script %}
-    <script type=text/javascript>  
-       
-            $("#departmentList").on( "change", function( event ) {
-                alert($("#departmentList").val());
-            });
-        
-            $(".class_button").on( "click", function( event ) {
-                alert($(this).text());
-            }); 
-    </script>
+    <script src="{{ url_for('static', filename='swap_block.js') }}"></script>
 {% endblock %}

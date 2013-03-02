@@ -98,7 +98,6 @@ body {
 .classSelect{
     margin: 0 auto;
     width: 50%;
-
 }
 
 .choose-class-title {
@@ -114,4 +113,13 @@ body {
     padding: 9px;
     margin-top: 5%;
     margin-left: 29%;
+}
+
+.profile-container {
+    margin: 0 auto;
+    width: 50%;
+}
+
+.profile-title {
+    text-align: center;
 }
