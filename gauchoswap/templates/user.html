@@ -2,55 +2,33 @@
 {% block title %}Profile{% endblock %}
 {% block body %}
 <div class="row-fluid" style="margin-top:50px">
-  <div class="span2">
-    <ul class="unstyled" style="margin-left:50px; margin-top:45px">
-      <li style="margin-bottom:25px"><h1>{{ g.user.name }}</h1></li>
-      <li style="margin-bottom:25px"><a href="{{ g.user.fb_profile_link }}"><img src="{{g.user.fb_picture_link }}" height = "60%" width = "60%"></a></li>
-    </ul>
-  </div>
-  <div class="span10">
-    <ul class="nav nav-tabs">
-      <li class="active"><a href="#SwapBlock" data-toggle="tab">SwapBlock</a></li>
-      <li><a href="#Offer" data-toggle="tab">Offer</a></li>
-    </ul>
-    <div class="tab-content">
-      <div class="tab-pane active" id="SwapBlock">
-	<div class="row-fluid">
-          <div class="span2">
-            <div id="classButton">
-              <a href="#myModal" role="button" class="btn" data-toggle="modal">Add Class</a>
+    <div class="span12">
+        <a href="#myModal" role="button" class="btn" data-toggle="modal">Add Class</a>
+
+        <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel" class="choose-class-title">Choose Classes</h3>
             </div>
-            <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-              <div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		<h3 id="myModalLabel" class="choose-class-title">Choose Classes</h3>
-              </div>
-              <div id="myModalBody" class="modal-body">
-                  <div id="class-type-toggle-buttons" class="btn-group" data-toggle="buttons-radio">
-                      <button type="button" class="btn btn-primary class_button">Lecture</button>
-                      <button type="button" class="btn btn-primary class_button">Lab</button>
-                      <button type="button" class="btn btn-primary class_button">Section</button>
-                  </div>
-                  
-                  <select id="department-list">
-                      {% for abrv, department in departments %} 
-                          <option value="{{ department }}">{{ abrv }}: {{ department }}</option>
-                      {% endfor %}
-                  </select>     
-              </div>
-              <div class="modal-footer">
-		<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-		<button class="btn btn-primary">Save changes</button>
-              </div>
+            <div id="myModalBody" class="modal-body">
+                <div id="class-type-toggle-buttons" class="btn-group" data-toggle="buttons-radio">
+                    <button type="button" class="btn btn-primary class_button">Lecture</button>
+                    <button type="button" class="btn btn-primary class_button">Lab</button>
+                    <button type="button" class="btn btn-primary class_button">Section</button>
+                </div>
+                
+                <select id="department-list">
+                    {% for abrv, department in departments %} 
+                        <option value="{{ department }}">{{ abrv }}: {{ department }}</option>
+                    {% endfor %}
+                </select>     
             </div>
-	    
-          </div>
-          
-	</div>
-      </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                <button class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
     </div>
-    <div class="tab-pane" id="Offer"></div>
-  </div>
 </div>
 {% endblock %}
 
