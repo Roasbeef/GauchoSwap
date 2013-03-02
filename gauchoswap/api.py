@@ -1,4 +1,4 @@
-from gauchoswap import db, cache
+from gauchoswap import db
 
 from gauchoswap.models import Lab, Lecture, Section, Offer, Swapblock, Student
 
@@ -80,20 +80,21 @@ def add_class_to_swapblock(**params):
 
     student = Student.query.filter_by(id=student_id).first()
     course = CLASS_DICT[class_type].query.filter_by(id=class_id).first()
+    swapblock = student.swapblock.first()
 
     if have_class and class_type == 'lecture':
-        student.swapblock.first().owned_lectures.append(course)
+        swapblock.owned_lectures.append(course)
     elif have_class and class_type == 'lab':
-        student.swapblock.first().owned_labs.append(course)
+        swapblock.owned_labs.append(course)
     elif have_class and class_type == 'section':
-        student.swapblock.first().owned_sections.append(course)
+        swapblock.owned_sections.append(course)
 
     if not have_class and class_type == 'lecture':
-        student.swapblock.first().wanted_lectures.append(course)
+        swapblock.wanted_lectures.append(course)
     elif not have_class and class_type == 'lab':
-        student.swapblock.first().wanted_labs.append(course)
+        swapblock.wanted_labs.append(course)
     elif not have_class and class_type == 'section':
-        student.swapblock.first().wanted_sections.append(course)
+        swapblock.wanted_sections.append(course)
 
 
 def delete_class_from_swapblock(**params):
@@ -104,20 +105,21 @@ def delete_class_from_swapblock(**params):
 
     student = Student.query.filter_by(id=student_id).first()
     course = CLASS_DICT[class_type].query.filter_by(id=class_id).first()
+    swapblock = student.swapblock.first()
 
     if have_class and class_type == 'lecture':
-        student.swapblock.first().owned_lectures.remove(course)
+        swapblock.owned_lectures.remove(course)
     elif have_class and class_type == 'lab':
-        student.swapblock.first().owned_labs.remove(course)
+        swapblock.owned_labs.remove(course)
     elif have_class and class_type == 'section':
-        student.swapblock.first().owned_sections.remove(course)
+        swapblock.owned_sections.remove(course)
 
     if not have_class and class_type == 'lecture':
-        student.swapblock.first().wanted_lectures.remove(course)
+        swapblock.wanted_lectures.remove(course)
     elif not have_class and class_type == 'lab':
-        student.swapblock.first().wanted_labs.remove(course)
+        swapblock.wanted_labs.remove(course)
     elif not have_class and class_type == 'section':
-        student.swapblock.first().wanted_sections.remove(course)
+        swapblock.wanted_sections.remove(course)
 
 
 def create_offer(**params):
