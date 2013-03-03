@@ -50,7 +50,8 @@
   (function($) {
     return $('.modal-button').on('click', function(e) {
       document.getElementById('department-list').selectedIndex = 0;
-      return $('#class-list').empty();
+      $('#class-list').empty();
+      return $('#hidden_button').button('toggle');
     });
   })(jQuery);
 

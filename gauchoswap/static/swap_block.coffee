@@ -47,6 +47,7 @@
   $('.modal-button').on('click', (e) ->
     document.getElementById('department-list').selectedIndex = 0
     $('#class-list').empty()
+    $('#hidden_button').button('toggle')
   )
 
 )(jQuery)
