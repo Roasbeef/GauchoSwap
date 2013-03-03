@@ -31,7 +31,7 @@ def get_courses(class_type, pagination=False, page=1, json=False, department='')
     course_query = CLASS_DICT[class_type].query if not department else CLASS_DICT[class_type].query.filter_by(department=department)
     courses = course_query.paginate(page).items if pagination else course_query.all()
 
-    return [course if not json else course.to_json for course in courses]
+    return [course if not json else course.to_json() for course in courses]
 
 
 @get_or_404
@@ -43,13 +43,13 @@ def get_course_by_id(class_type, course_id, json=False):
 @get_or_404
 def get_lecture_sections(lecture_id, json=False):
     sections = Section.query.filter_by(id=lecture_id)
-    return [section.to_json if json else section for section in sections]
+    return [section.to_json() if json else section for section in sections]
 
 
 @get_or_404
 def get_all_offers(json=False, page=1):
     all_offers = Offer.query.paginate(page=page, per_page=10).items
-    return [offer.to_json if json else offer for offer in all_offers]
+    return [offer.to_json() if json else offer for offer in all_offers]
 
 
 @get_or_404
@@ -61,7 +61,7 @@ def get_offer_by_id(offer_id, json=False):
 @get_or_404
 def get_all_swapblocks(json=False):
     swapblocks = Swapblock.query.all()
-    return [swapblock.to_json if json else swapblock for swapblock in swapblocks]
+    return [swapblock.to_json() if json else swapblock for swapblock in swapblocks]
 
 
 @get_or_404

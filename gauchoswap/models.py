@@ -42,8 +42,9 @@ class Lecture(Class, db.Model):
         Class.__init__(self, *args, **kwargs)
 
     def to_json(self):
-        base_class_json = super(Class, self).to_json()
-        base_class_json.extend({'professor': self.professor})
+        base_class_json = super(Lecture, self).to_json()
+        base_class_json.update({'professor': self.professor})
+        return base_class_json
 
 
 class Section(Class, db.Model):
@@ -57,8 +58,8 @@ class Section(Class, db.Model):
         Class.__init__(self, *args, **kwargs)
 
     def to_json(self):
-        base_class_json = super(Class, self).to_json()
-        base_class_json.extend({'ta': self.ta}, {'lecture': self.lecture.title})
+        base_class_json = super(Section, self).to_json()
+        base_class_json.update({'ta': self.ta}, {'lecture': self.lecture.title})
 
 
 class Lab(Class, db.Model):
@@ -70,8 +71,8 @@ class Lab(Class, db.Model):
         Class.__init__(self, *args, **kwargs)
 
     def to_json(self):
-        base_class_json = super(Class, self).to_json()
-        base_class_json.extend({'instructor': self.instructor})
+        base_class_json = super(Lab, self).to_json()
+        base_class_json.update({'instructor': self.instructor})
 
 
 requested_offers = db.Table('requested_offers',
