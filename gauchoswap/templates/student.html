@@ -15,10 +15,35 @@
                 <li class="swapblock-tab"><a href="#wanted" data-toggle="tab">Wanted</a></li>
             </ul>
             <div class="tab-content swapblock-body">
-                  <div class="tab-pane active" id="owned">You got dis</div>
-                  <div class="tab-pane" id="wanted">You want dis</div>
+                  <div class="tab-pane active" id="owned">
+                      {% if owned_classes %}
+                          {% for class in owned_classes %}
+                              <p> {{ class.name }} </p>
+                          {% endfor %}
+                      {% else %}
+                          {% if own_profile %}
+                              <p> Looks like you haven't added any classes you have! Why don't you: <p>
+                              <a href="#myModal" role="button" class="btn" data-toggle="modal">Add A Class</a>
+                          {% else %}
+                              <p> Looks like {{student.name}} hasn't added any owned classes yet. Check back soon!
+                          {% endif %}
+                      {% endif %}
+                  </div>
+                  <div class="tab-pane" id="wanted">
+                      {% if wanted_classes %}
+                          {% for class in wanted_classes %}
+                              <p> {{ class.name }} </p>
+                          {% endfor %}
+                      {% else %}
+                          {% if own_profile %}
+                              <p> Looks like haven't added any classes you want! Why don't you: <p>
+                              <a href="#myModal" role="button" class="btn" data-toggle="modal">Add A Class</a>
+                          {% else %}
+                              <p> Looks like {{student.name}} hasn't added any wanted classes yet. Check back soon!
+                          {% endif %}
+                      {% endif %}
+                  </div>
             </div>
-            <a href="#myModal" role="button" class="btn" data-toggle="modal">Add Class</a>
         </section>
     </div>
     <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
