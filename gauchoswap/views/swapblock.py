@@ -5,7 +5,7 @@ from gauchoswap import db, api
 from gauchoswap.helpers import request_wants_json
 from gauchoswap.decorators import login_required
 
-mod = Blueprint('swapblock', __name__, url_prefix='/Swapblock')
+mod = Blueprint('swapblock', __name__, url_prefix='/swapblock')
 
 
 @mod.route('/', methods=['GET'])

@@ -83,21 +83,8 @@ body {
 }
 
 #myModalBody {
-    height: 900px;
+    height: 10%;
 	
-}
-
-#classButton{
-    position: relative;
-    padding-top: 1%;
-    left: 50%;
-    width: 50%;
-}
-
-
-.classSelect{
-    margin: 0 auto;
-    width: 50%;
 }
 
 .choose-class-title {
@@ -107,6 +94,11 @@ body {
 #department-list{
     margin-left: 28.4%;
     margin-top: 7%;
+}
+
+#class-list{
+    margin-left: 28.4%;
+    margin-top: 10%;
 }
 
 #class-type-toggle-buttons {
