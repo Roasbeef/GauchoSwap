@@ -96,6 +96,8 @@ def add_class_to_swapblock(**params):
     elif not have_class and class_type == 'section':
         swapblock.wanted_sections.append(course)
 
+    db.session.commit()
+
 
 def delete_class_from_swapblock(**params):
     student_id = params['student_id']
@@ -120,6 +122,8 @@ def delete_class_from_swapblock(**params):
         swapblock.wanted_labs.remove(course)
     elif not have_class and class_type == 'section':
         swapblock.wanted_sections.remove(course)
+
+    db.session.commit()
 
 
 def create_offer(**params):
