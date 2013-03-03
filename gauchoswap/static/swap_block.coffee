@@ -42,4 +42,13 @@
 
 )(jQuery)
 
+(($) ->
+
+  $('.modal-button').on('click', (e) ->
+    document.getElementById('department-list').selectedIndex = 0
+    $('#class-list').empty()
+  )
+
+)(jQuery)
+
 

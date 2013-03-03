@@ -16,7 +16,7 @@
             </ul>
             <div class="tab-content swapblock-body">
                   <div class="tab-pane active" id="owned">
-                              <a href="#myModal" role="button" class="btn" data-toggle="modal">Add A Class</a>
+                              <a href="#myModal" role="button" class="btn modal-button" data-toggle="modal">Add A Class</a>
                       {% if owned_classes %}
                           {% for class in owned_classes %}
                               <p> {{ class.name }} </p>
@@ -24,14 +24,14 @@
                       {% else %}
                           {% if own_profile %}
                               <p> Looks like you haven't added any classes you have! Why don't you: <p>
-                              <a href="#myModal" role="button" class="btn" data-toggle="modal">Add A Class</a>
+                              <a href="#myModal" role="button" class="btn modal-button" data-toggle="modal">Add A Class</a>
                           {% else %}
                               <p> Looks like {{student.name}} hasn't added any owned classes yet. Check back soon!
                           {% endif %}
                       {% endif %}
                   </div>
                   <div class="tab-pane" id="wanted">
-                              <a href="#myModal" role="button" class="btn" data-toggle="modal">Add A Class</a>
+                              <a href="#myModal" role="button" class="btn modal-button" data-toggle="modal">Add A Class</a>
                       {% if wanted_classes %}
                           {% for class in wanted_classes %}
                               <p> {{ class.name }} </p>
@@ -39,7 +39,7 @@
                       {% else %}
                           {% if own_profile %}
                               <p> Looks like haven't added any classes you want! Why don't you: <p>
-                              <a href="#myModal" role="button" class="btn" data-toggle="modal">Add A Class</a>
+                              <a href="#myModal" role="button" class="btn modal-button" data-toggle="modal">Add A Class</a>
                           {% else %}
                               <p> Looks like {{student.name}} hasn't added any wanted classes yet. Check back soon!
                           {% endif %}

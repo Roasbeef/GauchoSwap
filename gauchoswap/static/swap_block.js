@@ -47,4 +47,11 @@
     });
   })(jQuery);
 
+  (function($) {
+    return $('.modal-button').on('click', function(e) {
+      document.getElementById('department-list').selectedIndex = 0;
+      return $('#class-list').empty();
+    });
+  })(jQuery);
+
 }).call(this);
