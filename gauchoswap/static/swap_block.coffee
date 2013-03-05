@@ -8,6 +8,14 @@
     $(@).tab('show')
     return
 
+  $class_type_button.on 'click', (e) ->
+    console.log 'reset modal'
+    $class_options = $('#classes')
+    $class_options.hide()
+    $time_options = $('#times')
+    $time_options.hide()
+    $department_list.val('None')
+
   class_filter = {}
   filtered_courses = []
   class_type = ''
@@ -23,6 +31,7 @@
         console.log classes
         $class_options = $('#classes')
         $class_select = $class_options.find('.class-list')
+        $class_select.show()
         $time_options = $('#times')
         $time_select = $time_options.find('#inputTimes')
         $class_options.find('label').text "#{$class_type.val()}s:"
