@@ -5,6 +5,8 @@ from gauchoswap import db, api
 from gauchoswap.helpers import request_wants_json
 from gauchoswap.decorators import login_required
 
+import json
+
 mod = Blueprint('swapblock', __name__, url_prefix='/swapblock')
 
 
@@ -35,7 +37,7 @@ def student_swapblock(student_id):
 @mod.route('/add', methods=['POST'])
 @login_required
 def add_to_swapblock():
-    params = request.form
+    params = json.loads(request.form['params'])
 
     try:
         api.add_class_to_swapblock(**params)

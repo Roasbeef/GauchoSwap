@@ -81,15 +81,15 @@
 
     have_class = $('.swapblock-tab').eq(0).hasClass('active')
     selected_course = filtered_courses[0]
-    student_id = $('.profile-title').data('studentId')
-    add_class_params = class_type: class_type, class_id: selected_course.id, have_class: have_class, student_id: student_id
+    student_id = parseInt( $('.profile-title').data('studentId') )
+    add_class_params = JSON.stringify(class_type: class_type, class_id: selected_course.id, have_class: have_class, student_id: student_id)
 
     class_filter = {}
     filtered_courses = []
     class_type = ''
 
     console.log add_class_params
-    $.when( $.post('/swapblock/add', add_class_params) ).then ->
-      console.log 'ok'
+    $.when( $.post('/swapblock/add', params: add_class_params) ).then ->
+      console.log 'po'
 
 )(jQuery)
