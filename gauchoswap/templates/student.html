@@ -17,7 +17,9 @@
             </ul>
             <div class="tab-content swapblock-body">
                   <div class="tab-pane active" id="owned">
+                      {% if own_profile %}
                               <a href="#myModal" role="button" class="btn modal-button" data-toggle="modal">Add A Class</a>
+                      {% endif %}
                       {% if owned_classes %}
                           {% for class in owned_classes %}
                               {{ render_swapblock_class(class) }}
@@ -32,7 +34,9 @@
                       {% endif %}
                   </div>
                   <div class="tab-pane" id="wanted">
+                      {% if own_profile %}
                               <a href="#myModal" role="button" class="btn modal-button" data-toggle="modal">Add A Class</a>
+                      {% endif %}
                       {% if wanted_classes %}
                           {% for class in wanted_classes %}
                               {{ render_swapblock_class(class) }}
