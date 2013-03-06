@@ -18,6 +18,7 @@
             <div class="tab-content swapblock-body">
                   <div class="tab-pane active" id="owned">
                               <a href="#myModal" role="button" class="btn modal-button" data-toggle="modal">Add A Class</a>
+			      <a href="#deleteModal" role="button" class="btn modal-button" data-toggle="modal">Delete Class</a>
                       {% if owned_classes %}
                           {% for class in owned_classes %}
                               {{ render_swapblock_class(class) }}
@@ -33,6 +34,7 @@
                   </div>
                   <div class="tab-pane" id="wanted">
                               <a href="#myModal" role="button" class="btn modal-button" data-toggle="modal">Add A Class</a>
+			      <a href="#deleteModal" role="button" class="btn modal-button" data-toggle="modal">Delete Class</a>
                       {% if wanted_classes %}
                           {% for class in wanted_classes %}
                               {{ render_swapblock_class(class) }}
@@ -99,6 +101,15 @@
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
             <button class="btn btn-primary disabled add-course">Add Course!</button>
+        </div>
+    </div>
+    <div id="deleteModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel" class="choose-class-title">Choose Class(es) to Delete</h3>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
         </div>
     </div>
 </div>
