@@ -2,6 +2,7 @@
 {% block title %}Profile{% endblock %}
 {% block body %}
 {% set own_profile = (g.user.id == student.id) %}
+{% from "macros/_render_swapblock_class.html" import render_swapblock_class with context %}
 <div class="row-fluid" style="margin-top:50px">
     <div class="span12">
         <section class="profile-container">
@@ -19,7 +20,7 @@
                               <a href="#myModal" role="button" class="btn modal-button" data-toggle="modal">Add A Class</a>
                       {% if owned_classes %}
                           {% for class in owned_classes %}
-                              <p> {{ class.name }} </p>
+                              {{ render_swapblock_class(class) }}
                           {% endfor %}
                       {% else %}
                           {% if own_profile %}
@@ -34,7 +35,7 @@
                               <a href="#myModal" role="button" class="btn modal-button" data-toggle="modal">Add A Class</a>
                       {% if wanted_classes %}
                           {% for class in wanted_classes %}
-                              <p> {{ class.name }} </p>
+                              {{ render_swapblock_class(class) }}
                           {% endfor %}
                       {% else %}
                           {% if own_profile %}
