@@ -20,6 +20,9 @@
   filtered_courses = []
   class_type = ''
   $department_list.on 'change', (e) ->
+    class_filter = {}
+    filtered_courses = []
+    class_type = ''
     console.log 'here'
     department = $(@).val()
     class_filter['department'] = department
@@ -31,7 +34,6 @@
         console.log classes
         $class_options = $('#classes')
         $class_select = $class_options.find('.class-list')
-        $class_select.show()
         $time_options = $('#times')
         $time_select = $time_options.find('#inputTimes')
         $class_options.find('label').text "#{$class_type.val()}s:"
@@ -48,8 +50,9 @@
           $class_select.append $('<option />').val(course.name).text("#{course.name}: #{course[teacher]}")
 
         $class_options.show()
-
-        $class_options.on 'change', (e) ->
+    
+        $class_options.unbind().bind 'change', (e) ->
+          $time_options.hide()
           $time_select.find('option').remove()
           $time_select.append $('<option />').val("None")
 
@@ -57,8 +60,8 @@
           class_filter['name'] = $(@).find(':selected').val()
           console.log class_filter
           filtered_courses = _.where classes["#{$class_type.val()}s"], class_filter
-
           for course in filtered_courses
+            console.log "IN HERE"
             $time_select.append $('<option />').val(course.time).text("#{course.days} at #{course.time}")
           $time_options.show()
         
@@ -69,12 +72,12 @@
           $('.add-course').removeClass('disabled')
 
           console.log class_filter
-          console.log filtered_courses
+          console.log filtered_courses  
 
-            
+
         return
     return
-  
+            
   $add_course_button.on 'click', (e) ->
     if $(@).hasClass('disabled')
       return
