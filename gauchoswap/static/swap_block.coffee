@@ -49,14 +49,13 @@
 
         $class_options.show()
 
-        $time_select.find('option').remove()
-        $time_select.append $('<option />').val("None")
         $class_options.on 'change', (e) ->
+          $time_select.find('option').remove()
+          $time_select.append $('<option />').val("None")
 
           class_filter[teacher] = $(@).find(':selected').text().split(':')[1].trim()
           class_filter['name'] = $(@).find(':selected').val()
           console.log class_filter
-
           filtered_courses = _.where classes["#{$class_type.val()}s"], class_filter
 
           for course in filtered_courses
@@ -82,10 +81,15 @@
 
     have_class = $('.swapblock-tab').eq(0).hasClass('active')
     selected_course = filtered_courses[0]
-    add_class_params = class_type: class_type, class_id: selected_course.id, have_class: have_class
+    student_id = $('.profile-title').data('studentId')
+    add_class_params = class_type: class_type, class_id: selected_course.id, have_class: have_class, student_id: student_id
+
+    class_filter = {}
+    filtered_courses = []
+    class_type = ''
 
     console.log add_class_params
-    #$.when( $.post('/swapblock/add', add_class_params) ).then ->
-    #  console.log 'ok'
+    $.when( $.post('/swapblock/add', add_class_params) ).then ->
+      console.log 'ok'
 
 )(jQuery)
