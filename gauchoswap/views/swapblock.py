@@ -36,7 +36,6 @@ def student_swapblock(student_id):
 @login_required
 def add_to_swapblock():
     params = request.form
-    params['student_id'] = g.user.id
 
     try:
         api.add_class_to_swapblock(**params)
