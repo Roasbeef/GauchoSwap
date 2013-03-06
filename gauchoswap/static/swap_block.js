@@ -99,11 +99,12 @@
       filtered_courses = [];
       class_type = '';
       console.log(add_class_params);
-      return $.when($.post('/swapblock/add', {
+      $.when($.post('/swapblock/add', {
         params: add_class_params
       })).then(function() {
         return console.log('po');
       });
+      return $('#myModal').modal('hide');
     });
   })(jQuery);
 

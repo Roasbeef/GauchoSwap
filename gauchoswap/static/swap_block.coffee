@@ -92,4 +92,6 @@
     $.when( $.post('/swapblock/add', params: add_class_params) ).then ->
       console.log 'po'
 
+    $('#myModal').modal('hide')
+
 )(jQuery)
