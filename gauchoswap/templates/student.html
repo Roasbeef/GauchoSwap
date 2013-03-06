@@ -6,7 +6,7 @@
     <div class="span12">
         <section class="profile-container">
             {% if own_profile %}
-                <h2 class="profile-title"> Your SwapBlock </h2>
+                <h2 data-student-id="{{student.id}}" class="profile-title"> Your SwapBlock </h2>
             {% else %}
                 <h2 class="profile-title"> {{ student.name }}'s SwapBlock </h2>
             {% endif %}
