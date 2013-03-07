@@ -2,14 +2,19 @@
 {% block title %}Profile{% endblock %}
 {% block body %}
 {% set own_profile = (g.user.id == student.id) %}
-{% from "macros/_render_swapblock_class.html" import render_swapblock_class with context %}
+{% from "macros/_render_swapblock_class.html" import render_swapblock_class, render_swapblock_class_info with context %}
 <div class="row-fluid" style="margin-top:50px">
     <div class="span12">
         <section class="profile-container">
             {% if own_profile %}
-                <h2 data-student-id="{{student.id}}" class="profile-title"> Your SwapBlock </h2>
+                <h2 data-student-id="{{student.id}}" class="profile-title"> Your SwapBlock
+	    <a href = "{{g.user.fb_profile_link}}"><img src="{{g.user.fb_picture_link}}"/></a>
+	    </h2>
             {% else %}
-                <h2 class="profile-title"> {{ student.name }}'s SwapBlock </h2>
+                <h2 class="profile-title"> 
+	     <a href = "{{student.fb_profile_link}}"> {{ student.name }}'s</a> Swapblock
+	     <a href = "{{student.fb_profile_link}}"><img src="{{student.fb_picture_link}}"/></a>
+	     </h2>
             {% endif %}
             <ul class="nav nav-tabs have-want-toggle">
                 <li class="active swapblock-tab"><a href="#owned" data-toggle="tab">Owned</a></li>
@@ -17,10 +22,20 @@
             </ul>
             <div class="tab-content swapblock-body">
                   <div class="tab-pane active" id="owned">
+			      {% if own_profile %}
                               <a href="#myModal" role="button" class="btn modal-button" data-toggle="modal">Add A Class</a>
+			                  <a href="#deleteModal" role="button" class="btn modal-button" data-toggle="modal">Delete Class</a>
+			      {% endif %}
                       {% if owned_classes %}
                           {% for class in owned_classes %}
-                              {{ render_swapblock_class(class) }}
+                              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#{{ ''.join(class.name.split()) }}_owned">
+                                  {{ render_swapblock_class(class) }}
+                              </a>
+                              <div id="{{ ''.join(class.name.split()) }}_owned" class="accordion-body collapse">
+                                  <div class="accordion-inner">
+                                      {{ render_swapblock_class_info(class) }}
+                                  </div>
+                              </div>
                           {% endfor %}
                       {% else %}
                           {% if own_profile %}
@@ -32,10 +47,20 @@
                       {% endif %}
                   </div>
                   <div class="tab-pane" id="wanted">
+			      {% if own_profile %}
                               <a href="#myModal" role="button" class="btn modal-button" data-toggle="modal">Add A Class</a>
+			                  <a href="#deleteModal" role="button" class="btn modal-button" data-toggle="modal">Delete Class</a>
+			      {% endif %}
                       {% if wanted_classes %}
                           {% for class in wanted_classes %}
-                              {{ render_swapblock_class(class) }}
+                              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#{{ ''.join(class.name.split()) }}_owned">
+                                {{ render_swapblock_class(class) }}
+                              </a>
+                              <div id="{{ ''.join(class.name.split()) }}_owned" class="accordion-body collapse">
+                                <div class="accordion-inner">
+                                    {{ render_swapblock_class_info(class) }}
+                                </div>
+                              </div>
                           {% endfor %}
                       {% else %}
                           {% if own_profile %}
@@ -99,6 +124,25 @@
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
             <button class="btn btn-primary disabled add-course">Add Course!</button>
+        </div>
+    </div>
+    <div id="deleteModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel" class="choose-class-title">Choose Class(es) to Delete</h3>
+        </div>
+        <div id="myModalBody" class="modal-body">
+                      {% if owned_classes %}
+                          {% for class in owned_classes %}
+                              {{ render_swapblock_class(class) }}
+                          {% endfor %}
+                      {% else %}
+                          <p> Looks like you don't have any classes to delete! Why don't you: <p>
+                          <a href="#myModal" role="button" class="btn modal-button" data-toggle="modal">Add A Class</a>
+                      {% endif %}
+	</div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
         </div>
     </div>
 </div>
