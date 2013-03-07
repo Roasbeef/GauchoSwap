@@ -22,9 +22,9 @@
 			                  <a href="#deleteModal" role="button" class="btn modal-button" data-toggle="modal">Delete Class</a>
 			      {% endif %}
                       {% if owned_classes %}
-                          {% for class in owned_classes %}
+                          {% for class_type, class in owned_classes %}
                               <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#{{ ''.join(class.name.split()) }}_owned">
-                                  {{ render_swapblock_class(class) }}
+                                  {{ render_swapblock_class(class_type, class) }}
                               </a>
                               <div id="{{ ''.join(class.name.split()) }}_owned" class="accordion-body collapse">
                                   <div class="accordion-inner">
@@ -47,9 +47,9 @@
 			                  <a href="#deleteModal" role="button" class="btn modal-button" data-toggle="modal">Delete Class</a>
 			      {% endif %}
                       {% if wanted_classes %}
-                          {% for class in wanted_classes %}
+                          {% for class_type, class in wanted_classes %}
                               <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#{{ ''.join(class.name.split()) }}_owned">
-                                {{ render_swapblock_class(class) }}
+                                {{ render_swapblock_class(class_type, class) }}
                               </a>
                               <div id="{{ ''.join(class.name.split()) }}_owned" class="accordion-body collapse">
                                 <div class="accordion-inner">
@@ -128,8 +128,8 @@
         </div>
         <div id="myModalBody" class="modal-body">
                       {% if owned_classes %}
-                          {% for class in owned_classes %}
-                              {{ render_swapblock_class(class) }}
+                          {% for class_type, class in owned_classes %}
+                              {{ render_swapblock_class(class_type, class) }}
                           {% endfor %}
                       {% else %}
                           <p> Looks like you don't have any classes to delete! Why don't you: <p>

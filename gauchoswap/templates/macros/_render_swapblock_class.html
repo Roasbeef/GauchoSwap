@@ -1,5 +1,5 @@
-{% macro render_swapblock_class(class) %}
-    <p> {{ class.name }}: {{ class.title }} </p>
+{% macro render_swapblock_class(class_type, class) %}
+    <p> {{ class_type }} {{ class.name }}: {{ class.title }} </p>
 {% endmacro %}
 
 {% macro render_swapblock_class_info(class) %}

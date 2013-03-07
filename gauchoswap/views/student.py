@@ -14,13 +14,13 @@ def user_profile(student_id):
     owned_classes = []
     wanted_classes = []
 
-    owned_classes.extend(swapblock.owned_lectures)
-    owned_classes.extend(swapblock.owned_sections)
-    owned_classes.extend(swapblock.owned_labs)
+    owned_classes.extend(("Lecture", lecture) for lecture in swapblock.owned_lectures)
+    owned_classes.extend(("Section", section) for section in swapblock.owned_sections)
+    owned_classes.extend(("Lab", lab) for lab in swapblock.owned_labs)
 
-    wanted_classes.extend(swapblock.wanted_lectures)
-    wanted_classes.extend(swapblock.wanted_sections)
-    wanted_classes.extend(swapblock.wanted_labs)
+    wanted_classes.extend(("Lecture", lecture) for lecture in swapblock.wanted_lectures)
+    wanted_classes.extend(("Section", lecture) for section in swapblock.wanted_sections)
+    wanted_classes.extend(("Lab", lecture) for section in swapblock.wanted_labs)
 
     departments = [(abrv, department) for abrv, department in course_abrev.course_abrv_to_department.iteritems()]
     departments.sort()
