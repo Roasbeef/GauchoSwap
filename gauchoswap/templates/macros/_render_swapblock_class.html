@@ -1,3 +1,9 @@
 {% macro render_swapblock_class(class) %}
-    <p> {{ class.name }} </p>
+    <p> {{ class.name }}: {{ class.title }} </p>
+{% endmacro %}
+
+{% macro render_swapblock_class_info(class) %}
+    <p> Days: {{ class.days }} </p>
+    <p> Time: {{ class.time }} </p>
+    <p> Location:{{ class.location }} </p>
 {% endmacro %}
