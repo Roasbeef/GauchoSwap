@@ -8,12 +8,12 @@
         <section class="profile-container">
             {% if own_profile %}
                 <h2 data-student-id="{{student.id}}" class="profile-title"> Your SwapBlock
-	    <a href = "{{g.user.fb_profile_link}}"><img src="{{g.user.fb_picture_link}}"/></a>
+	    <a href="{{g.user.fb_profile_link}}"><img src="{{g.user.fb_picture_link}}"/></a>
 	    </h2>
             {% else %}
                 <h2 class="profile-title"> 
-	     <a href = "{{student.fb_profile_link}}"> {{ student.name }}'s</a> Swapblock
-	     <a href = "{{student.fb_profile_link}}"><img src="{{student.fb_picture_link}}"/></a>
+	     <a href="{{student.fb_profile_link}}"> {{ student.name }}'s</a> Swapblock
+	     <a href="{{student.fb_profile_link}}"><img src="{{student.fb_picture_link}}"/></a>
 	     </h2>
             {% endif %}
             <ul class="nav nav-tabs have-want-toggle">
@@ -23,8 +23,7 @@
             <div class="tab-content swapblock-body">
                   <div class="tab-pane active" id="owned">
 			      {% if own_profile %}
-                              <a href="#myModal" role="button" class="btn modal-button" data-toggle="modal">Add A Class</a>
-			                  <a href="#deleteModal" role="button" class="btn modal-button" data-toggle="modal">Delete Class</a>
+                              <a href="#myModal" role="button" class="btn modal-button btn-block" data-toggle="modal">Add A Class</a>
 			      {% endif %}
                       {% if owned_classes %}
                           {% for class in owned_classes %}
