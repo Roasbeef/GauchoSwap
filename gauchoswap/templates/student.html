@@ -27,7 +27,7 @@
 			      {% endif %}
                   {% if owned_classes %}
                       {% for class in owned_classes %}
-                          {{ render_swapblock_class(class) }}
+                          {{ render_swapblock_class(class, own_profile) }}
                       {% endfor %}
                   {% else %}
                       {% if own_profile %}
@@ -45,7 +45,7 @@
 
                   {% if wanted_classes %}
                       {% for class in wanted_classes %}
-                          {{ render_swapblock_class(class) }}
+                          {{ render_swapblock_class(class, own_profile) }}
                       {% endfor %}
                   {% else %}
                       {% if own_profile %}

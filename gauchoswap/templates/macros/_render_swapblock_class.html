@@ -1,8 +1,14 @@
-{% macro render_swapblock_class(class) %}
+{% macro render_swapblock_class(class, own_profile) %}
     {% set class_type = class.__class__.__name__ %}
     {% set class_color = "success" if class_type == "Lecture" else "info" if class_type == "Lab" else "inverse" %}
+    {% set teacher = class.professor if class_type == "Lecture" else class.ta if class_type == "Lab" else class.instructor if class_tyepe == "Lab" else "" %}
     <div class="user-class well">
         <span class="label label-{{ class_color }} class-badge"> {{ class_type }} </span>
-        <span> {{ class.name }}: {{ class.title }} </span>
+        <span class="class-description"> {{ class.name }}: {{ class.title }} {{ '@  ' ~ class.days  if class.days }} {{ '  with: ' ~ teacher if teacher}}</span>
+        {% if own_profile %}
+            <button type="button" class="btn btn-danger btn-small delete-course">Delete Course</button>
+        {% else %}
+            <button type="button" class="btn btn-primary btn-small offer-course">Make an Offer!</button>
+        {% endif %}
     </div>
 {% endmacro %}

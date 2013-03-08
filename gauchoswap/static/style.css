@@ -142,3 +142,11 @@ body {
     float: left;
     width: 7%;
 }
+
+.delete-course, .offer-course {
+    float: right;
+}
+
+.class-description {
+    font-size: 1.3em;
+}
