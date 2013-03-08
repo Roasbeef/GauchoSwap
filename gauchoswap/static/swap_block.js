@@ -136,7 +136,9 @@
       })).then(function() {
         return console.log('po');
       });
-      return $('#myModal').modal('hide');
+      return $.when($('#myModal').modal('hide')).then(function() {
+        return flash_message('Class added to Swapblock!');
+      });
     });
   })(jQuery);
 
