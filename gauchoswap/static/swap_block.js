@@ -2,19 +2,33 @@
 (function() {
 
   (function($) {
-    var $add_course_button, $class_type_button, $department_list, class_filter, class_type, filtered_courses, have_class, student_id;
+    var $add_course_button, $class_type_button, $department_list, class_filter, class_type, filtered_courses, flash_message, have_class, student_id;
     $class_type_button = $('.class_button');
     $department_list = $('.department-list');
     $add_course_button = $('.add-course');
+    student_id = parseInt($('.profile-title').data('studentId'));
+    flash_message = function(message) {};
     have_class = function() {
       return $('.swapblock-tab').eq(0).hasClass('active');
     };
-    student_id = parseInt($('.profile-title').data('studentId'));
     $('.delete-course').on('click', function(e) {
-      var class_type;
-      console.log('click');
-      class_type = $(this).closest('.well').find('.class-badge').text();
-      return console.log("Deleting a " + class_type + " for this id: " + student_id + " and has: " + (have_class()));
+      var $container, class_id, class_type, delete_class_params;
+      $container = $(this).closest('.well');
+      class_id = $container.data('classId');
+      class_type = $.trim($container.find('.class-badge').text().toLowerCase());
+      delete_class_params = JSON.stringify({
+        class_type: class_type,
+        class_id: class_id,
+        have_class: have_class(),
+        student_id: student_id
+      });
+      console.log(delete_class_params);
+      return $.post('/swapblock/drop', {
+        params: delete_class_params
+      }).then(function() {
+        console.log('done');
+        return $container.fadeOut('2000');
+      });
     });
     $('nav-tabs li').on('click', function(e) {
       $(this).tab('show');

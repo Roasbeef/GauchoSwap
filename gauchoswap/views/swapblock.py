@@ -49,7 +49,7 @@ def add_to_swapblock():
     return resp
 
 
-@mod.route('/drop', methods=['DELETE'])
+@mod.route('/drop', methods=['POST'])
 def delete_from_swapblock():
     params = json.loads(request.form['params'])
 

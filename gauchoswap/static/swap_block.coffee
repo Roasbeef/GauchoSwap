@@ -3,15 +3,28 @@
   $class_type_button = $('.class_button')
   $department_list = $('.department-list')
   $add_course_button = $('.add-course')
+  student_id = parseInt( $('.profile-title').data('studentId') )
+
+  flash_message = (message) ->
+    return
+
   have_class = ->
     $('.swapblock-tab').eq(0).hasClass('active')
 
-  student_id = parseInt( $('.profile-title').data('studentId') )
-
   $('.delete-course').on 'click', (e) ->
-    console.log 'click'
-    class_type = $(@).closest('.well').find('.class-badge').text()
-    console.log "Deleting a #{class_type} for this id: #{student_id} and has: #{have_class()}"
+    $container = $(@).closest('.well')
+    class_id = $container.data('classId')
+    class_type = $.trim( $container.find('.class-badge').text().toLowerCase() )
+
+    delete_class_params = JSON.stringify(class_type: class_type, class_id: class_id, have_class: have_class(), student_id: student_id)
+
+    console.log delete_class_params
+
+    $.post('/swapblock/drop', params: delete_class_params)
+     .then ->
+       console.log 'done'
+       $container.fadeOut('2000')
+
 
   $('nav-tabs li').on 'click', (e) ->
     $(@).tab('show')

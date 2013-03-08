@@ -111,8 +111,14 @@ def delete_class_from_swapblock(**params):
     class_id = params['class_id']
     have_class = params['have_class']
 
-    student = Student.query.filter_by(id=student_id).first()
-    course = CLASS_DICT[class_type].query.filter_by(id=class_id).first()
+    if isinstance(class_id, list):
+        class_id = int(class_id[0])
+
+    if isinstance(student_id, list):
+        student_id = int(student_id[0])
+
+    student = Student.query.get(student_id)
+    course = CLASS_DICT[class_type].query.get(class_id)
     swapblock = student.swapblock.first()
 
     if have_class and class_type == 'lecture':
