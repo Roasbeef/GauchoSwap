@@ -1,28 +1,3 @@
 {% macro render_swapblock_class(class) %}
     <p> {{ class.__class__.__name__ }} {{ class.name }}: {{ class.title }} </p>
 {% endmacro %}
-
-{% macro render_swapblock_class_info(class) %}
-    <p> Days: {{ class.days }} </p>
-    <p> Time: {{ class.time }} </p>
-    <p> Location:{{ class.location }} </p>
-    {% if class.__class__.__name__ == "Lecture" %}
-        {% if class.professor == "" %}
-            <p> Professor: Unknown </p>
-        {% else %}
-            <p> Professor: {{ class.professor }} </p>
-        {% endif %}
-    {% elif class.__class__.__name__ == "Section" %}
-        {% if class.ta == "" %}
-            <p> TA: Unknown </p>
-        {% else %}
-            <p> TA: {{ class.ta }} </p>
-        {% endif %}
-    {% else %}
-        {% if class.instructor == "" %}
-            <p> Instructor: Unknown </p>
-        {% else %}
-            <p> Instructor: {{ class.instructor }} </p>
-        {% endif %}
-    {% endif %}
-{% endmacro %}
