@@ -127,18 +127,22 @@
         have_class: have_class(),
         student_id: student_id
       });
-      class_filter = {};
-      filtered_courses = [];
-      class_type = '';
       console.log(add_class_params);
-      $.when($.post('/swapblock/add', {
+      $.when($.when($.post('/swapblock/add', {
         params: add_class_params
       })).then(function() {
         return console.log('po');
-      });
-      return $.when($('#myModal').modal('hide')).then(function() {
+      }), $.when($('#myModal').modal('hide')).then(function() {
         return flash_message('Class added to Swapblock!');
+      })).then(function() {
+        var $class_clone;
+        $class_clone = $('.user-class').eq(0).clone(true);
+        console.log('all donz');
+        return console.log($class_clone);
       });
+      class_filter = {};
+      filtered_courses = [];
+      return class_type = '';
     });
   })(jQuery);
 

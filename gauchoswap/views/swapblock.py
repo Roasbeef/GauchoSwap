@@ -1,7 +1,5 @@
-from flask import (redirect, url_for, session, request, Blueprint, render_template,
-                   flash, g, jsonify, abort)
+from flask import session, request, Blueprint, g, jsonify, abort, current_app
 from gauchoswap import db, api
-
 from gauchoswap.helpers import request_wants_json
 from gauchoswap.decorators import login_required
 
@@ -61,3 +59,10 @@ def delete_from_swapblock():
     resp = jsonify(message='success!')
     resp.status_code = 201
     return resp
+
+
+def get_macro_with_context(template_name, macro_name):
+    template = current_app.jinja_env.get_template(template_name)
+    module = template.make_module({'session': session, 'g': g})
+    macro = getattr(module, macro_name)
+    return macro

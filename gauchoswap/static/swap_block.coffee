@@ -111,15 +111,20 @@
     selected_course = filtered_courses[0]
     add_class_params = JSON.stringify(class_type: class_type, class_id: selected_course.id, have_class: have_class(), student_id: student_id)
 
+    console.log add_class_params
+    $.when(
+      $.when( $.post('/swapblock/add', params: add_class_params) ).then ->
+        console.log 'po'
+      
+      $.when( $('#myModal').modal('hide') ).then ->
+        flash_message('Class added to Swapblock!')
+    ).then ->
+      $class_clone = $('.user-class').eq(0).clone(true)
+      console.log 'all donz'
+      console.log $class_clone
+
     class_filter = {}
     filtered_courses = []
     class_type = ''
-
-    console.log add_class_params
-    $.when( $.post('/swapblock/add', params: add_class_params) ).then ->
-      console.log 'po'
-
-    $.when( $('#myModal').modal('hide') ).then ->
-      flash_message('Class added to Swapblock!')
 
 )(jQuery)
