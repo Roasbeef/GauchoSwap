@@ -1,3 +1,8 @@
 {% macro render_swapblock_class(class) %}
-    <p> {{ class.__class__.__name__ }} {{ class.name }}: {{ class.title }} </p>
+    {% set class_type = class.__class__.__name__ %}
+    {% set class_color = "success" if class_type == "Lecture" else "info" if class_type == "Lab" else "inverse" %}
+    <div class="user-class well">
+        <span class="label label-{{ class_color }} class-badge"> {{ class_type }} </span>
+        <span> {{ class.name }}: {{ class.title }} </span>
+    </div>
 {% endmacro %}

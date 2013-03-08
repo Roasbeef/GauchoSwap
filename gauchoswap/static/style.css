@@ -129,3 +129,16 @@ body {
     margin: 0 auto;
     text-align: center;
 }
+
+.user-class {
+    padding: 20px;
+}
+
+.modal-button {
+    margin-bottom: 20px !important;
+}
+
+.class-badge {
+    float: left;
+    width: 7%;
+}
