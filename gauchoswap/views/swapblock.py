@@ -51,8 +51,7 @@ def add_to_swapblock():
 
 @mod.route('/drop', methods=['DELETE'])
 def delete_from_swapblock():
-    params = request.form
-    params['student_id'] = g.user.id
+    params = json.loads(request.form['params'])
 
     try:
         api.delete_class_from_swapblock(**params)

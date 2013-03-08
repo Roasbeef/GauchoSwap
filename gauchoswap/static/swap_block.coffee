@@ -3,6 +3,15 @@
   $class_type_button = $('.class_button')
   $department_list = $('.department-list')
   $add_course_button = $('.add-course')
+  have_class = ->
+    $('.swapblock-tab').eq(0).hasClass('active')
+
+  student_id = parseInt( $('.profile-title').data('studentId') )
+
+  $('.delete-course').on 'click', (e) ->
+    console.log 'click'
+    class_type = $(@).closest('.well').find('.class-badge').text()
+    console.log "Deleting a #{class_type} for this id: #{student_id} and has: #{have_class()}"
 
   $('nav-tabs li').on 'click', (e) ->
     $(@).tab('show')
@@ -82,10 +91,8 @@
     if $(@).hasClass('disabled')
       return
 
-    have_class = $('.swapblock-tab').eq(0).hasClass('active')
     selected_course = filtered_courses[0]
-    student_id = parseInt( $('.profile-title').data('studentId') )
-    add_class_params = JSON.stringify(class_type: class_type, class_id: selected_course.id, have_class: have_class, student_id: student_id)
+    add_class_params = JSON.stringify(class_type: class_type, class_id: selected_course.id, have_class: have_class(), student_id: student_id)
 
     class_filter = {}
     filtered_courses = []
