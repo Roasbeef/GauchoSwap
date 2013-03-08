@@ -6,7 +6,10 @@
   student_id = parseInt( $('.profile-title').data('studentId') )
 
   flash_message = (message) ->
-    return
+    $flash = $("<div class='flash alert alert-success'><button type='button' class='close' data-dismiss='alert'>x</button><p>#{message}</p></div>")
+
+    $('.navbar').after( $flash.fadeIn(2000) )
+    console.log 'flashed'
 
   have_class = ->
     $('.swapblock-tab').eq(0).hasClass('active')
@@ -22,7 +25,8 @@
 
     $.post('/swapblock/drop', params: delete_class_params)
      .then ->
-       console.log 'done'
+       flash_message('Class deleted successfully!')
+       console.log 'deleted'
        $container.fadeOut('2000')
 
 

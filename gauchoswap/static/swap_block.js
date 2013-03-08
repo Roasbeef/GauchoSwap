@@ -7,7 +7,12 @@
     $department_list = $('.department-list');
     $add_course_button = $('.add-course');
     student_id = parseInt($('.profile-title').data('studentId'));
-    flash_message = function(message) {};
+    flash_message = function(message) {
+      var $flash;
+      $flash = $("<div class='flash alert alert-success'><button type='button' class='close' data-dismiss='alert'>x</button><p>" + message + "</p></div>");
+      $('.navbar').after($flash.fadeIn(2000));
+      return console.log('flashed');
+    };
     have_class = function() {
       return $('.swapblock-tab').eq(0).hasClass('active');
     };
@@ -26,7 +31,8 @@
       return $.post('/swapblock/drop', {
         params: delete_class_params
       }).then(function() {
-        console.log('done');
+        flash_message('Class deleted successfully!');
+        console.log('deleted');
         return $container.fadeOut('2000');
       });
     });
