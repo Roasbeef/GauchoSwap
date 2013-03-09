@@ -15,18 +15,15 @@
                 <a class="brand" href="/">GauchoSwap</a>
                 <ul class="nav">
                     <li class="divider-vertical"></li>
+                    {% if session.get('fb_id') %}
                     <li><div class="btn-group" data-toggle="buttons-checkbox">
                         <button type="button" class="btn search_buttons" id="user-search">User</button>
                         <button type="button" class="btn search_buttons search_class"">Lecture</button>
                         <button type="button" class="btn search_buttons search_class">Lab</button>
                         <button type="button" class="btn search_buttons search_class">Section</button>
                     </div></li>
- 
-
-		<form class="navbar-search pull-left">
-  		<input type="text" class="search-query" placeholder="Search">
-		</form>
-		
+                    <li> <input type="text" class="navbar-search pull-left" class="search_bar" data-provide="typeahead" placeholder="Search" data-source="[]" data-items="4"> </li>		
+                    {% endif %}
                 </ul>
                 {% if session.get('fb_id') %}
                 <ul class="nav pull-right">

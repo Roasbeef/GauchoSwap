@@ -2,8 +2,9 @@
 (function() {
 
   (function($) {
-    var $search_buttons;
+    var $search_bar, $search_buttons;
     $search_buttons = $('.search_buttons');
+    $search_bar = $('.search_bar');
     return $search_buttons.on('click', function(e) {
       if ($(this).text() === 'User') {
         return $('.search_class.active').button('toggle');
