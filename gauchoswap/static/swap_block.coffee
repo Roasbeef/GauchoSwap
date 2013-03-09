@@ -14,6 +14,15 @@
   have_class = ->
     $('.swapblock-tab').eq(0).hasClass('active')
 
+  reset_add_modal = ->
+    console.log 'reset modal'
+    $class_options = $('#classes')
+    $class_options.hide()
+    $time_options = $('#times')
+    $time_options.hide()
+    $department_list.val('None')
+    
+
   $('.delete-course').on 'click', (e) ->
     $container = $(@).closest('.well')
     class_id = $container.data('classId')
@@ -35,12 +44,7 @@
     return
 
   $class_type_button.on 'click', (e) ->
-    console.log 'reset modal'
-    $class_options = $('#classes')
-    $class_options.hide()
-    $time_options = $('#times')
-    $time_options.hide()
-    $department_list.val('None')
+    reset_add_modal()
 
   class_filter = {}
   filtered_courses = []
@@ -126,5 +130,8 @@
     class_filter = {}
     filtered_courses = []
     class_type = ''
+    $('#invisible_button').button 'toggle'
+    reset_add_modal()
+  
 
 )(jQuery)

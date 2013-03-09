@@ -1,8 +1,10 @@
 from gauchoswap import db
+import flask.ext.whooshalchemy
 import datetime
 
 
 class Class(object):
+    __searchable__ = ['name', 'title', 'department']
     """ Base db model to be inherited """
     name = db.Column(db.String)
     title = db.Column(db.String)
@@ -134,6 +136,7 @@ class Offer(db.Model):
 
 
 class Student(db.Model):
+    __searchable__ = ['name']
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.Date, default=datetime.datetime.now)
     name = db.Column(db.String)
