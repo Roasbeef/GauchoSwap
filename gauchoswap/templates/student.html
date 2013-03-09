@@ -31,8 +31,7 @@
                       {% endfor %}
                   {% else %}
                       {% if own_profile %}
-                          <p> Looks like you haven't added any classes you have! Why don't you: <p>
-                          <a href="#myModal" role="button" class="btn modal-button btn-block" data-toggle="modal">Add A Class</a>
+                          <p> Looks like you haven't added any classes you have! Why don't you add a class!<p>
                       {% else %}
                           <p> Looks like {{student.name}} hasn't added any owned classes yet. Check back soon!
                       {% endif %}
@@ -49,8 +48,7 @@
                       {% endfor %}
                   {% else %}
                       {% if own_profile %}
-                          <p> Looks like haven't added any classes you want! Why don't you: <p>
-                          <a href="#myModal" role="button" class="btn modal-button btn-block" data-toggle="modal">Add A Class</a>
+                          <p> Looks like haven't added any classes you want! Why don't you add a class!<p>
                       {% else %}
                           <p> Looks like {{student.name}} hasn't added any wanted classes yet. Check back soon!
                       {% endif %}
