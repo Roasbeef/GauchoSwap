@@ -103,7 +103,7 @@ class GauchoSwapApiTestCase(TestCase):
         # Check will be made by making sure there are 2 sections in a department, and by checking the name of the department
         # to make sure they match expected values
         for i in range(5):
-            sections = api.get_courses('section', department=str(i+1))
+            sections = api.get_courses('section', department=str(i + 1))
             sectionList = list(sections)
             # Make sure there are 2 sections in department
             self.assertEqual(len(sectionList), 2)

@@ -27,20 +27,22 @@
     $offer_course_button.addClass('disabled')
     
 
-  $('.delete-course').on 'click', (e) ->
-    $container = $(@).closest('.well')
-    class_id = $container.data('classId')
-    class_type = $.trim( $container.find('.class-badge').text().toLowerCase() )
+  attach_delete_button_events = ->
+    $('.delete-course').off 'click'
+    $('.delete-course').on 'click', (e) ->
+      $container = $(@).closest('.well')
+      class_id = $container.data('classId')
+      class_type = $.trim( $container.find('.class-badge').text().toLowerCase() )
 
-    delete_class_params = JSON.stringify(class_type: class_type, class_id: class_id, have_class: have_class(), student_id: student_id)
+      delete_class_params = JSON.stringify(class_type: class_type, class_id: class_id, have_class: have_class(), student_id: student_id)
 
-    console.log delete_class_params
+      console.log delete_class_params
 
-    $.post('/swapblock/drop', params: delete_class_params)
-     .then ->
-       flash_message('Class deleted successfully!')
-       console.log 'deleted'
-       $container.fadeOut('2000')
+      $.post('/swapblock/drop', params: delete_class_params)
+       .then ->
+         flash_message('Class deleted successfully!')
+         console.log 'deleted'
+         $container.fadeOut('2000')
 
   class_offering_for = {}
   $('.offer-course').on 'click', (e) ->
@@ -132,22 +134,21 @@
     add_class_params = JSON.stringify(class_type: class_type, class_id: selected_course.id, have_class: have_class(), student_id: student_id)
 
     console.log add_class_params
-    $.when(
-      $.when( $.post('/swapblock/add', params: add_class_params) ).then ->
-        console.log 'po'
-      
-      $.when( $('#myModal').modal('hide') ).then ->
-        flash_message('Class added to Swapblock!')
-    ).then ->
-      $class_clone = $('.user-class').eq(0).clone(true)
-      console.log 'all donz'
-      console.log $class_clone
+    $.post('/swapblock/add', params: add_class_params, (data) ->
+      $('#myModal').modal('hide')
+      flash_message('Class added to Swapblock!')
 
-    class_filter = {}
-    filtered_courses = []
-    class_type = ''
-    $('#invisible_button').button 'toggle'
-    reset_add_modal()
+      class_filter = {}
+      filtered_courses = []
+      class_type = ''
+      $('#invisible_button').button 'toggle'
+      reset_add_modal()
+
+      $new_class = $( $.trim("#{data.class_html}") )
+      $('.swapblock-body').append( $new_class.fadeIn(2000) )
+      attach_delete_button_events()
+    )
+
 
   $offer_course_button.on 'click', (e) ->
     if $(@).hasClass('disabled')
@@ -174,6 +175,7 @@
     class_offering_for = {}
     $('#invisible_button').button 'toggle'
     reset_add_modal()
-  
+
+  attach_delete_button_events()
 
 )(jQuery)

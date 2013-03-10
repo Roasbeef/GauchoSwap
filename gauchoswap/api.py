@@ -48,7 +48,7 @@ def get_lecture_sections(lecture_id, json=False):
 
 @get_or_404
 def get_all_offers(json=False, page=1):
-    all_offers = Offer.query.paginate(page=page, per_page=10).items
+    all_offers = Offer.query.order_by(Offer.created_at.desc()).paginate(page=page, per_page=10).items
     return [offer.to_json() if json else offer for offer in all_offers]
 
 
@@ -103,6 +103,7 @@ def add_class_to_swapblock(**params):
         swapblock.wanted_sections.append(course)
 
     db.session.commit()
+    return course
 
 
 def delete_class_from_swapblock(**params):

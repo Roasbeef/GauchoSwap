@@ -38,6 +38,12 @@ def internal_error(error):
     return 'My bad', 500
 
 
+@app.teardown_request
+def teardown_request(exception=None):
+    db.session.expunge_all()
+    db.session.close_all()
+
+
 @app.before_request
 def load_user():
     if session.get('fb_id') is not None:
