@@ -2,9 +2,15 @@
 (function() {
 
   (function($) {
-    var $accept_offer_button, $decline_offer_button;
+    var $accept_offer_button, $decline_offer_button, flash_message;
     $accept_offer_button = $('.accept-offer');
     $decline_offer_button = $('.decline-offer');
+    flash_message = function(message) {
+      var $flash;
+      $flash = $("<div class='flash alert alert-success'><button type='button' class='close' data-dismiss='alert'>x</button><p>" + message + "</p></div>");
+      $('.navbar').after($flash.fadeIn(2000));
+      return console.log('flashed');
+    };
     $accept_offer_button.on('click', function(e) {
       var $container, offer_id;
       if ($(this).hasClass('disabled')) {
@@ -20,6 +26,7 @@
         },
         type: 'PUT',
         success: function(e) {
+          flash_message("Offer Accepted!");
           return console.log(e);
         }
       });
@@ -33,17 +40,19 @@
       }
       $container = $(this).closest('.well');
       offer_id = $container.data('offer-id');
-      return $.ajax({
+      $.ajax({
         url: '/offer/reject',
         data: {
           offer_id: offer_id
         },
         type: 'PUT',
         success: function(e) {
-          flash_message('Offer Declined!');
+          flash_message("Offer Declined!");
           return console.log(e);
         }
       });
+      $(this).addClass('disabled');
+      return $container.find('.accept-offer').addClass('disabled');
     });
   })(jQuery);
 
