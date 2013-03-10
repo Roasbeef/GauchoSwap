@@ -3,6 +3,7 @@ from gauchoswap import api
 from gauchoswap.helpers import request_wants_json
 
 from gauchoswap.decorators import login_required
+import json
 
 mod = Blueprint('offer', __name__, url_prefix='/offer')
 
@@ -11,13 +12,12 @@ mod = Blueprint('offer', __name__, url_prefix='/offer')
 @login_required
 def add_or_get_offers():
     wants_json = request_wants_json()
+    params = json.loads(request.form['params'])
     try:
         if request.method == 'GET':
             offers = api.get_all_offers(json=wants_json)
             return jsonify({'offer': offers})
         elif request.method == 'POST':
-            params = request.form
-            params['offerer_id'] = g.user.id
             api.create_offer(**params)
             resp = jsonify(message='success!')
             resp.status_code = 201

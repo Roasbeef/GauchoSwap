@@ -2,11 +2,13 @@
 (function() {
 
   (function($) {
-    var $add_course_button, $class_type_button, $department_list, class_filter, class_type, filtered_courses, flash_message, have_class, reset_add_modal, student_id;
+    var $add_course_button, $class_type_button, $department_list, $offer_course_button, class_filter, class_offering_for, class_type, filtered_courses, flash_message, have_class, my_id, reset_add_modal, student_id;
     $class_type_button = $('.class_button');
     $department_list = $('.department-list');
     $add_course_button = $('.add-course');
-    student_id = parseInt($('.profile-title').data('studentId'));
+    $offer_course_button = $('.verify-offer-course');
+    student_id = parseInt($('.profile-title').data('student-id'));
+    my_id = parseInt($('.profile-title').data('my-id'));
     flash_message = function(message) {
       var $flash;
       $flash = $("<div class='flash alert alert-success'><button type='button' class='close' data-dismiss='alert'>x</button><p>" + message + "</p></div>");
@@ -23,7 +25,9 @@
       $class_options.hide();
       $time_options = $('#times');
       $time_options.hide();
-      return $department_list.val('None');
+      $department_list.val('None');
+      $('.add-course').addClass('disabled');
+      return $offer_course_button.addClass('disabled');
     };
     $('.delete-course').on('click', function(e) {
       var $container, class_id, class_type, delete_class_params;
@@ -45,10 +49,22 @@
         return $container.fadeOut('2000');
       });
     });
+    class_offering_for = {};
+    $('.offer-course').on('click', function(e) {
+      var $container, class_id, class_type;
+      console.log(student_id);
+      $container = $(this).closest('.well');
+      class_id = $container.data('classId');
+      class_type = $.trim($container.find('.class-badge').text().toLowerCase());
+      class_offering_for['class_type'] = class_type;
+      class_offering_for['class_id'] = class_id;
+      return console.log(class_offering_for['class_type']);
+    });
     $('nav-tabs li').on('click', function(e) {
       $(this).tab('show');
     });
     $class_type_button.on('click', function(e) {
+      console.log(my_id);
       return reset_add_modal();
     });
     class_filter = {};
@@ -112,13 +128,14 @@
             class_filter['time'] = $(this).find(':selected').val();
             filtered_courses = _.where(classes["" + ($class_type.val()) + "s"], class_filter);
             $('.add-course').removeClass('disabled');
+            $offer_course_button.removeClass('disabled');
             console.log(class_filter);
             return console.log(filtered_courses);
           });
         });
       }
     });
-    return $add_course_button.on('click', function(e) {
+    $add_course_button.on('click', function(e) {
       var add_class_params, selected_course;
       if ($(this).hasClass('disabled')) {
         return;
@@ -146,6 +163,39 @@
       class_filter = {};
       filtered_courses = [];
       class_type = '';
+      $('#invisible_button').button('toggle');
+      return reset_add_modal();
+    });
+    return $offer_course_button.on('click', function(e) {
+      var offer_class_params, selected_course;
+      if ($(this).hasClass('disabled')) {
+        return;
+      }
+      selected_course = filtered_courses[0];
+      offer_class_params = JSON.stringify({
+        offerer_class_id: selected_course.id,
+        offeree_class_id: class_offering_for['class_id'],
+        offer_type: class_offering_for['class_type'],
+        offeree_id: student_id,
+        offerer_id: my_id
+      });
+      console.log(offer_class_params);
+      $.when($.when($.post('/offer/', {
+        params: offer_class_params
+      })).then(function() {
+        return console.log('offered');
+      }), $.when($('#myModal').modal('hide')).then(function() {
+        return flash_message('Offer Placed!');
+      })).then(function() {
+        var $class_clone;
+        $class_clone = $('.user-class').eq(0).clone(true);
+        console.log('all donz');
+        return console.log($class_clone);
+      });
+      class_filter = {};
+      filtered_courses = [];
+      class_type = '';
+      class_offering_for = {};
       $('#invisible_button').button('toggle');
       return reset_add_modal();
     });
