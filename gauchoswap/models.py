@@ -83,13 +83,11 @@ class Lab(Class, db.Model):
 requested_offers = db.Table('requested_offers',
                             db.Column('student_id', db.Integer, db.ForeignKey('student.id')),
                             db.Column('offer_id', db.Integer, db.ForeignKey('offer.id')),
-                            db.Column('offerer_id', db.Integer, db.ForeignKey('student.id'))
                             )
 
 recieved_offers = db.Table('recieved_offers',
                            db.Column('student_id', db.Integer, db.ForeignKey('student.id')),
                            db.Column('offer_id', db.Integer, db.ForeignKey('offer.id')),
-                           db.Column('offeree_id', db.Integer, db.ForeignKey('student.id'))
                            )
 
 
@@ -150,12 +148,10 @@ class Student(db.Model):
     fb_picture_link = db.Column(db.String)
     swapblock = db.relationship('Swapblock', backref=db.backref('student', uselist=False), lazy='dynamic')
     requested_offers = db.relationship('Offer', secondary=requested_offers,
-                                       primaryjoin=id == requested_offers.c.student_id,
-                                       secondaryjoin=id == requested_offers.c.offerer_id,
+                                       primaryjoin="Offer.offerer_id==Student.id",
                                        backref=db.backref('offerer', uselist=False))
     recieved_offers = db.relationship('Offer', secondary=recieved_offers,
-                                      primaryjoin=id == recieved_offers.c.student_id,
-                                      secondaryjoin=id == recieved_offers.c.offeree_id,
+                                      primaryjoin="Offer.offeree_id==Student.id",
                                       backref=db.backref('offeree', uselist=False))
 
     def __init__(self, name, umail_address, facebook_id, fb_auth_token, fb_profile_link,
