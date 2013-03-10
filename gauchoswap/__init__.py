@@ -54,7 +54,7 @@ def load_user():
         g.user = user
 
 from gauchoswap.views import (frontend, account, swapblock, student, lecture, section,
-                              lab, offer)
+                              lab, offer, search)
 
 app.register_blueprint(frontend.mod)
 app.register_blueprint(account.mod)
@@ -64,6 +64,7 @@ app.register_blueprint(lecture.mod)
 app.register_blueprint(lab.mod)
 app.register_blueprint(section.mod)
 app.register_blueprint(offer.mod)
+app.register_blueprint(search.mod)
 
 
 if __name__ == '__main__':
