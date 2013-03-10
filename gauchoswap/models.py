@@ -1,5 +1,6 @@
 from gauchoswap import db
-import flask.ext.whooshalchemy
+from gauchoswap import app
+import flask.ext.whooshalchemy as whooshalchemy
 import datetime
 
 
@@ -241,3 +242,9 @@ class Swapblock(db.Model):
                 'wanted_labs': [lab.to_json() for lab in self.wanted_labs],
                 'wanted_lectures': [lecture.to_json() for lecture in self.wanted_lectures],
                 }
+
+
+whooshalchemy.whoosh_index(app, Lab)
+whooshalchemy.whoosh_index(app, Lecture)
+whooshalchemy.whoosh_index(app, Section)
+whooshalchemy.whoosh_index(app, Student)
