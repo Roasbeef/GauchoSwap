@@ -1,6 +1,6 @@
 from gauchoswap import db
 from gauchoswap import app
-import flask.ext.whooshalchemy as whooshalchemy
+from whooshalchemy import IndexService
 import datetime
 
 
@@ -240,7 +240,8 @@ class Swapblock(db.Model):
                 }
 
 
-whooshalchemy.whoosh_index(app, Lab)
-whooshalchemy.whoosh_index(app, Lecture)
-whooshalchemy.whoosh_index(app, Section)
-whooshalchemy.whoosh_index(app, Student)
+index_service = IndexService(config=app.config)
+index_service.register_class(Lecture)
+index_service.register_class(Section)
+index_service.register_class(Lab)
+index_service.register_class(Student)
