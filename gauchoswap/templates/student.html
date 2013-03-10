@@ -11,7 +11,7 @@
                 <a href="{{g.user.fb_profile_link}}"><img src="{{g.user.fb_picture_link}}"/></a>
             </h2>
             {% else %}
-                <h2 class="profile-title"> 
+                <h2 data-student-id="{{student.id}}" data-my-id="{{ g.user.id }}" class="profile-title"> 
                 <a href="{{student.fb_profile_link}}"> {{ student.name }}'s</a> Swapblock
                 <a href="{{student.fb_profile_link}}"><img src="{{student.fb_picture_link}}"/></a>
                 </h2>
@@ -60,7 +60,11 @@
     <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="myModalLabel" class="choose-class-title">Select a Class</h3>
+            {% if own_profile %}
+                <h3 id="myModalLabel" class="choose-class-title">Select a Class</h3>
+            {% else %}
+                <h3 id="myModalLabel" class="choose-class-title">Offer a Class</h3>
+            {% endif %}
         </div>
         <div id="myModalBody" class="modal-body">
             <form class="form-horizontal">
@@ -107,26 +111,11 @@
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-            <button class="btn btn-primary disabled add-course">Add Course!</button>
-        </div>
-    </div>
-    <div id="deleteModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="myModalLabel" class="choose-class-title">Choose Class(es) to Delete</h3>
-        </div>
-        <div id="myModalBody" class="modal-body">
-                      {% if owned_classes %}
-                          {% for class in owned_classes %}
-                              {{ render_swapblock_class(class) }}
-                          {% endfor %}
-                      {% else %}
-                          <p> Looks like you don't have any classes to delete! Why don't you: <p>
-                          <a href="#myModal" role="button" class="btn modal-button" data-toggle="modal">Add A Class</a>
-                      {% endif %}
-	</div>
-        <div class="modal-footer">
-            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            {% if own_profile %}
+                <button class="btn btn-primary disabled add-course">Add Course!</button>
+            {% else %}
+                <button class="btn btn-primary disabled verify-offer-course">Offer Course!</button>
+            {% endif %}
         </div>
     </div>
 </div>

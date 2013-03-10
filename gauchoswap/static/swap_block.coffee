@@ -3,7 +3,9 @@
   $class_type_button = $('.class_button')
   $department_list = $('.department-list')
   $add_course_button = $('.add-course')
-  student_id = parseInt( $('.profile-title').data('studentId') )
+  $offer_course_button = $('.verify-offer-course')
+  student_id = parseInt( $('.profile-title').data('student-id') )
+  my_id = parseInt( $('.profile-title').data('my-id') )
 
   flash_message = (message) ->
     $flash = $("<div class='flash alert alert-success'><button type='button' class='close' data-dismiss='alert'>x</button><p>#{message}</p></div>")
@@ -21,6 +23,8 @@
     $time_options = $('#times')
     $time_options.hide()
     $department_list.val('None')
+    $('.add-course').addClass('disabled')
+    $offer_course_button.addClass('disabled')
     
 
   attach_delete_button_events = ->
@@ -40,12 +44,23 @@
          console.log 'deleted'
          $container.fadeOut('2000')
 
+  class_offering_for = {}
+  $('.offer-course').on 'click', (e) ->
+    console.log student_id
+    $container = $(@).closest('.well')
+    class_id = $container.data('classId')
+    class_type = $.trim( $container.find('.class-badge').text().toLowerCase() )
+
+    class_offering_for['class_type'] = class_type
+    class_offering_for['class_id'] = class_id
+    console.log class_offering_for['class_type']
 
   $('nav-tabs li').on 'click', (e) ->
     $(@).tab('show')
     return
 
   $class_type_button.on 'click', (e) ->
+    console.log my_id
     reset_add_modal()
 
   class_filter = {}
@@ -102,6 +117,7 @@
           filtered_courses = _.where classes["#{$class_type.val()}s"], class_filter
 
           $('.add-course').removeClass('disabled')
+          $offer_course_button.removeClass('disabled')
 
           console.log class_filter
           console.log filtered_courses  
@@ -132,6 +148,33 @@
       $('.swapblock-body').append( $new_class.fadeIn(2000) )
       attach_delete_button_events()
     )
+
+
+  $offer_course_button.on 'click', (e) ->
+    if $(@).hasClass('disabled')
+      return
+
+    selected_course = filtered_courses[0]
+    offer_class_params = JSON.stringify(offerer_class_id: selected_course.id, offeree_class_id: class_offering_for['class_id'], offer_type: class_offering_for['class_type'], offeree_id: student_id, offerer_id: my_id)
+
+    console.log offer_class_params
+    $.when(
+      $.when( $.post('/offer/', params: offer_class_params) ).then ->
+        console.log 'offered'
+      
+      $.when( $('#myModal').modal('hide') ).then ->
+        flash_message('Offer Placed!')
+    ).then ->
+      $class_clone = $('.user-class').eq(0).clone(true)
+      console.log 'all donz'
+      console.log $class_clone
+
+    class_filter = {}
+    filtered_courses = []
+    class_type = ''
+    class_offering_for = {}
+    $('#invisible_button').button 'toggle'
+    reset_add_modal()
 
   attach_delete_button_events()
 
