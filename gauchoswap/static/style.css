@@ -155,3 +155,15 @@ body {
     padding: 20px;
 }
 
+.offer-description{
+    font-size: 117%;
+    float: left;
+}
+
+.decline-offer {
+    padding-right: 5px;
+}
+
+.accept-offer, .decline-offer {
+    float: right;
+}
