@@ -8,6 +8,13 @@ import json
 mod = Blueprint('swapblock', __name__, url_prefix='/swapblock')
 
 
+def get_macro_with_context(template_name, macro_name):
+    template = current_app.jinja_env.get_template(template_name)
+    module = template.make_module({'session': session, 'g': g})
+    macro = getattr(module, macro_name)
+    return macro
+
+
 @mod.route('/', methods=['GET'])
 def all_swapblocks():
     wants_json = request_wants_json()
@@ -38,11 +45,13 @@ def add_to_swapblock():
     params = json.loads(request.form['params'])
 
     try:
-        api.add_class_to_swapblock(**params)
+        course = api.add_class_to_swapblock(**params)
     except api.DbNotFoundError:
         abort(404)
 
-    resp = jsonify(message='success!')
+    render_class = get_macro_with_context('/macros/_render_swapblock_class.html', 'render_swapblock_class')
+    new_class_html = render_class(course, True)
+    resp = jsonify(class_html=str(new_class_html))
     resp.status_code = 201
     return resp
 
@@ -61,8 +70,3 @@ def delete_from_swapblock():
     return resp
 
 
-def get_macro_with_context(template_name, macro_name):
-    template = current_app.jinja_env.get_template(template_name)
-    module = template.make_module({'session': session, 'g': g})
-    macro = getattr(module, macro_name)
-    return macro

@@ -103,6 +103,7 @@ def add_class_to_swapblock(**params):
         swapblock.wanted_sections.append(course)
 
     db.session.commit()
+    return course
 
 
 def delete_class_from_swapblock(**params):
