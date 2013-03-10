@@ -69,13 +69,13 @@ def reject_offer():
         return resp
 
 
-@mod.route('/<int:student_id>/show')
+@mod.route('/student_offers/<int:student_id>/')
 def user_offers(student_id):
     if g.user.id != student_id:
         abort(403)
     student = db.session.query(Student).filter_by(id=student_id).first()
     requested_offers = db.session.query(Offer).filter_by(offerer_id=student_id).all()
     received_offers = db.session.query(Offer).filter_by(offeree_id=student_id).all()
-#    requested_offers = [offer for offer in student.requested_offers]
-#    received_offers = [offer for offer in student.recieved_offers]
+    #requested_offers = [offer for offer in student.requested_offers]
+    #received_offers = [offer for offer in student.recieved_offers]
     return render_template('offer.html', student=student, requested_offers=requested_offers, received_offers=received_offers)
