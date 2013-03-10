@@ -159,6 +159,16 @@ class Student(db.Model):
                                       secondaryjoin=id == recieved_offers.c.offeree_id,
                                       backref=db.backref('offeree', uselist=False))
 
+    def __init__(self, name, umail_address, facebook_id, fb_auth_token, fb_profile_link,
+                 fb_picture_link):
+
+        self.name = name
+        self.umail_address = umail_address
+        self.facebook_id = facebook_id
+        self.fb_auth_token = fb_auth_token
+        self.fb_profile_link = fb_profile_link
+        self.fb_picture_link = fb_picture_link
+
     def __repr__(self):
         return '<Student %r>' % self.name
 
