@@ -84,8 +84,8 @@ def add_class_to_swapblock(**params):
     if isinstance(student_id, list):
         student_id = int(student_id[0])
 
-    student = Student.query.get(student_id)
-    course = CLASS_DICT[class_type].query.get(class_id)
+    student = db.session.query(Student).get(student_id)
+    course = db.session.query(CLASS_DICT[class_type]).get(class_id)
     swapblock = student.swapblock.first()
 
     if have_class and class_type == 'lecture':
@@ -118,8 +118,8 @@ def delete_class_from_swapblock(**params):
     if isinstance(student_id, list):
         student_id = int(student_id[0])
 
-    student = Student.query.get(student_id)
-    course = CLASS_DICT[class_type].query.get(class_id)
+    student = db.session.query(Student).get(student_id)
+    course = db.session.query(CLASS_DICT[class_type]).get(class_id)
     swapblock = student.swapblock.first()
 
     if have_class and class_type == 'lecture':
@@ -146,8 +146,8 @@ def create_offer(**params):
     offerer_class_id = params['offerer_class_id']
     offeree_class_id = params['offeree_class_id']
 
-    student1 = Student.query.filter_by(id=offerer_id).first()
-    student2 = Student.query.filter_by(id=offeree_id).first()
+    student1 = db.session.query(Student).filter_by(id=offerer_id).first()
+    student2 = db.session.query(Student).filter_by(id=offeree_id).first()
 
     offer = Offer(offerer_id=offerer_id, offeree_id=offeree_id, offer_type=offer_type,
                   offerer_class_id=offerer_class_id, offeree_class_id=offeree_class_id)
@@ -155,12 +155,11 @@ def create_offer(**params):
     student1.requested_offers.append(offer)
     student2.recieved_offers.append(offer)
 
-    db.session.add(offer)
     db.session.commit()
 
 
 def accept_offer(student_id, offer_id):
-    offer = Offer.query.filter_by(id=offer_id).first()
+    offer = db.session.query(Offer).filter_by(id=offer_id).first()
 
     if student_id != offer.offeree_id:
         raise UserDoesNotHavePermissionError("You don't own that offer")
@@ -171,7 +170,7 @@ def accept_offer(student_id, offer_id):
 
 
 def reject_offer(student_id, offer_id):
-    offer = Offer.query.filter_by(id=offer_id).first()
+    offer = db.session.query(Offer).filter_by(id=offer_id).first()
 
     if student_id != offer.offeree_id:
         raise UserDoesNotHavePermissionError("You don't own that offer")
