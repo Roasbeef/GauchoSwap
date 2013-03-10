@@ -2,14 +2,14 @@
 {% block title %}Profile{% endblock %}
 {% block body %}
 {% set own_profile = (g.user.id == student.id) %}
-{% from "macros/_render_swapblock_class.html" import render_swapblock_class, render_swapblock_class_info with context %}
+{% from "macros/_render_swapblock_class.html" import render_swapblock_class with context %}
 <div class="row-fluid" style="margin-top:50px">
     <div class="span12">
         <section class="profile-container">
             {% if own_profile %}
                 <h2 data-student-id="{{student.id}}" class="profile-title"> Your SwapBlock
                 <a href="{{g.user.fb_profile_link}}"><img src="{{g.user.fb_picture_link}}"/></a>
-            </h2>
+                </h2>
             {% else %}
                 <h2 data-student-id="{{student.id}}" data-my-id="{{ g.user.id }}" class="profile-title"> 
                 <a href="{{student.fb_profile_link}}"> {{ student.name }}'s</a> Swapblock

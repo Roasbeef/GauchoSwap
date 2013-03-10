@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Offers{% endblock %}
+{% block body %}
+{% set own_profile = (g.user.id == student.id) %}
+{% from "macros/_render_offer.html" import render_received_offer, render_requested_offer with context %}
+<div class="row-fluid" style="margin-top:50px">
+    <div class="span12">
+        <section class="profile-container">
+                <h2 data-student-id="{{student.id}}" class="profile-title"> Your Offers
+                <a href="{{g.user.fb_profile_link}}"><img src="{{g.user.fb_picture_link}}"/></a>
+                </h2>
+            <ul class="nav nav-tabs have-want-toggle">
+                <li class="active swapblock-tab"><a href="#received" data-toggle="tab">Received</a></li>
+                <li class="swapblock-tab"><a href="#requested" data-toggle="tab">Requested</a></li>
+            </ul>
+            <div class="tab-content swapblock-body">
+                  <div class="tab-pane active" id="received">
+                      {% for offer in received_offers %}
+                          {{ render_received_offer(offer) }}
+                      {% endfor %}			      
+                  </div>
+                  <div class="tab-pane" id="requested">    
+                      {% for offer in requested_offers %}
+                          {{ render_requested_offer(offer) }}
+                      {% endfor %}			                  
+                  </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{ url_for('static', filename='offer.js') }}"></script>
+{% endblock %}

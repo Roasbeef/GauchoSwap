@@ -1,0 +1,25 @@
+{% macro render_received_offer(offer) %}
+{% set offer_status =  offer.status%}
+    <div class="user-received well" data-offer-id="{{ offer.id }}">
+        <span class="class-description"> {{ offer.description }}</span>
+        <div class="pick-offer">
+            {% if offer_status == "accepted" %}
+                <button type="button" class="btn btn-success btn-default accept-offer disabled">Accept</button>
+            {% elif offer_status == "declined" %}
+                <button type="button" class="btn btn-danger btn-default decline-offer disabled">Decline</button>
+            {% else %}
+                <button type="button" class="btn btn-success btn-default accept-offer">Accept</button>
+                <button type="button" class="btn btn-danger btn-default decline-offer">Decline</button>
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro render_requested_offer(offer) %}
+    {% set offer_status =  offer.status%}
+    {% set offer_color = "success" if offer_status == "accepted" else "important" if offer_status == "declined" else "warning" %}
+    <div class="user-requested well">
+        <span class="label label-{{ offer_color }} class-badge"> {{ offer_status }} </span>
+        <span class="class-description"> {{ offer.description }}</span>
+    </div>
+{% endmacro %}

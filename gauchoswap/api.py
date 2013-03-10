@@ -175,6 +175,6 @@ def reject_offer(student_id, offer_id):
     if student_id != offer.offeree_id:
         raise UserDoesNotHavePermissionError("You don't own that offer")
 
-    offer.status = 'rejected'
+    offer.status = 'declined'
 
     db.session.commit()

@@ -1,8 +1,10 @@
-from flask import Blueprint, abort, jsonify, g, request
-from gauchoswap import api
+from flask import (redirect, url_for, session, request, Blueprint, render_template,
+                   flash, g, abort, jsonify)
+from gauchoswap import db, api
 from gauchoswap.helpers import request_wants_json
 
 from gauchoswap.decorators import login_required
+from gauchoswap.models import Student, Offer
 import json
 
 mod = Blueprint('offer', __name__, url_prefix='/offer')
@@ -41,7 +43,6 @@ def get_offer_by_id(offer_id):
 @login_required
 def accept_offer():
     offer_id = request.form['offer_id']
-
     try:
         api.accept_offer(g.user.id, offer_id)
         resp = jsonify(message='success!')
@@ -57,7 +58,6 @@ def accept_offer():
 @login_required
 def reject_offer():
     offer_id = request.form['offer_id']
-
     try:
         api.reject_offer(g.user.id, offer_id)
         resp = jsonify(message='success!')
@@ -67,3 +67,15 @@ def reject_offer():
         resp = jsonify(message='You did not recieve that offer')
         resp.status_code = 401
         return resp
+
+
+@mod.route('/<int:student_id>/show')
+def user_offers(student_id):
+    if g.user.id != student_id:
+        abort(403)
+    student = db.session.query(Student).filter_by(id=student_id).first()
+    requested_offers = db.session.query(Offer).filter_by(offerer_id=student_id).all()
+    received_offers = db.session.query(Offer).filter_by(offeree_id=student_id).all()
+#    requested_offers = [offer for offer in student.requested_offers]
+#    received_offers = [offer for offer in student.recieved_offers]
+    return render_template('offer.html', student=student, requested_offers=requested_offers, received_offers=received_offers)

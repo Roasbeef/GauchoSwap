@@ -143,10 +143,15 @@ body {
     width: 7%;
 }
 
-.delete-course, .offer-course {
+.delete-course, .offer-course, .pick-offer {
     float: right;
 }
 
 .class-description {
     font-size: 1.2em;
 }
+
+.offer-class{
+    padding: 20px;
+}
+

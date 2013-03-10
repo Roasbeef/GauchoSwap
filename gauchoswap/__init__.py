@@ -31,6 +31,9 @@ from gauchoswap.models import Student
 def not_found(error):
     return 'Ooops', 404
 
+@app.errorhandler(403)
+def forbidden(error):
+    return 'Cannot go there', 403
 
 @app.errorhandler(500)
 def internal_error(error):
