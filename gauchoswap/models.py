@@ -94,7 +94,7 @@ class Offer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.Enum('accepted', 'pending', 'declined', name='status'))
 
-    created_at = db.Column(db.Date, default=datetime.datetime.now)
+    created_at = db.Column(db.DateTime, default=datetime.datetime.now)
 
     offerer_id = db.Column(db.Integer, db.ForeignKey('student.id'))
     offeree_id = db.Column(db.Integer, db.ForeignKey('student.id'))
