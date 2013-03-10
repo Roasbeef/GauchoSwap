@@ -4,9 +4,9 @@
         <span class="class-description"> {{ offer.description }}</span>
         <div class="pick-offer">
             {% if offer_status == "accepted" %}
-                <button type="button" class="btn btn-success btn-default accept-offer disabled">Accept</button>
+                <button type="button" class="btn btn-success btn-default accept-offer disabled">Accepted</button>
             {% elif offer_status == "declined" %}
-                <button type="button" class="btn btn-danger btn-default decline-offer disabled">Decline</button>
+                <button type="button" class="btn btn-danger btn-default decline-offer disabled">Declined</button>
             {% else %}
                 <button type="button" class="btn btn-success btn-default accept-offer">Accept</button>
                 <button type="button" class="btn btn-danger btn-default decline-offer">Decline</button>
