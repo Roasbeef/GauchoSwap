@@ -4,7 +4,6 @@ import datetime
 
 
 class Class(object):
-    __searchable__ = ['name', 'title', 'department']
     """ Base db model to be inherited """
     name = db.Column(db.String)
     title = db.Column(db.String)
@@ -35,6 +34,7 @@ class Class(object):
 
 
 class Lecture(Class, db.Model):
+    __searchable__ = ['name', 'title', 'department', 'professor']
     id = db.Column(db.Integer, primary_key=True)
     professor = db.Column(db.String)
     sections = db.relationship('Section', backref='lecture', lazy='dynamic')
@@ -50,6 +50,7 @@ class Lecture(Class, db.Model):
 
 
 class Section(Class, db.Model):
+    __searchable__ = ['name', 'title', 'department', 'ta']
     id = db.Column(db.Integer, primary_key=True)
     ta = db.Column(db.String)
     lecture_id = db.Column(db.Integer, db.ForeignKey('lecture.id'))
@@ -66,6 +67,7 @@ class Section(Class, db.Model):
 
 
 class Lab(Class, db.Model):
+    __searchable__ = ['name', 'title', 'department', 'instructor']
     id = db.Column(db.Integer, primary_key=True)
     instructor = db.Column(db.String)
 
@@ -156,15 +158,6 @@ class Student(db.Model):
                                       primaryjoin=id == recieved_offers.c.student_id,
                                       secondaryjoin=id == recieved_offers.c.offeree_id,
                                       backref=db.backref('offeree', uselist=False))
-
-    def __init__(self, name, umail_address, facebook_id, fb_auth_token, fb_profile_link,
-                 fb_picture_link):
-        self.name = name
-        self.umail_address = umail_address
-        self.facebook_id = facebook_id
-        self.fb_auth_token = fb_auth_token
-        self.fb_profile_link = fb_profile_link
-        self.fb_picture_link = fb_picture_link
 
     def __repr__(self):
         return '<Student %r>' % self.name
