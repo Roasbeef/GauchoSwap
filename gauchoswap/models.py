@@ -61,7 +61,7 @@ class Section(Class, db.Model):
 
     def to_json(self):
         base_class_json = super(Section, self).to_json()
-        base_class_json.update({'ta': self.ta , 'lecture': self.lecture.title, 'id': self.id})
+        base_class_json.update({'ta': self.ta, 'lecture': self.lecture.title, 'id': self.id})
         return base_class_json
 
 
@@ -81,12 +81,14 @@ class Lab(Class, db.Model):
 
 requested_offers = db.Table('requested_offers',
                             db.Column('student_id', db.Integer, db.ForeignKey('student.id')),
-                            db.Column('offer_id', db.Integer, db.ForeignKey('offer.id'))
+                            db.Column('offer_id', db.Integer, db.ForeignKey('offer.id')),
+                            db.Column('offerer_id', db.Integer, db.ForeignKey('offer.offerer_id'))
                             )
 
 recieved_offers = db.Table('recieved_offers',
                            db.Column('student_id', db.Integer, db.ForeignKey('student.id')),
-                           db.Column('offer_id', db.Integer, db.ForeignKey('offer.id'))
+                           db.Column('offer_id', db.Integer, db.ForeignKey('offer.id')),
+                           db.Column('offeree_id', db.Integer, db.ForeignKey('offer.offeree_id'))
                            )
 
 
@@ -147,10 +149,12 @@ class Student(db.Model):
     fb_picture_link = db.Column(db.String)
     swapblock = db.relationship('Swapblock', backref=db.backref('student', uselist=False), lazy='dynamic')
     requested_offers = db.relationship('Offer', secondary=requested_offers,
-                                       primaryjoin="Offer.offerer_id==Student.id",
+                                       primaryjoin=id == requested_offers.c.student_id,
+                                       secondaryjoin=id == requested_offers.c.offerer_id,
                                        backref=db.backref('offerer', uselist=False))
     recieved_offers = db.relationship('Offer', secondary=recieved_offers,
-                                      primaryjoin="Offer.offeree_id==Student.id",
+                                      primaryjoin=id == recieved_offers.c.student_id,
+                                      secondaryjoin=id == recieved_offers.c.offeree_id,
                                       backref=db.backref('offeree', uselist=False))
 
     def __init__(self, name, umail_address, facebook_id, fb_auth_token, fb_profile_link,
