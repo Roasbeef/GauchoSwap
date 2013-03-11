@@ -2,7 +2,7 @@
 (function() {
 
   (function($) {
-    var $search_bar, $search_buttons, students;
+    var $search_bar, $search_buttons, labs, lectures, sections, students;
     $search_buttons = $('.search_buttons');
     $search_bar = $('.search-bar');
     $.fn.typeahead.Constructor.prototype.blur = function() {
@@ -13,6 +13,9 @@
       }), 250);
     };
     students = {};
+    lectures = {};
+    sections = {};
+    labs = {};
     return $search_buttons.on('click', function(e) {
       if ($(this).text() === 'User') {
         $('.search_class.active').button('toggle');
@@ -45,7 +48,36 @@
         return;
       } else {
         $('#user-search.active').button('toggle');
-        return;
+        if ($(this).text() === 'Lecture') {
+          $('.search-bar').typeahead({
+            source: function(query, process) {
+              return $.getJSON("/search/lecture?q=" + query, function(data) {
+                var results;
+                console.log(data);
+                lectures = data;
+                results = _.map(data, function(lecture) {
+                  return "" + lecture.name;
+                });
+                console.log(results);
+                return process(results);
+              });
+            },
+            highlighter: function(text) {
+              var lecture;
+              lecture = _.where(lectures, {
+                name: text
+              });
+              return "" + lecture[0].name;
+            },
+            updater: function(text) {
+              var lecture;
+              lecture = _.where(lectures, {
+                name: text
+              });
+              return "" + lecture[0].name;
+            }
+          });
+        }
       }
     });
   })(jQuery);
