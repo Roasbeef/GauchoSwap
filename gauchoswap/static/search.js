@@ -52,19 +52,12 @@
           $('.search-bar').typeahead({
             source: function(query, process) {
               return $.getJSON("/search/lecture?q=" + query, function(data) {
-                var departments, names, results, titles;
+                var results;
                 console.log(data);
                 lectures = data;
-                titles = _.map(data, function(lecture) {
-                  return "" + lecture.title;
-                });
-                names = _.map(data, function(lecture) {
+                results = _.map(data, function(lecture) {
                   return "" + lecture.name;
                 });
-                departments = _.map(data, function(lecture) {
-                  return "" + lecture.department;
-                });
-                results = titles.concat(names, departments);
                 console.log(results);
                 return process(results);
               });
@@ -72,22 +65,16 @@
             highlighter: function(text) {
               var lecture;
               lecture = _.where(lectures, {
-                title: text
-              });
-              lecture = lecture.concat(_.where(lectures, {
-                department: text
-              }));
-              lecture = lecture.conact(_.where(lectures, {
                 name: text
-              }));
+              });
               return "" + lecture[0].name;
             },
             updater: function(text) {
               var lecture;
               lecture = _.where(lectures, {
-                title: text
+                name: text
               });
-              return "" + text;
+              return "" + lecture[0].name;
             }
           });
         }

@@ -45,22 +45,17 @@
                console.log data
                lectures = data
 
-               titles = _.map(data, (lecture) -> "#{lecture.title}")
-               names = _.map(data, (lecture) -> "#{lecture.name}")
-               departments = _.map(data, (lecture) -> "#{lecture.department}")
-               results = titles.concat(names, departments)
+               results = _.map(data, (lecture) -> "#{lecture.name}")
 
                console.log results
                process results
              )
            highlighter: (text) ->
-             lecture = _.where lectures, {title: text}
-             lecture = lecture.concat(_.where lectures, {department: text})
-             lecture = lecture.conact(_.where lectures, {name: text})
+             lecture = _.where lectures, {name: text}
              "#{lecture[0].name}"
            updater: (text) ->
-             lecture = _.where lectures, {title: text}
-             "#{text}"
+             lecture = _.where lectures, {name: text}
+             "#{lecture[0].name}"
          )
 
     return
