@@ -14,7 +14,7 @@ def search_students():
 
     if query is None:
         all_students = Student.query.all()
-        datum_list = [student.name for student in all_students]
+        datum_list = [dict(name=student.name, id=student.id) for student in all_students]
 
         return Response(json.dumps(datum_list), mimetype='application/json')
 

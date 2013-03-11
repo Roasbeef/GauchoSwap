@@ -2,7 +2,7 @@
 (function() {
 
   (function($) {
-    var $search_bar, $search_buttons;
+    var $search_bar, $search_buttons, students;
     $search_buttons = $('.search_buttons');
     $search_bar = $('.search-bar');
     $.fn.typeahead.Constructor.prototype.blur = function() {
@@ -12,15 +12,34 @@
         return that.hide();
       }), 250);
     };
+    students = {};
     return $search_buttons.on('click', function(e) {
       if ($(this).text() === 'User') {
         $('.search_class.active').button('toggle');
         $('.search-bar').typeahead({
           source: function(query, process) {
-            $.getJSON('/search/student', function(data) {
+            return $.getJSON('/search/student', function(data) {
+              var results;
               console.log(data);
-              process(data);
+              students = data;
+              results = _.map(data, function(student) {
+                return "" + student.name;
+              });
+              console.log(results);
+              console.log(students);
+              process(results);
             });
+          },
+          highlighter: function(name) {
+            return "" + name;
+          },
+          updater: function(name) {
+            var student;
+            student = _.where(students, {
+              name: name
+            });
+            location.href = "/student/" + student[0].id;
+            return name;
           }
         });
         return;
