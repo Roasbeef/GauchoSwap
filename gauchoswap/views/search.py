@@ -24,12 +24,19 @@ def search_sections():
     query = request.args.get('q')
     pass
 
+
 @mod.route('/lab')
 def search_labs():
     query = request.args.get('q')
     pass
 
+
 @mod.route('/lecture')
 def search_lectures():
     query = request.args.get('q')
-    pass
+    matched_lectures = []
+    matched_lectures.extend(lecture.to_json() for lecture in Lecture.query.filter(Lecture.department.op('ilike')('%{}%'.format(query))).all())
+    matched_lectures.extend(lecture.to_json() for lecture in Lecture.query.filter(Lecture.name.op('ilike')('%{}%'.format(query))).all())
+    matched_lectures.extend(lecture.to_json() for lecture in Lecture.query.filter(Lecture.title.op('ilike')('%{}%'.format(query))).all())
+
+    return Response(json.dumps(matched_lectures), mimetype='application/json')

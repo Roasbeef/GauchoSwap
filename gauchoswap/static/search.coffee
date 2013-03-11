@@ -11,6 +11,9 @@
   
   
   students = {}
+  lectures = {}
+  sections = {}
+  labs = {}
   $search_buttons.on 'click', (e) ->
     if $(@).text() == 'User'
        $('.search_class.active').button 'toggle'
@@ -35,7 +38,31 @@
        return
     else
        $('#user-search.active').button 'toggle'
-       return
+       if $(@).text() == 'Lecture'
+         $('.search-bar').typeahead(
+           source: (query, process) ->
+             $.getJSON("/search/lecture?q=#{query}", (data) ->
+               console.log data
+               lectures = data
+
+               titles = _.map(data, (lecture) -> "#{lecture.title}")
+               names = _.map(data, (lecture) -> "#{lecture.name}")
+               departments = _.map(data, (lecture) -> "#{lecture.department}")
+               results = titles.concat(names, departments)
+
+               console.log results
+               process results
+             )
+           highlighter: (text) ->
+             lecture = _.where lectures, {title: text}
+             lecture = lecture.concat(_.where lectures, {department: text})
+             lecture = lecture.conact(_.where lectures, {name: text})
+             "#{lecture[0].name}"
+           updater: (text) ->
+             lecture = _.where lectures, {title: text}
+             "#{text}"
+         )
+
     return
     
 
