@@ -6,7 +6,6 @@
       <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-responsive.min.css') }}">
       <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
       <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-      <link rel="stylesheet" href="{{ url_for('static', filename='typeahead.min.css') }}">
       <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
       <style> {% block css %} {% endblock %} </style>
     </head>
@@ -23,7 +22,7 @@
                         <button type="button" class="btn search_buttons search_class">Lab</button>
                         <button type="button" class="btn search_buttons search_class">Section</button>
                     </div></li>
-                    <li> <input type="text" class="navbar-search pull-left" class="search_bar" data-provide="typeahead" placeholder="Search" data-source="[]" data-items="4"> </li>		
+                    <li> <input type="text" class="search-bar navbar-search pull-left" placeholder="Search" data-items="4"></li>		
                     {% endif %}
                 </ul>
                 {% if session.get('fb_id') %}
@@ -56,7 +55,6 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
         <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='typeahead.min.js') }}"></script>    
         <script src="{{ url_for('static', filename='search.js') }}"></script>    
         {% block script %}{% endblock %}
         <script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }}; </script>

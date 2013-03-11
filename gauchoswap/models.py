@@ -1,12 +1,11 @@
 from gauchoswap import db
 from gauchoswap import app
-from whooshalchemy import IndexService
+import flask.ext.whooshalchemy as whooshalchemy
 import datetime
 
 
 class Class(object):
     """ Base db model to be inherited """
-    __searchable__ = ['name', 'title', 'department']
     name = db.Column(db.String)
     title = db.Column(db.String)
     department = db.Column(db.String)
@@ -36,6 +35,7 @@ class Class(object):
 
 
 class Lecture(Class, db.Model):
+    __searchable__ = ['name', 'title', 'department']
     id = db.Column(db.Integer, primary_key=True)
     professor = db.Column(db.String)
     sections = db.relationship('Section', backref='lecture', lazy='dynamic')
@@ -51,6 +51,7 @@ class Lecture(Class, db.Model):
 
 
 class Section(Class, db.Model):
+    __searchable__ = ['name', 'title', 'department']
     id = db.Column(db.Integer, primary_key=True)
     ta = db.Column(db.String)
     lecture_id = db.Column(db.Integer, db.ForeignKey('lecture.id'))
@@ -67,6 +68,7 @@ class Section(Class, db.Model):
 
 
 class Lab(Class, db.Model):
+    __searchable__ = ['name', 'title', 'department']
     id = db.Column(db.Integer, primary_key=True)
     instructor = db.Column(db.String)
 
@@ -240,8 +242,7 @@ class Swapblock(db.Model):
                 }
 
 
-index_service = IndexService(config=app.config)
-index_service.register_class(Lecture)
-index_service.register_class(Section)
-index_service.register_class(Lab)
-index_service.register_class(Student)
+whooshalchemy.whoosh_index(app, Student)
+whooshalchemy.whoosh_index(app, Lab)
+whooshalchemy.whoosh_index(app, Lecture)
+whooshalchemy.whoosh_index(app, Section)

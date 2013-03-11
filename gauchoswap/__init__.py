@@ -15,7 +15,6 @@ FACEBOOK_APP_SECRET = '8125ade96b956dc61982de537d7a6389'
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-app.config['WHOOSH_BASE'] = os.path.join(os.path.dirname(__file__), "whoosh")
 #app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
 app.debug = True
 app.secret_key = SECRET_KEY
@@ -27,14 +26,15 @@ oauth = OAuth()
 
 from gauchoswap.models import Student
 
-
 @app.errorhandler(404)
 def not_found(error):
     return 'Ooops', 404
 
+
 @app.errorhandler(403)
 def forbidden(error):
     return 'Cannot go there', 403
+
 
 @app.errorhandler(500)
 def internal_error(error):
