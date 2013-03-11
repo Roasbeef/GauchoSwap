@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Results{% endblock %}
+{% block body %}
+<div class="row-fluid" style="margin-top:50px">
+    <div class="span12">
+        <h2 class="profile-title"> SwapBlock's with {{ class_result.name }}:{{ class_result.title ~ ' ' }} {{ class_result.__class__.__name__ }}s:</h2>
+        <div class="span10">
+            <section class="offer-stream">
+                {% for student in students %}
+                    <span class="offer">
+                        <a href="{{student.fb_profile_link}}"><img src="{{student.fb_picture_link}}"/></a>
+                        <a href="{{ url_for('student.user_profile', student_id=student.id) }}"> {{ student.name }}'s SwapBlock </a>
+                    </span>
+                {% endfor %}
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+    
+{% endblock %}
