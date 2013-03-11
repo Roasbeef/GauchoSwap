@@ -1,6 +1,5 @@
 from gauchoswap import db
 from gauchoswap import app
-import flask.ext.whooshalchemy as whooshalchemy
 import datetime
 
 
@@ -124,8 +123,9 @@ class Offer(db.Model):
         student1 = Student.query.get(offerer_id)
         student2 = Student.query.get(offeree_id)
 
-        self.description = '%s wants to swap %s for %s with %s' % (student1.name, offerer_class.name,
-                                                                   offeree_class.name, student2.name)
+
+        self.description = '%s: %s wants to swap %s on %s @ %s for %s on %s @ %s with %s' % (offer_type.upper(), student1.name, offerer_class.name, offerer_class.days, offerer_class.time,
+                                                                   offeree_class.name, offeree_class.days, offeree_class.time, student2.name)
 
     def to_json(self):
         class_map = {'section': Section, 'lab': Lab, 'lecture': Lecture}
@@ -242,7 +242,3 @@ class Swapblock(db.Model):
                 }
 
 
-whooshalchemy.whoosh_index(app, Student)
-whooshalchemy.whoosh_index(app, Lab)
-whooshalchemy.whoosh_index(app, Lecture)
-whooshalchemy.whoosh_index(app, Section)
