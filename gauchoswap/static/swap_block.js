@@ -163,7 +163,7 @@
         $('#invisible_button').button('toggle');
         reset_add_modal();
         $new_class = $($.trim("" + data.class_html));
-        $('.swapblock-body').append($new_class.fadeIn(2000));
+        $('.tab-pane.active').append($new_class.fadeIn(2000));
         return attach_delete_button_events();
       });
     });
