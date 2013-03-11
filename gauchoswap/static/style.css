@@ -1,13 +1,14 @@
 body {
-    font-family: 'Open Sans Condensed', sans-serif;
+    font-family: 'Open Sans Condensed', sans-serif !important;
 }
 
 .flat-nav {
     padding-left: 9px !important;
-    background: white !important;
+    background: #F1C40F !important;
 }
 
 .flash {
+    z-index: 10000;
     margin: 0 auto;
     text-align: center;
     width: 50%;
@@ -38,7 +39,7 @@ body {
     margin: 0 auto;
     text-align: center;
     width: 13%;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid white;
 }
 
 #swapblocktitle {
@@ -132,6 +133,10 @@ body {
 
 .user-class {
     padding: 20px;
+    background: #F1C40F;
+    margin-bottom: 2%;
+    border-radius: 10px;
+    color: black !important;
 }
 
 .modal-button {
@@ -157,7 +162,6 @@ body {
 
 .offer-description{
     font-size: 117%;
-    float: left;
 }
 
 .decline-offer {
@@ -166,4 +170,82 @@ body {
 
 .accept-offer, .decline-offer {
     float: right;
+}
+
+.btn-group {
+    margin-top: 4% !important;
+}
+
+.search-bar {
+    margin-top: 4% !important;
+    height: 10px !important;
+}
+
+.divider-vertical {
+    border-right: none !important;
+    border-left: none !important;
+}
+
+body {
+    background: #3498DB;
+    color: white !important;
+}
+
+#myModalLabel {
+    color: black;
+}
+
+.control-label {
+    color: black;
+}
+
+.btn-small {
+    font-size: .8em !important;
+}
+
+.dropdown-menu {
+    background: #34495E !important;
+}
+
+.brand {
+    text-shadow: none !important;
+    color: white !important;
+}
+
+.dropdown-toggle {
+    color: white !important;
+    text-shadow: none !important;
+}
+
+.swapblock-tab {
+    background: #34495E !important;
+    border: none !important;
+    border-radius: 10px;
+}
+
+.swapblock-tab.active {
+    background: white !important;
+    border: none !important;
+}
+
+.swapblock-tab a {
+    color: white !important;
+    border: none !important;
+}
+
+.swapblock-tab.active a {
+    color: black !important;
+    border: none !important;
+}
+
+.user-class .btn {
+    border-radius: 2px !important;
+}
+
+.nav-tabs {
+    border-bottom: none !important;
+}
+
+.nav-tabs>.active>a, .nav-tabs>.active>a:hover {
+    background-color: transparent !important;
 }

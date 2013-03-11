@@ -33,7 +33,7 @@
       $('.delete-course').off('click');
       return $('.delete-course').on('click', function(e) {
         var $container, class_id, class_type, delete_class_params;
-        $container = $(this).closest('.well');
+        $container = $(this).closest('.user-class');
         class_id = $container.data('classId');
         class_type = $.trim($container.find('.class-badge').text().toLowerCase());
         delete_class_params = JSON.stringify({
@@ -56,7 +56,7 @@
     $('.offer-course').on('click', function(e) {
       var $container, class_id, class_type;
       console.log(student_id);
-      $container = $(this).closest('.well');
+      $container = $(this).closest('.user-class');
       class_id = $container.data('classId');
       class_type = $.trim($container.find('.class-badge').text().toLowerCase());
       class_offering_for['class_type'] = class_type;

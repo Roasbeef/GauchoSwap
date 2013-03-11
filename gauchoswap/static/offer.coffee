@@ -12,7 +12,7 @@
   $accept_offer_button.on 'click', (e) ->
     if $(@).hasClass('disabled')
       return
-    $container = $(@).closest('.well')
+    $container = $(@).closest('.user-class')
     offer_id = $container.data('offer-id')   
     console.log offer_id
     $.ajax 
@@ -28,7 +28,7 @@
   $decline_offer_button.on 'click', (e) ->
     if $(@).hasClass('disabled')
       return
-    $container = $(@).closest('.well')
+    $container = $(@).closest('.user-class')
     offer_id = $container.data('offer-id')   
     $.ajax 
       url: '/offer/reject', 

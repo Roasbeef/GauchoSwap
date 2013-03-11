@@ -30,7 +30,7 @@
   attach_delete_button_events = ->
     $('.delete-course').off 'click'
     $('.delete-course').on 'click', (e) ->
-      $container = $(@).closest('.well')
+      $container = $(@).closest('.user-class')
       class_id = $container.data('classId')
       class_type = $.trim( $container.find('.class-badge').text().toLowerCase() )
 
@@ -47,7 +47,7 @@
   class_offering_for = {}
   $('.offer-course').on 'click', (e) ->
     console.log student_id
-    $container = $(@).closest('.well')
+    $container = $(@).closest('.user-class')
     class_id = $container.data('classId')
     class_type = $.trim( $container.find('.class-badge').text().toLowerCase() )
 
