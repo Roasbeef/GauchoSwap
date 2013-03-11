@@ -35,8 +35,8 @@ def search_labs():
 def search_lectures():
     query = request.args.get('q')
     matched_lectures = []
-    matched_lectures.extend(lecture.to_json() for lecture in Lecture.query.filter(Lecture.department.op('ilike')('%{}%'.format(query))).all())
-    matched_lectures.extend(lecture.to_json() for lecture in Lecture.query.filter(Lecture.name.op('ilike')('%{}%'.format(query))).all())
-    matched_lectures.extend(lecture.to_json() for lecture in Lecture.query.filter(Lecture.title.op('ilike')('%{}%'.format(query))).all())
+    matched_lectures.extend(lecture.to_json() for lecture in Lecture.query.filter(Lecture.department.op('ilike')('%{0}%'.format(query))).all())
+    matched_lectures.extend(lecture.to_json() for lecture in Lecture.query.filter(Lecture.name.op('ilike')('%{0}%'.format(query))).all())
+    matched_lectures.extend(lecture.to_json() for lecture in Lecture.query.filter(Lecture.title.op('ilike')('%{0}%'.format(query))).all())
 
     return Response(json.dumps(matched_lectures), mimetype='application/json')
