@@ -55,6 +55,7 @@
              "#{lecture[0].name}"
            updater: (text) ->
              lecture = _.where lectures, {name: text}
+             location.href = "/search/results?n=#{lecture[0].name}"
              "#{lecture[0].name}"
          )
 

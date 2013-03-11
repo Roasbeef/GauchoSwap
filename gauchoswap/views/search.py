@@ -40,3 +40,12 @@ def search_lectures():
     matched_lectures.extend(lecture.to_json() for lecture in Lecture.query.filter(Lecture.title.op('ilike')('%{0}%'.format(query))).all())
 
     return Response(json.dumps(matched_lectures), mimetype='application/json')
+
+@mod.route('/results')
+def show_results():
+    name = request.args.get('n')
+    search_class = Lecture.query.filter_by(name=name).first()
+    students_swapblocks = search_class.students_who_have.all()
+    students = [swapblock.student for swapblock in students_swapblocks]
+
+    return render_template('search_result.html', students=students, class_result=search_class)
