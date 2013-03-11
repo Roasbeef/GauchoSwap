@@ -5,6 +5,13 @@
     var $search_bar, $search_buttons;
     $search_buttons = $('.search_buttons');
     $search_bar = $('.search-bar');
+    $.fn.typeahead.Constructor.prototype.blur = function() {
+      var that;
+      that = this;
+      return setTimeout((function() {
+        return that.hide();
+      }), 250);
+    };
     return $search_buttons.on('click', function(e) {
       if ($(this).text() === 'User') {
         $('.search_class.active').button('toggle');
