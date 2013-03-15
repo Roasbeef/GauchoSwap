@@ -5,6 +5,7 @@ Flask-OAuth==0.12
 Flask-SQLAlchemy==0.16
 Flask-Script==0.5.3
 Flask-Testing==0.4
+Flask-WhooshAlchemy==0.55a
 Ghost.py==0.1b2
 Jinja2==2.6
 Mako==0.7.3
@@ -13,7 +14,6 @@ Pygments==1.6rc1
 SQLAlchemy==0.8.0b2
 Werkzeug==0.8.3
 Whoosh==2.4.1
-WhooshAlchemy==0.1.4
 alembic==0.4.2
 argparse==1.2.1
 blinker==1.2
